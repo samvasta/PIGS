@@ -20,6 +20,7 @@ public class SimpleGenerator implements IGenerator
 
     public List<IniSchemaOption<?>> getIniSettings()
     {
+        //I need to make a change so I can test if my commit signing worked
         List<IniSchemaOption<?>> schemaOptions = new ArrayList<>();
         schemaOptions.add(new IniSchemaOption<>("text", "Hello World!", String.class));
 
