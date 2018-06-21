@@ -1,19 +1,13 @@
-//------------------------------------------------------------------------------
-// AnalyticsOS
-// Copyright (c) 2018. Lone Star Aerospace, Inc
-// com.samvasta.debuggenerator.ui.GeneratorWindow
-//
-// Unauthorized copying of this file, via any medium, is strictly prohibited.
-// Proprietary. All rights reserved.
-//------------------------------------------------------------------------------
-package com.samvasta.debuggenerator.ui;
+package com.samvasta.debuggenerator;
 
+import com.samvasta.common.helpers.ImageIOHelper;
 import com.samvasta.common.helpers.IniHelper;
 import com.samvasta.common.interfaces.IGenerator;
 import com.samvasta.common.models.ImageBundle;
 import com.samvasta.common.models.ImageCreator;
 import com.samvasta.common.models.IniSchemaOption;
 import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.log4j.Logger;
 import org.ini4j.Ini;
 
 import javax.swing.*;
@@ -24,12 +18,15 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.*;
 
 
 public class GeneratorWindow extends JFrame
 {
+    private static final Logger LOGGER = Logger.getLogger(GeneratorWindow.class);
+
     private long seed;
     private BufferedImage image;
     private long generateStartTime;
@@ -64,7 +61,16 @@ public class GeneratorWindow extends JFrame
             {
                 int keyCode = e.getKeyChar();
                 if(keyCode == 's'){
-                    //todo: save image
+                    try
+                    {
+                        ImageIOHelper.saveImage(image, seed, "");
+                        LOGGER.info("Saved image!");
+                    }
+                    catch (IOException e1)
+                    {
+                        //don't really care about this. It's just a debug app
+                        e1.printStackTrace();
+                    }
                 }
                 else if(keyCode == KeyEvent.VK_SPACE){
                     generateImage();

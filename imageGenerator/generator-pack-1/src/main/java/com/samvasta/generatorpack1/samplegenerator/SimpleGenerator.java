@@ -1,11 +1,3 @@
-//------------------------------------------------------------------------------
-// AnalyticsOS
-// Copyright (c) 2018. Lone Star Aerospace, Inc
-// com.samvasta.generatorpack1.samplegenerator.SimpleGenerator
-//
-// Unauthorized copying of this file, via any medium, is strictly prohibited.
-// Proprietary. All rights reserved.
-//------------------------------------------------------------------------------
 package com.samvasta.generatorpack1.samplegenerator;
 
 import com.samvasta.common.interfaces.IGenerator;

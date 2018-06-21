@@ -1,11 +1,3 @@
-//------------------------------------------------------------------------------
-// AnalyticsOS
-// Copyright (c) 2018. Lone Star Aerospace, Inc
-// com.samvasta.common.helpers.IniHelper
-//
-// Unauthorized copying of this file, via any medium, is strictly prohibited.
-// Proprietary. All rights reserved.
-//------------------------------------------------------------------------------
 package com.samvasta.common.helpers;
 
 import org.ini4j.Ini;

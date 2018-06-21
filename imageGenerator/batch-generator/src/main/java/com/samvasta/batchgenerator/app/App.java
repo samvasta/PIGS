@@ -1,11 +1,3 @@
-//------------------------------------------------------------------------------
-// AnalyticsOS
-// Copyright (c) 2018. Lone Star Aerospace, Inc
-// app.App
-//
-// Unauthorized copying of this file, via any medium, is strictly prohibited.
-// Proprietary. All rights reserved.
-//------------------------------------------------------------------------------
 package com.samvasta.batchgenerator.app;
 
 import com.samvasta.common.models.IniSchema;

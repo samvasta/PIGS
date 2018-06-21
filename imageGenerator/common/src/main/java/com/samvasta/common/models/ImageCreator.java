@@ -1,11 +1,3 @@
-//------------------------------------------------------------------------------
-// AnalyticsOS
-// Copyright (c) 2018. Lone Star Aerospace, Inc
-// com.samvasta.common.models.ImageCreator
-//
-// Unauthorized copying of this file, via any medium, is strictly prohibited.
-// Proprietary. All rights reserved.
-//------------------------------------------------------------------------------
 package com.samvasta.common.models;
 
 import com.samvasta.common.helpers.IniHelper;
@@ -13,7 +5,6 @@ import com.samvasta.common.interfaces.IGenerator;
 import org.apache.commons.math3.random.MersenneTwister;
 import org.apache.log4j.Logger;
 import org.ini4j.Ini;
-import org.ini4j.Profile;
 
 import java.awt.*;
 import java.util.List;
