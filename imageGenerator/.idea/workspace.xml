@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="760dabd8-33bc-4abc-a97e-7abbf38cdede" name="Default" comment="" />
+    <list default="true" id="760dabd8-33bc-4abc-a97e-7abbf38cdede" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/generator-pack-1/src/test/java/com/samvasta/generatorpack1/it/DebugGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/batch-generator/src/main/java/com/samvasta/batchgenerator/app/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/batch-generator/src/main/java/com/samvasta/batchgenerator/app/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/exceptions/BadSettingsFileException.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/exceptions/BadSettingsFileException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/helpers/ComparisonHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/helpers/ComparisonHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/helpers/ImageIOHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/helpers/ImageIOHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/helpers/IniHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/helpers/IniHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/helpers/JarHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/helpers/JarHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/GeneratorContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/GeneratorContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/ImageBundle.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/ImageBundle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/ImageCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/ImageCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/IniSchema.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/IniSchema.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/IniSchemaOption.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/IniSchemaOption.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/IniSchemaSection.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/IniSchemaSection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/debug-generator/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/debug-generator/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/debug-generator/src/main/java/com/samvasta/debuggenerator/app/DebugGenerator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/debug-generator/src/main/java/com/samvasta/debuggenerator/ui/GeneratorWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/debug-generator/src/main/java/com/samvasta/debuggenerator/GeneratorWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generator-pack-1/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/generator-pack-1/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generator-pack-1/src/main/java/com/samvasta/generatorpack1/samplegenerator/SimpleGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/generator-pack-1/src/main/java/com/samvasta/generatorpack1/samplegenerator/SimpleGenerator.java" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/common/target/" />
@@ -19,11 +41,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
+      <file leaf-file-name="DebugGenerator.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/generator-pack-1/src/test/java/com/samvasta/generatorpack1/it/DebugGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="20" selection-start-line="20" selection-end-line="20" />
+            <state>
+              <caret column="3" lean-forward="true" selection-start-column="3" selection-end-column="3" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -31,101 +56,17 @@
       <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/debug-generator/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="40" column="10" selection-start-line="40" selection-start-column="10" selection-end-line="40" selection-end-column="10" />
+            <state relative-caret-position="567">
+              <caret line="27" column="30" selection-start-line="27" selection-start-column="24" selection-end-line="27" selection-end-column="30" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DebugGenerator.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/debug-generator/src/main/java/com/samvasta/debuggenerator/app/DebugGenerator.java">
+      <file leaf-file-name="GeneratorWindow.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debug-generator/src/main/java/com/samvasta/debuggenerator/GeneratorWindow.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret line="7" column="80" lean-forward="true" selection-start-line="7" selection-start-column="80" selection-end-line="7" selection-end-column="80" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GeneratorWindow.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/debug-generator/src/main/java/com/samvasta/debuggenerator/ui/GeneratorWindow.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="536">
-              <caret line="79" column="17" lean-forward="true" selection-start-line="79" selection-start-column="17" selection-end-line="79" selection-end-column="17" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1812#2521#0" expanded="true" />
-                <element signature="e#2520#2521#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ImageBundle.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/ImageBundle.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="147">
-              <caret line="14" column="30" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="30" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SimpleGenerator.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/generator-pack-1/src/main/java/com/samvasta/generatorpack1/samplegenerator/SimpleGenerator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="693">
-              <caret line="46" column="119" lean-forward="true" selection-start-line="46" selection-start-column="119" selection-end-line="46" selection-end-column="119" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="App.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/batch-generator/src/main/java/com/samvasta/batchgenerator/app/App.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="376" column="49" selection-start-line="376" selection-start-column="49" selection-end-line="376" selection-end-column="49" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#getImageSize#0;class#App#0" />
-                <element signature="method#initOutputDirectory#0;class#App#0" />
-                <element signature="e#13217#13612#0" expanded="true" />
-                <element signature="e#13611#13612#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IGenerator.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/interfaces/IGenerator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="17" column="46" selection-start-line="17" selection-start-column="46" selection-end-line="17" selection-end-column="46" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/generator-pack-1/pom.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="578">
-              <caret line="40" column="54" selection-start-line="40" selection-start-column="54" selection-end-line="40" selection-end-column="54" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ImageCreator.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/ImageCreator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="273">
-              <caret line="35" column="94" selection-start-line="35" selection-start-column="84" selection-end-line="35" selection-end-column="94" />
+            <state relative-caret-position="903">
+              <caret line="43" column="37" selection-start-line="43" selection-start-column="37" selection-end-line="43" selection-end-column="37" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -147,7 +88,11 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>getSimpleName</find>
+      <find>AnalyticsOs</find>
     </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -174,25 +119,34 @@
         <option value="$PROJECT_DIR$/src/main/java/com/samvasta/imagegenerator/app/App.java" />
         <option value="$PROJECT_DIR$/batch-generator/common/pom.xml" />
         <option value="$PROJECT_DIR$/common/pom.xml" />
-        <option value="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/helpers/JarHelper.java" />
         <option value="$PROJECT_DIR$/batch-generator/pom.xml" />
         <option value="$PROJECT_DIR$/batch-generator/src/main/java/com/samvasta/batchgenerator/models/IniSection.java" />
         <option value="$PROJECT_DIR$/batch-generator/src/main/java/com/samvasta/batchgenerator/models/IniSectionSchema.java" />
         <option value="$PROJECT_DIR$/batch-generator/src/main/java/com/samvasta/batchgenerator/models/IniSchema.java" />
         <option value="$PROJECT_DIR$/batch-generator/src/main/java/com/samvasta/batchgenerator/models/IniSchemaSection.java" />
         <option value="$PROJECT_DIR$/batch-generator/src/main/java/com/samvasta/batchgenerator/models/IniSchemaOption.java" />
-        <option value="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/helpers/IniHelper.java" />
         <option value="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/GeneratorSetting.java" />
-        <option value="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/ImageCreator.java" />
-        <option value="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/IniSchemaOption.java" />
-        <option value="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/IniSchemaSection.java" />
         <option value="$PROJECT_DIR$/generator-pack-1/pom.xml" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/batch-generator/src/main/java/com/samvasta/batchgenerator/app/App.java" />
         <option value="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/interfaces/IGenerator.java" />
-        <option value="$PROJECT_DIR$/debug-generator/src/main/java/com/samvasta/debuggenerator/app/DebugGenerator.java" />
-        <option value="$PROJECT_DIR$/generator-pack-1/src/main/java/com/samvasta/generatorpack1/samplegenerator/SimpleGenerator.java" />
         <option value="$PROJECT_DIR$/debug-generator/src/main/java/com/samvasta/debuggenerator/ui/GeneratorWindow.java" />
+        <option value="$PROJECT_DIR$/debug-generator/src/main/java/com/samvasta/debuggenerator/app/DebugGenerator.java" />
+        <option value="$PROJECT_DIR$/debug-generator/src/main/java/com/samvasta/debuggenerator/GeneratorWindow.java" />
+        <option value="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/ImageBundle.java" />
+        <option value="$PROJECT_DIR$/generator-pack-1/src/main/java/com/samvasta/generatorpack1/samplegenerator/SimpleGenerator.java" />
+        <option value="$PROJECT_DIR$/batch-generator/src/main/java/com/samvasta/batchgenerator/app/App.java" />
+        <option value="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/helpers/JarHelper.java" />
+        <option value="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/GeneratorContext.java" />
+        <option value="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/exceptions/BadSettingsFileException.java" />
+        <option value="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/helpers/ImageIOHelper.java" />
+        <option value="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/helpers/ComparisonHelper.java" />
+        <option value="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/IniSchema.java" />
+        <option value="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/IniSchemaSection.java" />
+        <option value="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/IniSchemaOption.java" />
+        <option value="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/helpers/IniHelper.java" />
+        <option value="$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/ImageCreator.java" />
+        <option value="$PROJECT_DIR$/generator-pack-1/src/test/java/com/samvasta/generatorpack1/it/DebugGenerator.java" />
+        <option value="$PROJECT_DIR$/debug-generator/pom.xml" />
       </list>
     </option>
   </component>
@@ -225,13 +179,14 @@
     <option name="width" value="2576" />
     <option name="height" value="1416" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -242,61 +197,6 @@
             <path>
               <item name="ImageGenerator" type="b2602c69:ProjectViewProjectNode" />
               <item name="imageGenerator" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ImageGenerator" type="b2602c69:ProjectViewProjectNode" />
-              <item name="imageGenerator" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ImageGenerator" type="b2602c69:ProjectViewProjectNode" />
-              <item name="imageGenerator" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ImageGenerator" type="b2602c69:ProjectViewProjectNode" />
-              <item name="imageGenerator" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ImageGenerator" type="b2602c69:ProjectViewProjectNode" />
-              <item name="imageGenerator" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ImageGenerator" type="b2602c69:ProjectViewProjectNode" />
-              <item name="imageGenerator" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="interfaces" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ImageGenerator" type="b2602c69:ProjectViewProjectNode" />
-              <item name="imageGenerator" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ImageGenerator" type="b2602c69:ProjectViewProjectNode" />
-              <item name="imageGenerator" type="462c0819:PsiDirectoryNode" />
               <item name="debug-generator" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -328,16 +228,6 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="debuggenerator" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ImageGenerator" type="b2602c69:ProjectViewProjectNode" />
-              <item name="imageGenerator" type="462c0819:PsiDirectoryNode" />
-              <item name="debug-generator" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="debuggenerator" type="462c0819:PsiDirectoryNode" />
-              <item name="ui" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ImageGenerator" type="b2602c69:ProjectViewProjectNode" />
@@ -374,19 +264,44 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="samplegenerator" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="ImageGenerator" type="b2602c69:ProjectViewProjectNode" />
+              <item name="imageGenerator" type="462c0819:PsiDirectoryNode" />
+              <item name="generator-pack-1" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ImageGenerator" type="b2602c69:ProjectViewProjectNode" />
+              <item name="imageGenerator" type="462c0819:PsiDirectoryNode" />
+              <item name="generator-pack-1" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ImageGenerator" type="b2602c69:ProjectViewProjectNode" />
+              <item name="imageGenerator" type="462c0819:PsiDirectoryNode" />
+              <item name="generator-pack-1" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="it" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="C:/Program Files/Java/jdk1.7.0_80/bin/jvisualvm.exe" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.CommitDialog" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -406,12 +321,12 @@
     </configuration>
     <configuration name="Run App" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="com.samvasta.batchgenerator.app.App" />
-      <module name="batchgenerator" />
+      <module name="batch-generator" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
     </configuration>
     <configuration name="Run Test Viewer" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="com.samvasta.debuggenerator.app.DebugGenerator" />
-      <module name="debuggenerator" />
+      <option name="MAIN_CLASS_NAME" value="com.samvasta.generatorpack1.it.DebugGenerator" />
+      <module name="generator-pack-1" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -482,6 +397,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -491,8 +407,8 @@
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" weight="0.3296875" />
-      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32942098" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32942098" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32942098" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
@@ -521,13 +437,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/batch-generator/src/main/java/com/samvasta/batchgenerator/app/App.java</url>
-          <line>298</line>
+          <line>290</line>
           <properties />
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/batch-generator/src/main/java/com/samvasta/batchgenerator/app/App.java</url>
-          <line>93</line>
+          <line>85</line>
           <properties />
           <option name="timeStamp" value="9" />
         </line-breakpoint>
@@ -536,6 +452,72 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/ImageBundle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="14" column="30" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/generator-pack-1/src/main/java/com/samvasta/generatorpack1/samplegenerator/SimpleGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="546">
+          <caret line="46" column="119" lean-forward="true" selection-start-line="46" selection-start-column="119" selection-end-line="46" selection-end-column="119" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/batch-generator/src/main/java/com/samvasta/batchgenerator/app/App.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7077">
+          <caret line="376" column="49" selection-start-line="376" selection-start-column="49" selection-end-line="376" selection-end-column="49" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#getImageSize#0;class#App#0" />
+            <element signature="method#initOutputDirectory#0;class#App#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/interfaces/IGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="17" column="46" selection-start-line="17" selection-start-column="46" selection-end-line="17" selection-end-column="46" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/generator-pack-1/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="840">
+          <caret line="40" column="54" selection-start-line="40" selection-start-column="54" selection-end-line="40" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/ImageCreator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="35" column="94" selection-start-line="35" selection-start-column="84" selection-end-line="35" selection-end-column="94" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug-generator/src/main/java/com/samvasta/debuggenerator/GeneratorWindow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1071">
+          <caret line="79" column="17" lean-forward="true" selection-start-line="79" selection-start-column="17" selection-end-line="79" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="189">
@@ -570,7 +552,6 @@
           <caret line="25" column="5" selection-start-line="25" selection-start-column="5" selection-end-line="25" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1064#1065#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -579,11 +560,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="84">
           <caret line="31" column="30" selection-start-line="31" selection-start-column="30" selection-end-line="31" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2560#2561#0" expanded="true" />
-            <element signature="e#2586#2587#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -645,30 +621,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/exceptions/BadSettingsFileException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/helpers/ImageIOHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/helpers/ComparisonHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/batch-generator/common/pom.xml" />
     <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/graphics/textures/ITexture.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -699,88 +651,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/helpers/JarHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/noise/fastnoise/FastNoise.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="31" column="30" selection-start-line="31" selection-start-column="30" selection-end-line="31" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2560#2561#0" expanded="true" />
-            <element signature="e#2586#2587#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/GeneratorContext.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="10" column="53" selection-start-line="10" selection-start-column="53" selection-end-line="10" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/IniSchema.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="15" column="48" selection-start-line="15" selection-start-column="48" selection-end-line="15" selection-end-column="48" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/GeneratorSetting.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="29" column="4" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="4" />
-          <folding>
-            <element signature="e#733#734#0" expanded="true" />
-            <element signature="e#767#768#0" expanded="true" />
-            <element signature="e#805#806#0" expanded="true" />
-            <element signature="e#840#841#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/IniSchemaSection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="536">
-          <caret line="44" selection-start-line="44" selection-end-line="44" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/IniSchemaOption.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="32" column="24" selection-start-line="32" selection-start-column="24" selection-end-line="32" selection-end-column="24" />
-          <folding>
-            <element signature="e#859#860#0" expanded="true" />
-            <element signature="e#912#913#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/helpers/IniHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="24" column="23" selection-start-line="24" selection-start-column="23" selection-end-line="24" selection-end-column="23" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#753#754#0" expanded="true" />
-            <element signature="e#815#816#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/GeneratorSetting.java" />
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
@@ -788,33 +666,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug-generator/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="40" column="10" selection-start-line="40" selection-start-column="10" selection-end-line="40" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/generator-pack-1/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
+        <state relative-caret-position="840">
           <caret line="40" column="54" selection-start-line="40" selection-start-column="54" selection-end-line="40" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/ImageCreator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="35" column="94" selection-start-line="35" selection-start-column="84" selection-end-line="35" selection-end-column="94" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/interfaces/IGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
+        <state relative-caret-position="252">
           <caret line="17" column="46" selection-start-line="17" selection-start-column="46" selection-end-line="17" selection-end-column="46" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -823,16 +684,11 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/ImageBundle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="14" column="30" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="30" />
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/generator-pack-1/src/main/java/com/samvasta/generatorpack1/samplegenerator/SimpleGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="693">
-          <caret line="46" column="119" lean-forward="true" selection-start-line="46" selection-start-column="119" selection-end-line="46" selection-end-column="119" />
+        <state>
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -841,36 +697,124 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/batch-generator/src/main/java/com/samvasta/batchgenerator/app/App.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="376" column="49" selection-start-line="376" selection-start-column="49" selection-end-line="376" selection-end-column="49" />
+        <state>
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#getImageSize#0;class#App#0" />
             <element signature="method#initOutputDirectory#0;class#App#0" />
-            <element signature="e#13217#13612#0" expanded="true" />
-            <element signature="e#13611#13612#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/helpers/JarHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/ImageCreator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="3" lean-forward="true" selection-start-column="3" selection-end-column="3" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/GeneratorContext.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/exceptions/BadSettingsFileException.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/helpers/ImageIOHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/helpers/ComparisonHelper.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/IniSchema.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/IniSchemaSection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/models/IniSchemaOption.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/samvasta/common/helpers/IniHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="9" column="22" lean-forward="true" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#753#754#0" expanded="true" />
+            <element signature="e#815#816#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/debug-generator/src/main/java/com/samvasta/debuggenerator/app/DebugGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="7" column="80" lean-forward="true" selection-start-line="7" selection-start-column="80" selection-end-line="7" selection-end-column="80" />
+        <state relative-caret-position="42">
+          <caret line="2" selection-start-line="2" selection-end-line="23" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug-generator/src/main/java/com/samvasta/debuggenerator/ui/GeneratorWindow.java">
+    <entry file="file://$PROJECT_DIR$/debug-generator/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="536">
-          <caret line="79" column="17" lean-forward="true" selection-start-line="79" selection-start-column="17" selection-end-line="79" selection-end-column="17" />
+        <state relative-caret-position="567">
+          <caret line="27" column="30" selection-start-line="27" selection-start-column="24" selection-end-line="27" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug-generator/src/main/java/com/samvasta/debuggenerator/GeneratorWindow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="903">
+          <caret line="43" column="37" selection-start-line="43" selection-start-column="37" selection-end-line="43" selection-end-column="37" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1812#2521#0" expanded="true" />
-            <element signature="e#2520#2521#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/generator-pack-1/src/test/java/com/samvasta/generatorpack1/it/DebugGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="3" lean-forward="true" selection-start-column="3" selection-end-column="3" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
