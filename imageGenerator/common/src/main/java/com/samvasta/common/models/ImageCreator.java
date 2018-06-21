@@ -44,6 +44,7 @@ public class ImageCreator implements Callable<ImageBundle>
         try{
             BufferedImage bufferedImage = new BufferedImage(imageSize.width, imageSize.height, BufferedImage.TYPE_INT_ARGB);
             g = (Graphics2D)bufferedImage.getGraphics();
+            g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             generator.generateImage(settings, g, imageSize, random);
             return new ImageBundle(bufferedImage, seed);

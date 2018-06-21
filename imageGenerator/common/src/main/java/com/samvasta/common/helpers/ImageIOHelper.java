@@ -23,9 +23,14 @@ public class ImageIOHelper
      * @param img image to save
      * @return The random name used to save the image
      */
-    public static String saveImage(RenderedImage img, long seed, String outputDir) throws IOException {
+    public static String saveImage(RenderedImage img, long seed, String outputDirStr) throws IOException {
+        File outputDir = new File(outputDirStr);
+        if(!outputDir.exists() || !outputDir.isDirectory()){
+            outputDir.mkdir();
+        }
+
         String name = String.format("%s_%s", DATE_FORMAT.format(new Date()), Long.toString(seed, 16));
-        File outputFile = new File(String.format("%s/%s.png", outputDir, name));
+        File outputFile = new File(String.format("%s/%s.png", outputDirStr, name));
         ImageIO.write(img, "png", outputFile);
         LOGGER.info(String.format("Saved image #%d%n\t\t%s", INDEX++, name));
         return name;

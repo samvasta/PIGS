@@ -63,7 +63,7 @@ public class GeneratorWindow extends JFrame
                 if(keyCode == 's'){
                     try
                     {
-                        ImageIOHelper.saveImage(image, seed, "");
+                        ImageIOHelper.saveImage(image, seed, "DebugImages");
                         LOGGER.info("Saved image!");
                     }
                     catch (IOException e1)

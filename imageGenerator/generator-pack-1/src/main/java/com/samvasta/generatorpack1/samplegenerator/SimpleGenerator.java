@@ -1,5 +1,6 @@
 package com.samvasta.generatorpack1.samplegenerator;
 
+import com.samvasta.common.graphics.colors.ColorUtil;
 import com.samvasta.common.interfaces.IGenerator;
 import com.samvasta.common.models.IniSchemaOption;
 import org.apache.commons.math3.random.MersenneTwister;
@@ -31,6 +32,9 @@ public class SimpleGenerator implements IGenerator
 
     public void generateImage(Map<String, Object> settings, Graphics2D g, Dimension imageSize, MersenneTwister random) {
         g.setColor(Color.BLACK);
+        g.fillRect(0, 0, imageSize.width, imageSize.height);
+
+        g.setColor(ColorUtil.getRandomColor(random, 32));
         g.fillRect(0, 0, imageSize.width, imageSize.height);
 
         String str = (String)settings.get("text");

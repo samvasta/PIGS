@@ -23,6 +23,7 @@
 hs_err_pid*
 
 imageGenerator/Images/*
+imageGenerator/DebugImages/*
 imageGenerator/settings.ini
 
 imageGenerator/*/target/*
