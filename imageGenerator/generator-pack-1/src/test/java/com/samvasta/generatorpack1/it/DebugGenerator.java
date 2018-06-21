@@ -1,8 +1,8 @@
 package com.samvasta.generatorpack1.it;
 
-import com.samvasta.common.interfaces.IGenerator;
-import com.samvasta.debuggenerator.GeneratorWindow;
-import com.samvasta.generatorpack1.samplegenerator.SimpleGenerator;
+import com.samvasta.imageGenerator.common.interfaces.IGenerator;
+import com.samvasta.imageGenerator.debuggenerator.GeneratorWindow;
+import com.samvasta.imagegenerator.generatorpack1.samplegenerator.SimpleGenerator;
 
 import javax.swing.*;
 import java.awt.*;
