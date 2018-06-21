@@ -1,7 +1,9 @@
 package com.samvasta.imagegenerator.generatorpack1.samplegenerator;
 
 import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
+import com.samvasta.imageGenerator.common.graphics.colors.ColorUtil;
 import com.samvasta.imageGenerator.common.graphics.colors.MonochromePalette;
+import com.samvasta.imageGenerator.common.graphics.stamps.IStamp;
 import com.samvasta.imageGenerator.common.interfaces.IGenerator;
 import com.samvasta.imageGenerator.common.models.IniSchemaOption;
 import org.apache.commons.math3.random.MersenneTwister;
@@ -32,28 +34,27 @@ public class SimpleGenerator implements IGenerator
         return true;
     }
 
-    public void generateImage(Map<String, Object> settings, Graphics2D g, Dimension imageSize, MersenneTwister random) {
-        ColorPalette palette = new MonochromePalette(random);
+    public void generateImage(final Map<String, Object> settings, final Graphics2D g, final Dimension imageSize, final MersenneTwister random) {
+        final ColorPalette palette = new MonochromePalette(random);
 
-        double x = 0;
-        for(int i = 0; i < palette.getNumColors(); i++){
-            g.setColor(palette.getColorByIndex(i));
-            double weight = palette.getNormalizedWeightByIndex(i);
-            double delta = imageSize.width * weight;
-            g.fillRect((int)x, 0, (int)(x + delta), imageSize.height);
-            x += delta;
+        IStamp circleStamp = new IStamp(){
+            @Override
+            public void stamp(Graphics2D g, int x, int y){
+                double diameter = imageSize.width * (random.nextDouble() * 0.15 + 0.01);
+                Color col = palette.getColor(random.nextDouble());
+                g.setColor(col);
+                g.fillOval(x, y, (int)diameter, (int)diameter);
+
+                g.setColor(ColorUtil.shift(col, 0, 0, -0.2f));
+                g.drawOval(x, y, (int)diameter, (int)diameter);
+            }
+        };
+
+        g.setColor(palette.getBiggestColor());
+        g.fillRect(0, 0, imageSize.width, imageSize.height);
+
+        for(int i = 0; i < 400; i++){
+            circleStamp.stamp(g, random.nextInt((int)(imageSize.width * 1.2)) - (int)(imageSize.width * 0.1), random.nextInt((int)(imageSize.height * 1.2)) - (int)(imageSize.height * 0.1));
         }
-
-
-//        g.setColor(ColorUtil.getRandomColor(random, 128));
-//        g.fillRect(0, 0, imageSize.width, imageSize.height);
-//
-//        g.setColor(ColorUtil.getRandomColor(random, 128));
-//        g.fillRect(0, 0, imageSize.width, imageSize.height);
-
-        String str = (String)settings.get("text");
-        g.setColor(Color.WHITE);
-        g.setFont(g.getFont().deriveFont(45f));
-        g.drawString(str, (int)(imageSize.width * random.nextDouble()), (int)(imageSize.height * random.nextDouble()));
     }
 }

@@ -17,6 +17,18 @@ public abstract class ColorPalette
     private Color smallestColor;
     private double smallestColorWeight;
 
+    public ColorPalette(Color[] colorsArr, double[] weights){
+        colors = new ArrayList<>();
+        relativeWeights = new ArrayList<>();
+        totalRelativeWeight = 0;
+        smallestColorWeight = Double.MAX_VALUE;
+        biggestColorWeight = -1;
+
+        for(int i = 0; i < colorsArr.length; i++){
+            addColor(colorsArr[i], weights[i]);
+        }
+    }
+
     public ColorPalette(MersenneTwister random){
         colors = new ArrayList<>();
         relativeWeights = new ArrayList<>();
@@ -51,8 +63,8 @@ public abstract class ColorPalette
         double weightAcc = 0;
         int weightIdx = 0;
 
-        while(weightAcc < percent && weightIdx < relativeWeights.size()){
-            weightAcc += relativeWeights.get(weightIdx);
+        while(weightAcc < percent && weightIdx < relativeWeights.size()-1){
+            weightAcc += getNormalizedWeightByIndex(weightIdx);
             weightIdx++;
         }
 

@@ -19,5 +19,5 @@ public interface IGenerator
 
     boolean isMultiThreadEnabled();
 
-    void generateImage(Map<String, Object> settings, Graphics2D g, Dimension imageSize, MersenneTwister random);
+    void generateImage(final Map<String, Object> settings, final Graphics2D g, final Dimension imageSize, final MersenneTwister random);
 }
