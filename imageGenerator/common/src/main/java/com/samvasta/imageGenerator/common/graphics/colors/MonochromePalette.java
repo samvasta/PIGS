@@ -25,7 +25,10 @@ public class MonochromePalette extends ColorPalette
         float sat = 0.8f;
         float val = 1.0f;
 
-        colors = new Color[5];
-        colors[0] =
+
+        addColor(Color.getHSBColor(hue, 0.25f, 1f), random.nextDouble() + 0.75);
+        addColor(Color.getHSBColor(hue, 0.1f, 1f), random.nextDouble() + 0.25);
+        addColor(Color.getHSBColor(hue, sat, val), random.nextDouble() + 0.15);
+        addColor(Color.getHSBColor(hue, 0.1f, 0.3f), random.nextDouble() + 0.1);
     }
 }

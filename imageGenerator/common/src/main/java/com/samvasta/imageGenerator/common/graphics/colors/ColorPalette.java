@@ -3,6 +3,7 @@ package com.samvasta.imageGenerator.common.graphics.colors;
 import org.apache.commons.math3.random.MersenneTwister;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ColorPalette
@@ -11,8 +12,17 @@ public abstract class ColorPalette
     private List<Double> relativeWeights;
     private double totalRelativeWeight;
 
+    private Color biggestColor;
+    private double biggestColorWeight;
+    private Color smallestColor;
+    private double smallestColorWeight;
+
     public ColorPalette(MersenneTwister random){
+        colors = new ArrayList<>();
+        relativeWeights = new ArrayList<>();
         totalRelativeWeight = 0;
+        smallestColorWeight = Double.MAX_VALUE;
+        biggestColorWeight = -1;
         initColorsAndWeights(random);
 
         if(colors.size() == 0 || relativeWeights.size() == 0){
@@ -26,6 +36,15 @@ public abstract class ColorPalette
         colors.add(col);
         relativeWeights.add(weight);
         totalRelativeWeight += weight;
+
+        if(biggestColorWeight < weight){
+            biggestColor = col;
+            biggestColorWeight = weight;
+        }
+        if(smallestColorWeight > weight){
+            smallestColor = col;
+            smallestColorWeight = weight;
+        }
     }
 
     public Color getColor(double percent) {
@@ -115,5 +134,19 @@ public abstract class ColorPalette
      */
     public double getTotalRelativeWeight(){
         return totalRelativeWeight;
+    }
+
+    /**
+     * @return the color with the largest weight
+     */
+    public Color getBiggestColor(){
+        return biggestColor;
+    }
+
+    /**
+     * @return the color with the smallest weight
+     */
+    public Color getSmallestColor(){
+        return smallestColor;
     }
 }

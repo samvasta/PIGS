@@ -1,6 +1,7 @@
 package com.samvasta.imagegenerator.generatorpack1.samplegenerator;
 
-import com.samvasta.imageGenerator.common.graphics.colors.ColorUtil;
+import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
+import com.samvasta.imageGenerator.common.graphics.colors.MonochromePalette;
 import com.samvasta.imageGenerator.common.interfaces.IGenerator;
 import com.samvasta.imageGenerator.common.models.IniSchemaOption;
 import org.apache.commons.math3.random.MersenneTwister;
@@ -31,11 +32,23 @@ public class SimpleGenerator implements IGenerator
     }
 
     public void generateImage(Map<String, Object> settings, Graphics2D g, Dimension imageSize, MersenneTwister random) {
-        g.setColor(ColorUtil.getRandomColor(random, 128));
-        g.fillRect(0, 0, imageSize.width, imageSize.height);
+        ColorPalette palette = new MonochromePalette(random);
 
-        g.setColor(ColorUtil.getRandomColor(random, 128));
-        g.fillRect(0, 0, imageSize.width, imageSize.height);
+        double x = 0;
+        for(int i = 0; i < palette.getNumColors(); i++){
+            g.setColor(palette.getColorByIndex(i));
+            double weight = palette.getNormalizedWeightByIndex(i);
+            double delta = imageSize.width * weight;
+            g.fillRect((int)x, 0, (int)(x + delta), imageSize.height);
+            x += delta;
+        }
+
+
+//        g.setColor(ColorUtil.getRandomColor(random, 128));
+//        g.fillRect(0, 0, imageSize.width, imageSize.height);
+//
+//        g.setColor(ColorUtil.getRandomColor(random, 128));
+//        g.fillRect(0, 0, imageSize.width, imageSize.height);
 
         String str = (String)settings.get("text");
         g.setColor(Color.WHITE);
