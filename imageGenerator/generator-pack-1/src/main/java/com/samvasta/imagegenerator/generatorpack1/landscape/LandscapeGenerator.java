@@ -35,7 +35,7 @@ public class LandscapeGenerator implements IGenerator
     @Override
     public void generateImage(Map<String, Object> settings, Graphics2D g, Dimension imageSize, MersenneTwister random)
     {
-        Point2D.Double[] points = MidpointDisplacement.getMidpointDisplacement(new Point2D.Double(50, imageSize.height/2), new Point2D.Double(imageSize.width-50, imageSize.height/2), MidpointDisplacement.DEFLECTION_FACTOR_LOW, random, 8);
+        Point2D.Double[] points = MidpointDisplacement.getMidpointDisplacement(new Point2D.Double(50, imageSize.height/2), new Point2D.Double(imageSize.width-50, imageSize.height/2), MidpointDisplacement.DEFLECTION_FACTOR_MEDIUM, random, 1);
 
         g.setColor(Color.BLACK);
         g.fillRect(0,0,imageSize.width, imageSize.height);

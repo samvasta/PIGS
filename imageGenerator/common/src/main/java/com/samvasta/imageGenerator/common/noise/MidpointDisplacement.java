@@ -16,12 +16,29 @@ public class MidpointDisplacement
     public static final double DEFLECTION_FACTOR_MEDIUM = 0.0625;
     public static final double DEFLECTION_FACTOR_LOW = 0.03125;
 
+    /**
+     * Recursively applies a 1-D midpoint displacement algorithm between {@code start} and {@code end} points.
+     * @param start Point to start at
+     * @param end Point to end at
+     * @param maxDeflectionFactor magnitude of deflection as a percent of the distance between the two points being deflected
+     * @param random Random generator used to for midpoint deflection
+     * @param numSteps number of recursive steps
+     * @return An array of points in order between {@code start} and {@code end}, including the {@code start} and {@code end}
+     * points at indexes 0 and {@code array.length-1} respectively
+     */
     public static Point2D.Double[] getMidpointDisplacement(Point2D.Double start, Point2D.Double end, double maxDeflectionFactor, RandomGenerator random, int numSteps){
         if(numSteps < 0){
             throw new IllegalArgumentException("numSteps cannot be negative");
         }
         if(numSteps > 10){
-            logger.warn("Midpoint displacement with more than 10 steps is not recommended. The extra resolution is usually not detectable");
+            logger.warn("WARNING: Midpoint displacement with more than 10 steps is not recommended. The extra resolution is usually not detectable");
+        }
+
+        if(maxDeflectionFactor <= 0){
+            throw new IllegalArgumentException("maxDeflectionFactor must be positive");
+        }
+        if(maxDeflectionFactor > 0.5){
+            logger.warn("WARNING: Midpoint displacement with a maximum deflection factor greater than 0.5 will not give smooth results.");
         }
 
         if(numSteps == 0){
@@ -65,6 +82,14 @@ public class MidpointDisplacement
 
     }
 
+    /**
+     * Finds the midpoint between {@code p1} and {@code p2}, then deflects at a right angle to the line between {@code p1}
+     * and {@code p2}.
+     * @param p1
+     * @param p2
+     * @param deflectionFactor Amount to deflect the midpoint as a percent of the distance between {@code p1} and {@code p2}
+     * @return A point equidistant from {@code p1} and {@code p2}
+     */
     public static Point2D.Double deflect(Point2D.Double p1, Point2D.Double p2, double deflectionFactor){
         double dx = p1.x - p2.x;
         double dy = p1.y - p2.y;
