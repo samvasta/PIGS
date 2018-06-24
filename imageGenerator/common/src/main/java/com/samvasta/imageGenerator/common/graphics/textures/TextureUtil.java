@@ -1,16 +1,8 @@
-//------------------------------------------------------------------------------
-// AnalyticsOS
-// Copyright (c) 2018. Lone Star Aerospace, Inc
-// com.samvasta.imageGenerator.common.graphics.textures.TextureUtil
-//
-// Unauthorized copying of this file, via any medium, is strictly prohibited.
-// Proprietary. All rights reserved.
-//------------------------------------------------------------------------------
 package com.samvasta.imageGenerator.common.graphics.textures;
 
 import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
 import com.samvasta.imageGenerator.common.graphics.colors.SingleColorPalette;
-import org.apache.commons.math3.random.MersenneTwister;
+import com.samvasta.imageGenerator.common.graphics.images.ProtoTexture;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -19,23 +11,46 @@ public class TextureUtil
 {
     private static final ColorPalette MASK_PALETTE = new SingleColorPalette(Color.BLUE);
 
-    public static BufferedImage getMaskedTexture(ITexture textureGenerator, ITexture maskGenerator, Dimension textureSize, ColorPalette palette, MersenneTwister random){
-        BufferedImage texture = textureGenerator.getTexture(textureSize, palette, random);
-        BufferedImage mask = maskGenerator.getTexture(textureSize, MASK_PALETTE, random);
+//    public static ProtoTexture getBlendedImage(ITexture texture1, ITexture texture2, Dimension textureSize, MersenneTwister random, BlendMode blendMode){
+//        ProtoTexture img = texture1.getTexture(textureSize, palette, random);
+//        ProtoTexture img2 = texture2.getTexture(textureSize, palette, random);
+//
+//        img.blendPixels(0, 0, textureSize.width, textureSize.height, img2.getPixelsCopy(), blendMode);
+//        return img;
+//    }
+//
+//    public static ProtoTexture getMaskedTexture(ITexture textureGenerator, ITexture maskGenerator, Dimension textureSize, MersenneTwister random){
+//        ProtoTexture texture = textureGenerator.getTexture(textureSize, palette, random);
+//        ProtoTexture mask = maskGenerator.getTexture(textureSize, MASK_PALETTE, random);
+//
+//        texture.blendPixels(0, 0, textureSize.width, textureSize.height, mask.getPixelsCopy(), BlendMode.BLUE_AS_ALPHA);
+//
+//        return texture;
+//    }
 
-        BufferedImage maskedTexture = new BufferedImage(texture.getWidth(), texture.getHeight(), BufferedImage.TYPE_INT_ARGB);
-        int[] pixels = maskedTexture.getRGB(0, 0, texture.getWidth(), texture.getHeight(), null, 0, texture.getWidth());
 
 
-        int[] colorPixels = texture.getRGB(0, 0, texture.getWidth(), texture.getHeight(), null, 0, texture.getWidth());
-        int[] maskPixels = mask.getRGB(0, 0, texture.getWidth(), texture.getHeight(), null, 0, texture.getWidth());
+    public static BufferedImage colorizeSingleColor(ProtoTexture protoTexture, Color color){
+        int width = protoTexture.getWidth();
+        int height = protoTexture.getHeight();
+        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
-        for(int i = 0; i < pixels.length; i++){
-            pixels[i] = colorPixels[i] | (maskPixels[i] << 24);
+        int[] pixels = new int[width * height];
+        pixels = img.getRGB(0, 0, width, height, pixels, 0, width);
+
+        byte[] textureBytes = protoTexture.toByteArray();
+
+        int colorInt = color.getRGB();
+
+        for(int x = 0; x < width; x++){
+            for(int y = 0; y < height; y++){
+                pixels[x + y * width] = (colorInt & 0x00ffffff) | (textureBytes[x + y * width] << 24);
+            }
         }
 
-        maskedTexture.setRGB(0, 0, maskedTexture.getWidth(), maskedTexture.getHeight(), pixels, 0, maskedTexture.getWidth());
+        img.setRGB(0, 0, width, height, pixels, 0, width);
 
-        return maskedTexture;
+        return img;
     }
+
 }

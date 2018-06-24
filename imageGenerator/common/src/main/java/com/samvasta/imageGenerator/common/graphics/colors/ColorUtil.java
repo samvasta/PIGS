@@ -1,11 +1,3 @@
-//------------------------------------------------------------------------------
-// AnalyticsOS
-// Copyright (c) 2018. Lone Star Aerospace, Inc
-// com.samvasta.common.graphics.colors.ColorUtil
-//
-// Unauthorized copying of this file, via any medium, is strictly prohibited.
-// Proprietary. All rights reserved.
-//------------------------------------------------------------------------------
 package com.samvasta.imageGenerator.common.graphics.colors;
 
 import org.apache.commons.math3.random.MersenneTwister;
@@ -73,5 +65,21 @@ public class ColorUtil
         }
 
         return Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
+    }
+
+    public static int getRComponent(int color){
+        return (color & 0x00ff0000) >> 16;
+    }
+
+    public static int getGComponent(int color){
+        return (color & 0x0000ff00) >> 8;
+    }
+
+    public static int getBComponent(int color){
+        return (color & 0x000000ff);
+    }
+
+    public static int getAComponent(int color){
+        return (color & 0xff000000) >> 24;
     }
 }

@@ -116,15 +116,16 @@ public class GeneratorWindow extends JFrame
             image = (BufferedImage)bundle.image;
             this.seed = bundle.seed;
             repaint();
+            LOGGER.info("Generated new image!");
         }
         catch (InterruptedException | ExecutionException e)
         {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
             //todo: stop execution
         }
         catch (TimeoutException e)
         {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
     }
 

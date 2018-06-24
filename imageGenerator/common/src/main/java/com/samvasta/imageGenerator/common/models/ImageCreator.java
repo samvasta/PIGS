@@ -50,7 +50,7 @@ public class ImageCreator implements Callable<ImageBundle>
             return new ImageBundle(bufferedImage, seed);
         }
         catch(Exception e){
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage(), e);
         }
         finally{
             if(g != null){
