@@ -75,8 +75,8 @@ public class ParticleField
 
         double xPercent = x - xFloor;
         double yPercent = y - yFloor;
-
         PolarVector tl = getFieldValue(xFloor, yFloor);
+
         PolarVector tr = getFieldValue(xCeil, yFloor);
         PolarVector bl = getFieldValue(xFloor, yCeil);
         PolarVector br = getFieldValue(xCeil, yCeil);

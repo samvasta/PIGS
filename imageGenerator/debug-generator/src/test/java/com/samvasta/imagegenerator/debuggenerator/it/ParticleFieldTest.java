@@ -4,6 +4,7 @@ import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
 import com.samvasta.imageGenerator.common.graphics.colors.ColorUtil;
 import com.samvasta.imageGenerator.common.graphics.colors.palettes.MonochromePalette;
 import com.samvasta.imageGenerator.common.interfaces.IGenerator;
+import com.samvasta.imageGenerator.common.interfaces.ISnapshotListener;
 import com.samvasta.imageGenerator.common.models.IniSchemaOption;
 import com.samvasta.imageGenerator.common.models.PolarVector;
 import com.samvasta.imageGenerator.common.noise.fastnoise.FastNoise;
@@ -37,6 +38,12 @@ public class ParticleFieldTest implements IGenerator
     public boolean isMultiThreadEnabled()
     {
         return false;
+    }
+
+    @Override
+    public void addSnapshotListener(ISnapshotListener listener)
+    {
+        //don't take snapshots. It's just a test
     }
 
     @Override

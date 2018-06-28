@@ -19,6 +19,7 @@ import org.ini4j.Profile;
 
 
 import java.awt.*;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -44,6 +45,7 @@ public class App
     private static final String SETTINGS_ADVANCED_IS_OVERRIDE_SIZE = "use_custom_image_size";
     private static final String SETTINGS_ADVANCED_OVERRIDE_WIDTH = "custom_image_width";
     private static final String SETTINGS_ADVANCED_OVERRIDE_HEIGHT = "custom_image_height";
+    private static final String SETTINGS_ADVANCED_ENABLE_SNAPSHOTS = "are_snapshots_enabled";
 
     private static final int DEFAULT_WIDTH = 1920;
     private static final int DEFAULT_HEIGHT = 1080;
@@ -144,6 +146,7 @@ public class App
         advancedSection.addOption(SETTINGS_ADVANCED_IS_OVERRIDE_SIZE, false);
         advancedSection.addOption(SETTINGS_ADVANCED_OVERRIDE_WIDTH, 0);
         advancedSection.addOption(SETTINGS_ADVANCED_OVERRIDE_HEIGHT, 0);
+        advancedSection.addOption(SETTINGS_ADVANCED_ENABLE_SNAPSHOTS, false);
 
         return schema;
     }
@@ -360,6 +363,7 @@ public class App
 
         for(IGenerator generator : generators){
             long seed = context.seedGenerator.nextLong();
+            generator.setSnapshotsEnabled(IniHelper.getBooleanValue(settings, SETTINGS_SECTION_ADVANCED, SETTINGS_ADVANCED_ENABLE_SNAPSHOTS));
             ImageCreator imageCreator = new ImageCreator(context.imageSize, generator, seed, settings);
             imagePromises.add(executorService.submit(imageCreator));
         }
@@ -375,7 +379,9 @@ public class App
                         public void run()
                         {
                             try{
-                                ImageIOHelper.saveImage(bundle.image, bundle.seed, context.outputDir);
+                                for(RenderedImage img : bundle.images){
+                                    ImageIOHelper.saveImage(img, bundle.seed, context.outputDir);
+                                }
                             } catch(IOException e){
                                 //Don't care
                             }

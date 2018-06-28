@@ -1,21 +1,15 @@
 package com.samvasta.imagegenerator.debuggenerator.it;
 
-import com.samvasta.imageGenerator.common.graphics.colors.CeiLchColor;
-import com.samvasta.imageGenerator.common.graphics.colors.ColorIlluminant;
 import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
-import com.samvasta.imageGenerator.common.graphics.colors.ColorUtil;
-import com.samvasta.imageGenerator.common.graphics.colors.palettes.LinearLchPalette;
 import com.samvasta.imageGenerator.common.graphics.colors.palettes.LinearLchPaletteBuilder;
-import com.samvasta.imageGenerator.common.graphics.colors.palettes.MonochromePalette;
-import com.samvasta.imageGenerator.common.helpers.MathHelper;
 import com.samvasta.imageGenerator.common.interfaces.IGenerator;
+import com.samvasta.imageGenerator.common.interfaces.ISnapshotListener;
 import com.samvasta.imageGenerator.common.models.IniSchemaOption;
 import org.apache.commons.math3.random.MersenneTwister;
 import org.apache.log4j.Logger;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -43,6 +37,12 @@ public class ColorPaletteTestGenerator implements IGenerator
     public boolean isMultiThreadEnabled()
     {
         return false;
+    }
+
+    @Override
+    public void addSnapshotListener(ISnapshotListener listener)
+    {
+        //don't take snapshots. it's just a test
     }
 
     @Override

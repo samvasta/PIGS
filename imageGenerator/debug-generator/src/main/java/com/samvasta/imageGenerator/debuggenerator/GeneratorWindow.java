@@ -28,7 +28,8 @@ public class GeneratorWindow extends JFrame
     private static final Logger LOGGER = Logger.getLogger(GeneratorWindow.class);
 
     private long seed;
-    private BufferedImage image;
+    private List<BufferedImage> images;
+    private int currentImageIdx;
     private long generateStartTime;
     private long generateEndTime;
 
@@ -57,13 +58,13 @@ public class GeneratorWindow extends JFrame
         this.addKeyListener(new KeyAdapter()
         {
             @Override
-            public void keyTyped(KeyEvent e)
+            public void keyReleased(KeyEvent e)
             {
-                int keyCode = e.getKeyChar();
-                if(keyCode == 's'){
+                int keyCode = e.getKeyCode();
+                if(keyCode == KeyEvent.VK_S){
                     try
                     {
-                        ImageIOHelper.saveImage(image, seed, "DebugImages");
+                        ImageIOHelper.saveImage(images.get(currentImageIdx), seed, "DebugImages");
                         LOGGER.info("Saved image!");
                     }
                     catch (IOException e1)
@@ -75,17 +76,28 @@ public class GeneratorWindow extends JFrame
                 else if(keyCode == KeyEvent.VK_SPACE){
                     generateImage();
                 }
-                else if(keyCode == 'i'){
+                else if(keyCode == KeyEvent.VK_I){
                     isInfoVisible = !isInfoVisible;
                     repaint();
                 }
-                else if(keyCode == 'c'){
+                else if(keyCode == KeyEvent.VK_C){
                     StringSelection stringSelection = new StringSelection(Long.toString(seed));
                     Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
                     clipboard.setContents(stringSelection, null);
                 }
                 else if(keyCode == KeyEvent.VK_ESCAPE){
-                    //todo: quit
+                    generatorExecutor.shutdownNow();
+                    dispose();
+                }
+                else if(keyCode == KeyEvent.VK_LEFT){
+                    currentImageIdx--;
+                    currentImageIdx = Math.max(0, currentImageIdx);
+                    repaint();
+                }
+                else if(keyCode == KeyEvent.VK_RIGHT){
+                    currentImageIdx++;
+                    currentImageIdx = Math.min(images.size()-1, currentImageIdx);
+                    repaint();
                 }
             }
         });
@@ -107,13 +119,15 @@ public class GeneratorWindow extends JFrame
     private void generateImage(){
         long seed = random.nextLong();
         ImageCreator creator = new ImageCreator(imageSize, generator, seed, settings);
+        creator.setSnapshotsEnabled(true);
         generateStartTime = System.currentTimeMillis();
         Future<ImageBundle> imageBundleFuture = generatorExecutor.submit(creator);
         try
         {
             ImageBundle bundle = imageBundleFuture.get(10, TimeUnit.MINUTES);
             generateEndTime = System.currentTimeMillis();
-            image = (BufferedImage)bundle.image;
+            images = bundle.images;
+            currentImageIdx = images.size() - 1;
             this.seed = bundle.seed;
             repaint();
             LOGGER.info("Generated new image!");
@@ -132,18 +146,23 @@ public class GeneratorWindow extends JFrame
     @Override
     public void paint(Graphics g){
         g.clearRect(0, 0, this.getWidth(), this.getHeight());
-        g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), null);
+        BufferedImage img = images.get(currentImageIdx);
+        g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
 
         if(isInfoVisible){
             StringBuilder sb = new StringBuilder();
             sb.append("Generator        :   ").append(generator.getClass().getSimpleName()).append("\n");
             sb.append("Seed             :   ").append(seed).append("\n");
+            sb.append("Images in set    :   ").append(images.size()).append("\n");
+            sb.append("Current image    :   ").append(currentImageIdx+1).append("\n");
             sb.append("Time to generate :   ").append((generateEndTime - generateStartTime)).append(" ms").append("\n");
 
             sb.append("Commands:\n");
             sb.append("     S           :   Save current image\n");
             sb.append("     C           :   Copy seed to clipboard\n");
             sb.append("     [SPACE]     :   Generate new image\n");
+            sb.append("     ←           :   Go to previous image in set\n");
+            sb.append("     →           :   Go to next image in set\n");
             sb.append("     I           :   Toggle this image panel");
 
             String[] infoTexts = sb.toString().split("\n");

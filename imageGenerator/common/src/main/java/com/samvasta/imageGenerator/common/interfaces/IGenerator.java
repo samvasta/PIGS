@@ -19,5 +19,7 @@ public interface IGenerator
 
     boolean isMultiThreadEnabled();
 
+    void addSnapshotListener(ISnapshotListener listener);
+
     void generateImage(final Map<String, Object> settings, final Graphics2D g, final Dimension imageSize, final MersenneTwister random);
 }

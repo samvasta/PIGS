@@ -17,7 +17,7 @@ public class DebugGenerator
         GeneratorWindow window = new GeneratorWindow(generator, new Dimension(2560, 1440));
 
         window.setSize(1920, 1080);
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window.setLocationRelativeTo(null);
         window.setVisible(true);
     }

@@ -9,6 +9,7 @@ import com.samvasta.imageGenerator.common.graphics.textures.CompositeTexture;
 import com.samvasta.imageGenerator.common.graphics.textures.ITexture;
 import com.samvasta.imageGenerator.common.graphics.textures.TextureUtil;
 import com.samvasta.imageGenerator.common.interfaces.IGenerator;
+import com.samvasta.imageGenerator.common.interfaces.ISnapshotListener;
 import com.samvasta.imageGenerator.common.models.IniSchemaOption;
 import com.samvasta.imageGenerator.common.noise.fastnoise.FastNoise;
 import org.apache.commons.math3.random.MersenneTwister;
@@ -16,12 +17,13 @@ import org.apache.commons.math3.random.MersenneTwister;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 public class SimpleGenerator implements IGenerator
 {
+    private Set<ISnapshotListener> snapshotListeners = new HashSet<>();
+
     public boolean isOnByDefault()
     {
         return true;
@@ -39,6 +41,14 @@ public class SimpleGenerator implements IGenerator
     public boolean isMultiThreadEnabled()
     {
         return true;
+    }
+
+    @Override
+    public void addSnapshotListener(ISnapshotListener listener)
+    {
+        if(!snapshotListeners.contains(listener)){
+            snapshotListeners.add(listener);
+        }
     }
 
     public void generateImage(final Map<String, Object> settings, final Graphics2D g, final Dimension imageSize, final MersenneTwister random) {
