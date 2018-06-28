@@ -1,7 +1,7 @@
 package com.samvasta.imageGenerator.common.graphics.textures;
 
 import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
-import com.samvasta.imageGenerator.common.graphics.colors.SingleColorPalette;
+import com.samvasta.imageGenerator.common.graphics.colors.palettes.SingleColorPalette;
 import com.samvasta.imageGenerator.common.graphics.images.ProtoTexture;
 
 import java.awt.*;

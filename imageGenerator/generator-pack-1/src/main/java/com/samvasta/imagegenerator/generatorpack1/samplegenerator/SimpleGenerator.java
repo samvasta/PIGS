@@ -1,8 +1,7 @@
 package com.samvasta.imagegenerator.generatorpack1.samplegenerator;
 
 import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
-import com.samvasta.imageGenerator.common.graphics.colors.ColorUtil;
-import com.samvasta.imageGenerator.common.graphics.colors.MonochromePalette;
+import com.samvasta.imageGenerator.common.graphics.colors.palettes.MonochromePalette;
 import com.samvasta.imageGenerator.common.graphics.images.BlendMode;
 import com.samvasta.imageGenerator.common.graphics.images.ProtoTexture;
 import com.samvasta.imageGenerator.common.graphics.stamps.IStamp;

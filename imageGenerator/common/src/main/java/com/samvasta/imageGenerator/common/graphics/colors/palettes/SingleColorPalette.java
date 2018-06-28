@@ -1,5 +1,6 @@
-package com.samvasta.imageGenerator.common.graphics.colors;
+package com.samvasta.imageGenerator.common.graphics.colors.palettes;
 
+import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
 import org.apache.commons.math3.random.MersenneTwister;
 
 import java.awt.*;
