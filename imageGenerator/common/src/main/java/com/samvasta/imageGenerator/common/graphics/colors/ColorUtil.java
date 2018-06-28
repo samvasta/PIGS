@@ -23,6 +23,13 @@ public class ColorUtil
     }
 
     /**
+     * Copies the RGB components of th ecolor and uses the alpha parameter for the new alpha channel
+     */
+    public static Color getTransparent(Color c, int alpha){
+        return new Color(c.getRed(), c.getGreen(), c.getBlue(), alpha);
+    }
+
+    /**
      * Creates a new color by shifting the HSV components of a color without wrapping the Saturation and Value components. (The Hue component can wrap)
      */
     public static Color shift(Color c, float deltaHue, float deltaSaturation, float deltaBrightness){

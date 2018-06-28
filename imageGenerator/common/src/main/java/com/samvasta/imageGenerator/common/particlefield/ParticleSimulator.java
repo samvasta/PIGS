@@ -24,7 +24,9 @@ public class ParticleSimulator
         for(long currentTick = 0; currentTick < numTicks; currentTick++){
             for(Particle particle : particles){
                 particle.tick(field);
-                particle.draw(currentTick, field, g);
+                if(particle.isActive()){
+                    particle.draw(currentTick, field, g);
+                }
             }
         }
     }

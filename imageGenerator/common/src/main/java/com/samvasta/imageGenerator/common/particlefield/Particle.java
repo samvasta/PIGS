@@ -13,6 +13,8 @@ public abstract class Particle
     protected Vector2d velocity;
     protected Vector2d acceleration;
 
+    private boolean isActive = true;
+
     public Particle(){
         this(new Vector2d(0,0), new Vector2d(0,0), new Vector2d(0,0));
     }
@@ -34,6 +36,10 @@ public abstract class Particle
     public abstract void draw(long timeStep, ParticleField field, Graphics2D g);
 
     public final void tick(ParticleField field){
+        if(!isActive){
+            return;
+        }
+
         lastAcceleration = new Vector2d(acceleration);
         lastVelocity = new Vector2d(velocity);
         lastPosition = new Vector2d(position);
@@ -46,21 +52,40 @@ public abstract class Particle
         //velocity.add(acceleration);
         position.add(velocity);
 
-        if(field.isEdgeWrap()){
-            int fieldWidth = field.getWidth();
-            int fieldHeight = field.getHeight();
+        int fieldWidth = field.getWidth();
+        int fieldHeight = field.getHeight();
 
-            if(position.x > fieldWidth){
+        if(position.x > fieldWidth){
+            if(field.isEdgeWrap())
+            {
                 position.x -= fieldWidth;
             }
-            else if(position.x < 0){
+            else{
+                isActive = false;
+            }
+        }
+        else if(position.x < 0){
+            if(field.isEdgeWrap()){
                 position.x += fieldWidth;
             }
-            if(position.y > fieldHeight){
+            else{
+                isActive = false;
+            }
+        }
+        if(position.y > fieldHeight){
+            if(field.isEdgeWrap()){
                 position.y -= fieldHeight;
             }
-            else if(position.y < 0){
+            else{
+                isActive = false;
+            }
+        }
+        else if(position.y < 0){
+            if(field.isEdgeWrap()){
                 position.y += fieldHeight;
+            }
+            else{
+                isActive = false;
             }
         }
 
@@ -129,5 +154,9 @@ public abstract class Particle
     public double getAccelerationY()
     {
         return acceleration.y;
+    }
+
+    public boolean isActive(){
+        return isActive;
     }
 }

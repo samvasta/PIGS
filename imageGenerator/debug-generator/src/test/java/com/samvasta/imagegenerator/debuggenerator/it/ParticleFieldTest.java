@@ -1,6 +1,7 @@
 package com.samvasta.imagegenerator.debuggenerator.it;
 
 import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
+import com.samvasta.imageGenerator.common.graphics.colors.ColorUtil;
 import com.samvasta.imageGenerator.common.graphics.colors.palettes.MonochromePalette;
 import com.samvasta.imageGenerator.common.interfaces.IGenerator;
 import com.samvasta.imageGenerator.common.models.IniSchemaOption;
@@ -53,11 +54,12 @@ public class ParticleFieldTest implements IGenerator
 
         for(int x = 0; x < pFieldWidth; x++){
             for(int y = 0; y < pFieldHeight; y++){
-                pFieldValues[x + y * pFieldWidth] = new PolarVector(angleNoise.GetSimplex(x*0.75f, y*0.75f) * Math.PI, (magnitudeNoise.GetSimplex(x*0.5f, y*0.5f) + 1.0));
+                pFieldValues[x + y * pFieldWidth] = new PolarVector(angleNoise.GetSimplex(x*0.75f, y*0.75f) * 2.0 * Math.PI, (magnitudeNoise.GetSimplex(x*0.5f, y*0.5f) + 1.0));
             }
         }
 
         ParticleField field = new ParticleField(pFieldWidth, pFieldHeight);
+        field.setEdgeWrap(false);
 
         field.setFieldValues(pFieldValues);
 
@@ -68,7 +70,7 @@ public class ParticleFieldTest implements IGenerator
         ParticleSimulator simulator = new ParticleSimulator();
         simulator.setParticleField(field);
 
-        final ColorPalette palette = new MonochromePalette(random);
+        final ColorPalette palette = new MonochromePalette(20, random);
 
         for(int i = 0; i < 125; i++){
 
@@ -79,7 +81,12 @@ public class ParticleFieldTest implements IGenerator
             public void draw(long timeStep, ParticleField field, Graphics2D g)
             {
                 g.setColor(c);
-                g.drawOval((int)(getPositionX() * scalarW)-6, (int)(getPositionY() * scalarH)-6, 11, 11);
+//                g.drawOval((int)(getPositionX() * scalarW)-6, (int)(getPositionY() * scalarH)-6, 11, 11);
+                int diameter = 5 + (int)Math.round(Math.sqrt(timeStep * 2));
+                g.setColor(ColorUtil.getTransparent(c, 15));
+//                g.fillOval((int)(getPositionX() * scalarW)-diameter/2, (int)(getPositionY() * scalarH)-diameter/2, diameter, diameter);
+                g.setStroke(new BasicStroke(diameter));
+                g.drawLine((int)(getPositionX() * scalarW)-diameter/2, (int)(getPositionY() * scalarH)-diameter/2, (int)(getLastPositionX() * scalarW)-diameter/2, (int)(getLastPositionY() * scalarH)-diameter/2);
             }
 
             @Override
