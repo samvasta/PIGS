@@ -2,7 +2,6 @@ package com.samvasta.imageGenerator.common.graphics.colors.palettes;
 
 import com.samvasta.imageGenerator.common.graphics.colors.CeiLchColor;
 import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
-import com.samvasta.imageGenerator.common.graphics.colors.ColorUtil;
 import org.apache.commons.math3.random.MersenneTwister;
 
 public class LinearLchPalette extends ColorPalette
