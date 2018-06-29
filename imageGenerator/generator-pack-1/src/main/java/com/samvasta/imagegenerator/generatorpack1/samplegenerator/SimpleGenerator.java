@@ -51,6 +51,14 @@ public class SimpleGenerator implements IGenerator
         }
     }
 
+    @Override
+    public void removeSnapshotListener(ISnapshotListener listener)
+    {
+        if(snapshotListeners.contains(listener)){
+            snapshotListeners.remove(listener);
+        }
+    }
+
     public void generateImage(final Map<String, Object> settings, final Graphics2D g, final Dimension imageSize, final MersenneTwister random) {
         final ColorPalette palette = new MonochromePalette(random);
 

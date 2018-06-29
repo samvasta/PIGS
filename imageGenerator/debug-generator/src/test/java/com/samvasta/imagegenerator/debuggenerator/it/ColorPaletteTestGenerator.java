@@ -46,13 +46,26 @@ public class ColorPaletteTestGenerator implements IGenerator
     }
 
     @Override
+    public void removeSnapshotListener(ISnapshotListener listener)
+    {
+        //dont' take snapshots. it's just a test
+    }
+
+    @Override
     public void generateImage(Map<String, Object> settings, Graphics2D g, Dimension imageSize, MersenneTwister random)
     {
+        double hue = random.nextDouble() * 180;
+        double dHue = random.nextGaussian() * 5 + (random.nextBoolean() ? -5 : 5);
+        int numColors = random.nextInt(5) + 5;
+        double startLum = 50.0;
         this.palette = new LinearLchPaletteBuilder(random)
-                .startChroma(10)
-                .startLum(50)
-                .deltaHue(10 * random.nextGaussian())
-                .deltaLum(4 + 4 * random.nextGaussian())
+                .numColors(numColors)
+                .startHue(hue)
+                .startLum(startLum)
+                .startChroma(50)
+                .deltaLum((90 - startLum) / numColors)
+                .deltaChroma(-5)
+                .deltaHue(dHue)
                 .build();
 
         double startX = 0;

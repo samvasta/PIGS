@@ -47,6 +47,12 @@ public class ParticleFieldTest implements IGenerator
     }
 
     @Override
+    public void removeSnapshotListener(ISnapshotListener listener)
+    {
+        //don't take snapshots. It's just a test
+    }
+
+    @Override
     public void generateImage(Map<String, Object> settings, Graphics2D g, Dimension imageSize, final MersenneTwister random)
     {
         int pFieldWidth = imageSize.width / 5;

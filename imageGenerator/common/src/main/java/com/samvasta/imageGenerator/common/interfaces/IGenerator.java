@@ -21,5 +21,7 @@ public interface IGenerator
 
     void addSnapshotListener(ISnapshotListener listener);
 
+    void removeSnapshotListener(ISnapshotListener listener);
+
     void generateImage(final Map<String, Object> settings, final Graphics2D g, final Dimension imageSize, final MersenneTwister random);
 }

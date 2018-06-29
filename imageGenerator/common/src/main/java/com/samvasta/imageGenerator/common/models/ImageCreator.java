@@ -67,6 +67,9 @@ public class ImageCreator implements Callable<ImageBundle>, ISnapshotListener
             if(g != null){
                 g.dispose();
             }
+            if(generator != null){
+                generator.removeSnapshotListener(this);
+            }
         }
         throw new ExecutionException(new Exception("Something wrong in image generation..."));
     }

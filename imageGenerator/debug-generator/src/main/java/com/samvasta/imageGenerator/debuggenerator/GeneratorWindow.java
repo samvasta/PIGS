@@ -19,6 +19,7 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -42,6 +43,7 @@ public class GeneratorWindow extends JFrame
     private ExecutorService generatorExecutor;
 
     public GeneratorWindow(IGenerator generatorIn, Dimension imageSizeIn){
+        images = new LinkedList<>();
         this.generator = generatorIn;
         this.setTitle("Testing Generator \"" + generator.getClass().getSimpleName() + "\"");
 
@@ -126,20 +128,17 @@ public class GeneratorWindow extends JFrame
         {
             ImageBundle bundle = imageBundleFuture.get(10, TimeUnit.MINUTES);
             generateEndTime = System.currentTimeMillis();
-            images = bundle.images;
+            images.clear();
+            images.addAll(bundle.images);
             currentImageIdx = images.size() - 1;
             this.seed = bundle.seed;
             repaint();
             LOGGER.info("Generated new image!");
         }
-        catch (InterruptedException | ExecutionException e)
+        catch (InterruptedException | ExecutionException | TimeoutException e)
         {
             LOGGER.error(e.getMessage(), e);
             //todo: stop execution
-        }
-        catch (TimeoutException e)
-        {
-            LOGGER.error(e.getMessage(), e);
         }
     }
 
