@@ -16,6 +16,43 @@ public class MidpointDisplacement
     public static final double DEFLECTION_FACTOR_MEDIUM = 0.0625;
     public static final double DEFLECTION_FACTOR_LOW = 0.03125;
 
+    public static Point2D.Double[] getMidpointDisplacement(double maxDeflectionFactor, RandomGenerator random, int numSteps, Point2D.Double...anchorPoints){
+        if(numSteps < 0){
+            throw new IllegalArgumentException("numSteps cannot be negative");
+        }
+        if(numSteps > 10){
+            logger.warn("WARNING: Midpoint displacement with more than 10 steps is not recommended. The extra resolution is usually not detectable");
+        }
+
+        if(maxDeflectionFactor <= 0){
+            throw new IllegalArgumentException("maxDeflectionFactor must be positive");
+        }
+        if(maxDeflectionFactor > 0.5){
+            logger.warn("WARNING: Midpoint displacement with a maximum deflection factor greater than 0.5 will not give smooth results.");
+        }
+
+        if(numSteps == 0){
+            //0 steps returns a line directly between start and end
+            return anchorPoints;
+        }
+
+        int numPoints = getMidpointDisplacementLength(numSteps) * (anchorPoints.length-1);
+        Point2D.Double[] points = new Point2D.Double[numPoints];
+
+        int pointsIdx = 0;
+        for(int i = 0; i < anchorPoints.length-1; i++){
+            Point2D.Double start = anchorPoints[i];
+            Point2D.Double end = anchorPoints[i+1];
+            Point2D.Double[] segment = getMidpointDisplacement(start, end, maxDeflectionFactor, random, numSteps);
+            for(int j = 0; j < segment.length; j++){
+                points[pointsIdx + j] = segment[j];
+            }
+            pointsIdx += segment.length;
+        }
+
+        return points;
+    }
+
     /**
      * Recursively applies a 1-D midpoint displacement algorithm between {@code start} and {@code end} points.
      * @param start Point to start at
