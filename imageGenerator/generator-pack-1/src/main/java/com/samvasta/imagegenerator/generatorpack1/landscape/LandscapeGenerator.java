@@ -8,7 +8,9 @@ import com.samvasta.imageGenerator.common.interfaces.IGenerator;
 import com.samvasta.imageGenerator.common.interfaces.ISnapshotListener;
 import com.samvasta.imageGenerator.common.models.IniSchemaOption;
 import com.samvasta.imageGenerator.common.noise.MidpointDisplacement;
+import com.samvasta.imageGenerator.common.noise.fastnoise.FastNoise;
 import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomGenerator;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -18,7 +20,10 @@ import java.util.List;
 public class LandscapeGenerator implements IGenerator
 {
     private Set<ISnapshotListener> snapshotListeners = new HashSet<>();
+    private RandomGenerator random;
     private Dimension imageSize;
+    private double twoPercentHeight;
+    private int numLayers;
 
     @Override
     public boolean isOnByDefault()
@@ -57,6 +62,7 @@ public class LandscapeGenerator implements IGenerator
     @Override
     public void generateImage(Map<String, Object> settings, Graphics2D g, Dimension imageSize, MersenneTwister random)
     {
+        this.random = random;
         this.imageSize = imageSize;
 
         double hue = random.nextDouble() * 180;
@@ -78,7 +84,7 @@ public class LandscapeGenerator implements IGenerator
         g.fillRect(0,0,imageSize.width, imageSize.height);
 
 
-        double twoPercentHeight = (imageSize.height / 50.0);
+        twoPercentHeight = (imageSize.height / 50.0);
 
         double startY = random.nextGaussian() * twoPercentHeight + 25.0*twoPercentHeight;
         double endY = startY - (random.nextDouble() + 1) * 10.0 * twoPercentHeight;
@@ -86,15 +92,40 @@ public class LandscapeGenerator implements IGenerator
         drawMountainPeaks(g, startY, endY, palette.getColorByIndex(palette.getNumColors()-1), random);
 
         takeSnapshot();
+        numLayers = numColors - 1;
 
-        //decrement startY, endY
+        int waterEndWidth = random.nextInt(imageSize.width/4) + imageSize.width*3/4;
+        int waterStartWidth = random.nextInt(waterEndWidth/2) + waterEndWidth/4;
+        int waterStartY = imageSize.height/4 + (random.nextInt(imageSize.height/4) + imageSize.height / 4);
+        int[] waterX = new int[] { imageSize.width/2 - waterStartWidth/2, imageSize.width/2 + waterStartWidth/2, imageSize.width/2 + waterEndWidth/2, imageSize.width/2 - waterEndWidth/2 };
+        int[] waterY = new int[] { waterStartY, waterStartY, imageSize.height, imageSize.height};
+        Polygon water = new Polygon(waterX, waterY, 4);
 
-        for(int i = numColors-2; i >= 0; i--){
-            startY += twoPercentHeight + random.nextGaussian() * twoPercentHeight + twoPercentHeight;
-            endY = startY + (random.nextDouble() + 0.5) * 10.0 * twoPercentHeight;
-            drawRidge(g, startY, endY, palette.getColorByIndex(i), random);
+        FastNoise dipXGenerator = new FastNoise(random.nextInt());
+
+        for(int i = numColors-2; i >= 0; i--)
+        {
+            startY += 0.1 * (twoPercentHeight + random.nextGaussian() * twoPercentHeight + twoPercentHeight);
+            endY = startY + (random.nextDouble() + 0.5) * 20.0 * twoPercentHeight;
+            int dipX = imageSize.width/ 2 + (int)(imageSize.width/2.0 * dipXGenerator.GetSimplex(0, i));
+            drawRidge(g, startY, endY, dipX, palette.getColorByIndex(i), random, i);
+            System.out.println(dipX);
+
+            if (i < numLayers - 1)
+            {
+                g.setClip(0, (int) (endY  - twoPercentHeight), imageSize.width, imageSize.height);
+                g.setColor(new Color(255, 255, 255, 64));
+                g.fill(water);
+                g.setClip(null);
+            }
+
+
             takeSnapshot();
         }
+
+        TreeStamp stamp = new TreeStamp();
+        g.setColor(Color.RED);
+        stamp.stamp(g, imageSize.width/2, imageSize.height/2, 60, 100, 0);
     }
 
     private void drawMountainPeaks(Graphics2D g, double startY, double endY, Color color, MersenneTwister random){
@@ -123,42 +154,53 @@ public class LandscapeGenerator implements IGenerator
         double highlightEndX = random.nextDouble() * imageSize.width;
         Point2D.Double[] highlightPoints = MidpointDisplacement.getMidpointDisplacement(new Point2D.Double(ridgeLinePoints[minYIdx].x, ridgeLinePoints[minYIdx].y), new Point2D.Double(highlightEndX, imageSize.height), MidpointDisplacement.DEFLECTION_FACTOR_MEDIUM, random, 4);
 
-        int[] xPoints;
-        int[] yPoints;
-
         if(highlightEndX < imageSize.width / 2){
             //left
-            xPoints = new int[highlightPoints.length + 1 + minYIdx];    //+1 for the bottom corner
-            yPoints = new int[highlightPoints.length + 1 + minYIdx];    //+1 for the bottom corner
-
-            for(int i = 0; i < highlightPoints.length; i++){
-                xPoints[i] = (int)Math.round(highlightPoints[i].x);
-                yPoints[i] = (int)Math.round(highlightPoints[i].y);
-            }
-            xPoints[highlightPoints.length] = 0;
-            yPoints[highlightPoints.length] = imageSize.height;
-
-            for(int i = 0; i < minYIdx; i++){
-                xPoints[highlightPoints.length + 1 + i] = (int)Math.round(ridgeLinePoints[i].x);
-                yPoints[highlightPoints.length + 1 + i] = (int)Math.round(ridgeLinePoints[i].y);
-            }
+            drawMountainHighlightLeft(ridgeLinePoints, minYIdx, highlightPoints, g);
         }
         else{
             //right
-            xPoints = new int[highlightPoints.length + (ridgeLinePoints.length - minYIdx) - 1];
-            yPoints = new int[highlightPoints.length + (ridgeLinePoints.length - minYIdx) - 1];
+            drawMountainHighlightRight(ridgeLinePoints, minYIdx, highlightPoints, g);
+        }
+    }
 
-            for(int i = 0; i < highlightPoints.length; i++){
-                xPoints[i] = (int)Math.round(highlightPoints[i].x);
-                yPoints[i] = (int)Math.round(highlightPoints[i].y);
-            }
-            xPoints[highlightPoints.length] = imageSize.width;
-            yPoints[highlightPoints.length] = imageSize.height;
+    private void drawMountainHighlightLeft(Point2D.Double[] ridgeLinePoints, int peakIdx, Point2D.Double[] highlightPoints, Graphics2D g){
+        List<Double> xPointsList = new ArrayList<>();
+        List<Double> yPointsList = new ArrayList<>();
 
-            for(int i = ridgeLinePoints.length-1; i > minYIdx + 1; i--){
-                xPoints[highlightPoints.length + (ridgeLinePoints.length - i)] = (int)Math.round(ridgeLinePoints[i].x);
-                yPoints[highlightPoints.length + (ridgeLinePoints.length - i)] = (int)Math.round(ridgeLinePoints[i].y);
+        for(int i = 0; i < highlightPoints.length; i++){
+            xPointsList.add(highlightPoints[i].x);
+            yPointsList.add(highlightPoints[i].y);
+        }
+        xPointsList.add(0.0);
+        yPointsList.add((double)imageSize.height);
+
+        double[] dy = new double[peakIdx+1];
+        for(int i = 0; i < dy.length; i++){
+            dy[i] = ridgeLinePoints[i].y - ridgeLinePoints[i+1].y;
+        }
+
+        for(int i = 0; i < peakIdx; i++){
+            xPointsList.add(ridgeLinePoints[i].x);
+            if(i > 0 && dy[i] < imageSize.height * 0.005){
+                yPointsList.add(ridgeLinePoints[i].y);
+                while(i+1 < dy.length && dy[i+1] < imageSize.height * 0.005){
+                    i++;
+                }
+                yPointsList.add(ridgeLinePoints[i].y + twoPercentHeight + 0.5 * twoPercentHeight * random.nextGaussian());
+                xPointsList.add(ridgeLinePoints[i].x);
             }
+            else{
+                yPointsList.add(ridgeLinePoints[i].y);
+            }
+        }
+
+        int[] xPoints = new int[xPointsList.size()];    //+1 for the bottom corner
+        int[] yPoints = new int[yPointsList.size()];    //+1 for the bottom corner
+
+        for(int i = 0; i < xPointsList.size(); i++){
+            xPoints[i] = (int)Math.round(xPointsList.get(i));
+            yPoints[i] = (int)Math.round(yPointsList.get(i));
         }
 
         Polygon poly = new Polygon(xPoints, yPoints, xPoints.length);
@@ -166,9 +208,59 @@ public class LandscapeGenerator implements IGenerator
         g.fill(poly);
     }
 
-    private void drawRidge(Graphics2D g, double startY, double endY, Color color, MersenneTwister random){
-        Point2D.Double[] points = MidpointDisplacement.getMidpointDisplacement(MidpointDisplacement.DEFLECTION_FACTOR_MEDIUM, random, 4,
-                new Point2D.Double(0, startY), new Point2D.Double(imageSize.width/2, endY), new Point2D.Double(imageSize.width, startY));
+    private void drawMountainHighlightRight(Point2D.Double[] ridgeLinePoints, int peakIdx, Point2D.Double[] highlightPoints, Graphics2D g){
+        List<Double> xPointsList = new ArrayList<>();
+        List<Double> yPointsList = new ArrayList<>();
+
+        for(int i = 0; i < highlightPoints.length; i++){
+            xPointsList.add(highlightPoints[i].x);
+            yPointsList.add(highlightPoints[i].y);
+        }
+        xPointsList.add((double)imageSize.width);
+        yPointsList.add((double)imageSize.height);
+
+        double[] dy = new double[ridgeLinePoints.length - peakIdx];
+        for(int i = ridgeLinePoints.length-1; i > peakIdx; i--){
+            dy[ridgeLinePoints.length - i - 1] = ridgeLinePoints[i].y - ridgeLinePoints[i-1].y;
+        }
+
+        for(int i = ridgeLinePoints.length-1; i > peakIdx + 1; i--){
+            xPointsList.add(ridgeLinePoints[i].x);
+            if(ridgeLinePoints.length - i - 1 > 0 && dy[ridgeLinePoints.length - i - 1] < imageSize.height * 0.005){
+                yPointsList.add(ridgeLinePoints[i].y);
+                while(ridgeLinePoints.length - i - 1 < dy.length && dy[ridgeLinePoints.length - i - 1] < imageSize.height * 0.005){
+                    i--;
+                }
+
+                xPointsList.add(ridgeLinePoints[i].x);
+                yPointsList.add(ridgeLinePoints[i].y + twoPercentHeight + 0.5 * twoPercentHeight * random.nextGaussian());
+            }
+            else{
+                yPointsList.add(ridgeLinePoints[i].y);
+            }
+        }
+
+
+        int[] xPoints = new int[xPointsList.size()];    //+1 for the bottom corner
+        int[] yPoints = new int[yPointsList.size()];    //+1 for the bottom corner
+
+        for(int i = 0; i < xPointsList.size(); i++){
+            xPoints[i] = (int)Math.round(xPointsList.get(i));
+            yPoints[i] = (int)Math.round(yPointsList.get(i));
+        }
+
+        Polygon poly = new Polygon(xPoints, yPoints, xPoints.length);
+        g.setColor(new Color(255, 255, 255, 64));
+        g.fill(poly);
+    }
+
+    private void drawRidge(Graphics2D g, double startY, double endY, int dipX, Color color, MersenneTwister random, int layer){
+        double percent = (double)layer / (double)numLayers;
+        double deflectionFactor = (percent * percent) * MidpointDisplacement.DEFLECTION_FACTOR_LOW + (1.0 - (percent * percent)) * MidpointDisplacement.DEFLECTION_FACTOR_MEDIUM;
+        int numSteps = (int)Math.round((percent) * 3 + (1.0 - percent) * 10);
+
+        Point2D.Double[] points = MidpointDisplacement.getMidpointDisplacement(deflectionFactor, random, numSteps,
+                new Point2D.Double(0, startY), new Point2D.Double(dipX, endY), new Point2D.Double(imageSize.width, startY));
 
         fillDown(points, color, g);
     }

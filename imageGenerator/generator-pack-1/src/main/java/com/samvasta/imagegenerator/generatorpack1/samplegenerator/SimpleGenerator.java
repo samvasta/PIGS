@@ -219,23 +219,22 @@ public class SimpleGenerator implements IGenerator
 
         IStamp texturedCircleStamp = new IStamp(){
             @Override
-            public void stamp(Graphics2D g, int x, int y){
-                double diameter = imageSize.width * (random.nextDouble() * 0.15 + 0.01);
+            public void stamp(Graphics2D g, int x, int y, int width, int height, double rotationAngle){
                 Color col = palette.getColor(random.nextDouble());
 
-                g.setClip(new Ellipse2D.Double(x, y, diameter, diameter));
+                g.setClip(new Ellipse2D.Double(x, y, width, height));
 
                 g.setColor(col);
-                g.fillOval(x, y, (int)diameter, (int)diameter);
+                g.fillOval(x, y, width, height);
 
-                BufferedImage textureImg = TextureUtil.colorizeSingleColor(compositeTexture.getTexture(new Dimension((int)diameter, (int)diameter), random), palette.getColor(random.nextDouble()));
+                BufferedImage textureImg = TextureUtil.colorizeSingleColor(compositeTexture.getTexture(new Dimension(width, height), random), palette.getColor(random.nextDouble()));
                 g.drawImage(textureImg, x, y, null);
                 g.setClip(null);
             }
         };
 
         for(int i = 0; i < 17; i++){
-            texturedCircleStamp.stamp(g, random.nextInt((int)(imageSize.width * 1.5)) - imageSize.width/4, random.nextInt((int)(imageSize.height * 1.5)) - imageSize.height/4);
+            texturedCircleStamp.stamp(g, random.nextInt((int)(imageSize.width * 1.5)) - imageSize.width/4, random.nextInt((int)(imageSize.height * 1.5)) - imageSize.height/4, (int)(imageSize.width * (random.nextDouble() * 0.15 + 0.01)), (int)(imageSize.width * (random.nextDouble() * 0.15 + 0.01)), 0);
         }
     }
 }

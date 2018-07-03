@@ -363,8 +363,8 @@ public class App
 
         for(IGenerator generator : generators){
             long seed = context.seedGenerator.nextLong();
-            generator.setSnapshotsEnabled(IniHelper.getBooleanValue(settings, SETTINGS_SECTION_ADVANCED, SETTINGS_ADVANCED_ENABLE_SNAPSHOTS));
             ImageCreator imageCreator = new ImageCreator(context.imageSize, generator, seed, settings);
+            imageCreator.setSnapshotsEnabled(IniHelper.getBooleanValue(settings, SETTINGS_SECTION_ADVANCED, SETTINGS_ADVANCED_ENABLE_SNAPSHOTS));
             imagePromises.add(executorService.submit(imageCreator));
         }
 
