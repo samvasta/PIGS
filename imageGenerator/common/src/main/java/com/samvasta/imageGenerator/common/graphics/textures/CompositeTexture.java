@@ -5,6 +5,7 @@ import com.samvasta.imageGenerator.common.graphics.images.BlendMode;
 import com.samvasta.imageGenerator.common.graphics.images.ProtoTexture;
 import com.sun.istack.internal.NotNull;
 import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomGenerator;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -41,7 +42,7 @@ public class CompositeTexture implements ITexture
     }
 
     @Override
-    public ProtoTexture getTexture(Dimension textureSize, MersenneTwister random)
+    public ProtoTexture getTexture(Dimension textureSize, RandomGenerator random)
     {
         ProtoTexture texture = baseTexture.getTexture(textureSize, random);
 
@@ -56,7 +57,7 @@ public class CompositeTexture implements ITexture
      * Uses the {@link #baseTexture} to colorize.
      */
     @Override
-    public BufferedImage colorize(ProtoTexture protoTexture, ColorPalette palette, MersenneTwister random){
+    public BufferedImage colorize(ProtoTexture protoTexture, ColorPalette palette, RandomGenerator random){
         return baseTexture.colorize(protoTexture, palette, random);
     }
 }

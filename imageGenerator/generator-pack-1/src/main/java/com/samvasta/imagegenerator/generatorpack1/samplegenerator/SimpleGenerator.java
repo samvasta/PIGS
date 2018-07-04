@@ -5,6 +5,8 @@ import com.samvasta.imageGenerator.common.graphics.colors.palettes.MonochromePal
 import com.samvasta.imageGenerator.common.graphics.images.BlendMode;
 import com.samvasta.imageGenerator.common.graphics.images.ProtoTexture;
 import com.samvasta.imageGenerator.common.graphics.stamps.IStamp;
+import com.samvasta.imageGenerator.common.graphics.stamps.StampInfo;
+import com.samvasta.imageGenerator.common.graphics.stamps.StampInfoBuilder;
 import com.samvasta.imageGenerator.common.graphics.textures.CompositeTexture;
 import com.samvasta.imageGenerator.common.graphics.textures.ITexture;
 import com.samvasta.imageGenerator.common.graphics.textures.TextureUtil;
@@ -13,6 +15,7 @@ import com.samvasta.imageGenerator.common.interfaces.ISnapshotListener;
 import com.samvasta.imageGenerator.common.models.IniSchemaOption;
 import com.samvasta.imageGenerator.common.noise.fastnoise.FastNoise;
 import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomGenerator;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -65,7 +68,7 @@ public class SimpleGenerator implements IGenerator
         ITexture fadeUp = new ITexture()
         {
             @Override
-            public ProtoTexture getTexture(Dimension textureSize, MersenneTwister random)
+            public ProtoTexture getTexture(Dimension textureSize, RandomGenerator random)
             {
                 ProtoTexture protoTexture = new ProtoTexture(textureSize);
 
@@ -85,14 +88,14 @@ public class SimpleGenerator implements IGenerator
             }
 
             @Override
-            public BufferedImage colorize(ProtoTexture protoTexture, ColorPalette palette1, MersenneTwister random){
+            public BufferedImage colorize(ProtoTexture protoTexture, ColorPalette palette1, RandomGenerator random){
                 return TextureUtil.colorizeSingleColor(protoTexture, palette.getSmallestColor());
             }
         };
         ITexture fadeLeft = new ITexture()
         {
             @Override
-            public ProtoTexture getTexture(Dimension textureSize, MersenneTwister random)
+            public ProtoTexture getTexture(Dimension textureSize, RandomGenerator random)
             {
                 ProtoTexture protoTexture = new ProtoTexture(textureSize);
 
@@ -113,7 +116,7 @@ public class SimpleGenerator implements IGenerator
             }
 
             @Override
-            public BufferedImage colorize(ProtoTexture protoTexture, ColorPalette palette1, MersenneTwister random){
+            public BufferedImage colorize(ProtoTexture protoTexture, ColorPalette palette1, RandomGenerator random){
                 return TextureUtil.colorizeSingleColor(protoTexture, palette.getSmallestColor());
             }
         };
@@ -121,7 +124,7 @@ public class SimpleGenerator implements IGenerator
         ITexture noise = new ITexture()
         {
             @Override
-            public ProtoTexture getTexture(Dimension textureSize, MersenneTwister random) {
+            public ProtoTexture getTexture(Dimension textureSize, RandomGenerator random) {
                 ProtoTexture protoTexture = new ProtoTexture(textureSize);
 
                 double[] pixels = new double[textureSize.width * textureSize.height];
@@ -140,7 +143,7 @@ public class SimpleGenerator implements IGenerator
             }
 
             @Override
-            public BufferedImage colorize(ProtoTexture protoTexture, ColorPalette palette, MersenneTwister random) {
+            public BufferedImage colorize(ProtoTexture protoTexture, ColorPalette palette, RandomGenerator random) {
                 return TextureUtil.colorizeSingleColor(protoTexture, palette.getSmallestColor());
             }
         };
@@ -148,7 +151,7 @@ public class SimpleGenerator implements IGenerator
         ITexture vignette = new ITexture()
         {
             @Override
-            public ProtoTexture getTexture(Dimension textureSize, MersenneTwister random){
+            public ProtoTexture getTexture(Dimension textureSize, RandomGenerator random){
                 ProtoTexture protoTexture = new ProtoTexture(textureSize);
 
                 double[] pixels = new double[textureSize.width * textureSize.height];
@@ -191,7 +194,7 @@ public class SimpleGenerator implements IGenerator
             }
 
             @Override
-            public BufferedImage colorize(ProtoTexture protoTexture, ColorPalette palette, MersenneTwister random) {
+            public BufferedImage colorize(ProtoTexture protoTexture, ColorPalette palette, RandomGenerator random) {
                 return TextureUtil.colorizeSingleColor(protoTexture, palette.getSmallestColor());
             }
         };
@@ -219,22 +222,29 @@ public class SimpleGenerator implements IGenerator
 
         IStamp texturedCircleStamp = new IStamp(){
             @Override
-            public void stamp(Graphics2D g, int x, int y, int width, int height, double rotationAngle){
+            public void stamp(Graphics2D g, StampInfo stampInfo, RandomGenerator random){
                 Color col = palette.getColor(random.nextDouble());
 
-                g.setClip(new Ellipse2D.Double(x, y, width, height));
+                g.setClip(new Ellipse2D.Double(stampInfo.getX(), stampInfo.getY(), stampInfo.getWidth(), stampInfo.getHeight()));
 
                 g.setColor(col);
-                g.fillOval(x, y, width, height);
+                g.fillOval(stampInfo.getXInt(), stampInfo.getYInt(), stampInfo.getWidthInt(), stampInfo.getHeightInt());
 
-                BufferedImage textureImg = TextureUtil.colorizeSingleColor(compositeTexture.getTexture(new Dimension(width, height), random), palette.getColor(random.nextDouble()));
-                g.drawImage(textureImg, x, y, null);
+                BufferedImage textureImg = TextureUtil.colorizeSingleColor(compositeTexture.getTexture(stampInfo.getDimension(), random), palette.getColor(random.nextDouble()));
+                g.drawImage(textureImg, stampInfo.getXInt(), stampInfo.getYInt(), null);
                 g.setClip(null);
             }
         };
 
         for(int i = 0; i < 17; i++){
-            texturedCircleStamp.stamp(g, random.nextInt((int)(imageSize.width * 1.5)) - imageSize.width/4, random.nextInt((int)(imageSize.height * 1.5)) - imageSize.height/4, (int)(imageSize.width * (random.nextDouble() * 0.15 + 0.01)), (int)(imageSize.width * (random.nextDouble() * 0.15 + 0.01)), 0);
+            StampInfo info = new StampInfoBuilder()
+                                .x(random.nextInt((int)(imageSize.width * 1.5)) - imageSize.width/4)
+                                .y(random.nextInt((int)(imageSize.height * 1.5)) - imageSize.height/4)
+                                .width((int)(imageSize.width * (random.nextDouble() * 0.15 + 0.01)))
+                                .height((int)(imageSize.width * (random.nextDouble() * 0.15 + 0.01)))
+                                .build();
+
+            texturedCircleStamp.stamp(g, info, random);
         }
     }
 }

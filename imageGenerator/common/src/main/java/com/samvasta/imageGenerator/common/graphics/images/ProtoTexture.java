@@ -3,6 +3,7 @@ package com.samvasta.imageGenerator.common.graphics.images;
 import com.samvasta.imageGenerator.common.graphics.textures.ITexture;
 import com.samvasta.imageGenerator.common.helpers.MathHelper;
 import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomGenerator;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -63,7 +64,7 @@ public class ProtoTexture implements Cloneable
         }
     }
 
-    public void blendWithTexture(ITexture texture, MersenneTwister random, BlendMode blendMode){
+    public void blendWithTexture(ITexture texture, RandomGenerator random, BlendMode blendMode){
         ProtoTexture otherTex = texture.getTexture(this.imageSize, random);
         for(int i = 0; i < pixels.length; i++){
             pixels[i] = blendMode.applyBlend(pixels[i], otherTex.pixels[i]);

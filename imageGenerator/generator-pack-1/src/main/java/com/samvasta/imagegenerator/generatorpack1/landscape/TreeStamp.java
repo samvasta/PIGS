@@ -1,6 +1,8 @@
 package com.samvasta.imagegenerator.generatorpack1.landscape;
 
 import com.samvasta.imageGenerator.common.graphics.stamps.IStamp;
+import com.samvasta.imageGenerator.common.graphics.stamps.StampInfo;
+import org.apache.commons.math3.random.RandomGenerator;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -8,23 +10,25 @@ import java.awt.geom.AffineTransform;
 public class TreeStamp implements IStamp {
     private static final int NUM_LEAF_LAYERS = 5;
 
-    private int width;
-    private int height;
+    private double width;
+    private double height;
 
     @Override
-    public void stamp(Graphics2D g, int x, int y, int width, int height, double rotationAngle)
+    public void stamp(Graphics2D g, StampInfo stampInfo, RandomGenerator random)
     {
-        this.width = width;
-        this.height = height;
+        this.width = stampInfo.getWidth();
+        this.height = stampInfo.getHeight();
+        AffineTransform originalTranform = g.getTransform();
 
         AffineTransform transform = new AffineTransform();
-        transform.translate(x, y);
-        transform.rotate(rotationAngle);
+        transform.translate(stampInfo.getX(), stampInfo.getY());
+        transform.rotate(stampInfo.getRotationAngle());
         g.setTransform(transform);
 
         drawTrunk(g);
-        g.setColor(Color.GREEN);
         drawLeaves(g);
+
+        g.setTransform(originalTranform);
     }
 
     private void drawTrunk(Graphics2D g){
@@ -38,7 +42,7 @@ public class TreeStamp implements IStamp {
 
         yPoints[0] = 0;
         yPoints[1] = 0;
-        yPoints[2] = -height;
+        yPoints[2] = (int)-height;
 
         Polygon trunkPoly = new Polygon(xPoints, yPoints, xPoints.length);
         g.fill(trunkPoly);
@@ -51,7 +55,7 @@ public class TreeStamp implements IStamp {
         for(int i = 0; i < NUM_LEAF_LAYERS; i++){
             double percent = (i / (double)NUM_LEAF_LAYERS);
 
-            int y = (int)Math.round(percent * height * 0.8) - height;
+            int y = (int)Math.round(percent * height * 0.8 - height);
 
             int x;
             if(i % 2 == 0){
