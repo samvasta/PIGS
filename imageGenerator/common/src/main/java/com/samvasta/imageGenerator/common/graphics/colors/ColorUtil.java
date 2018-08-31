@@ -8,6 +8,35 @@ import java.awt.color.ColorSpace;
 
 public class ColorUtil
 {
+    private static final Object getCloseColorLock = new Object();
+
+
+    public static Color getClose(Color source, double percentDifferent){
+        synchronized (getCloseColorLock){
+            float[] parts = new float[3];
+            parts = Color.RGBtoHSB(source.getRed(), source.getGreen(), source.getBlue(), parts);
+            float diff = (float)(Math.random()*16/(percentDifferent*2))+2;
+            parts[0] -= percentDifferent/diff/2f;
+            parts[0] += (float)(Math.random()*percentDifferent/diff);
+
+            if(parts[0] < 0) parts[0] +=1;
+            if(parts[0] > 1) parts[0] -=1;
+
+            parts[1] -= percentDifferent/4;
+            parts[1] += (float)(Math.random()*(percentDifferent/2));
+
+            if(parts[1] < 0) parts[1] =0;
+            if(parts[1] > 1) parts[1] = 1;
+
+            parts[2] -= percentDifferent/4;
+            parts[2] += (float)(Math.random()*(percentDifferent));
+
+            if(parts[2] > 1) parts[2] = 1;
+            if(parts[2] < 0.2) parts[2] += 0.2;
+
+            return new Color(Color.HSBtoRGB(parts[0], parts[1], parts[2]));
+        }
+    }
 
     public static Color getRandomColor(MersenneTwister random){
         int colorInt = random.nextInt(0xffffff);

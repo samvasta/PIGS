@@ -5,15 +5,6 @@ import org.apache.commons.math3.random.MersenneTwister;
 
 public class LinearLchPaletteBuilder implements IColorPaletteBuilder
 {
-    private static final double MAX_LUMINANCE_CHANGE = 5;
-    private static final double MIN_LUMINANCE_CHANGE = -5;
-
-    private static final double MAX_CHROMA_CHANGE = 5;
-    private static final double MIN_CHROMA_CHANGE = -5;
-
-    private static final double MAX_HUE_CHANGE = 36;
-    private static final double MIN_HUE_CHANGE = -36;
-
     private static final int MAX_COLORS = 10;
     private static final int MIN_COLORS = 5;
 
@@ -34,9 +25,14 @@ public class LinearLchPaletteBuilder implements IColorPaletteBuilder
         startLum = 50 + 50 * random.nextGaussian();
         startChroma = 50 + 50 * random.nextGaussian();
         startHue = random.nextInt(360);
-        deltaLum = random.nextDouble() * (MAX_LUMINANCE_CHANGE - MIN_LUMINANCE_CHANGE) + MIN_LUMINANCE_CHANGE;
-        deltaChroma = random.nextDouble() * (MAX_CHROMA_CHANGE - MIN_CHROMA_CHANGE) + MIN_CHROMA_CHANGE;
-        deltaHue = random.nextDouble() * (MAX_HUE_CHANGE - MIN_HUE_CHANGE) + MIN_HUE_CHANGE;
+
+        double endLum = 45;
+        double endChroma = 85;
+        double endHue = (startHue + random.nextInt(270) + 90) % 360;
+
+        deltaLum = (endLum - startLum) / numColors;
+        deltaChroma = (endChroma - startChroma) / numColors;
+        deltaHue = (endHue - startHue) / numColors;
     }
 
     public LinearLchPaletteBuilder numColors(int numColors)

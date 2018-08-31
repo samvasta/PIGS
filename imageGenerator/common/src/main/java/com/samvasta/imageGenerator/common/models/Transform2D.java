@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.math.BigDecimal;
 
 public class Transform2D
 {
@@ -11,31 +12,31 @@ public class Transform2D
     /*
      * Linear Transformations
      */
-    private double translateX;
-    private double translateY;
+    private BigDecimal translateX;
+    private BigDecimal translateY;
 
-    private double shearX;
-    private double shearY;
+    private BigDecimal shearX;
+    private BigDecimal shearY;
 
-    private double scaleX;
-    private double scaleY;
+    private BigDecimal scaleX;
+    private BigDecimal scaleY;
 
-    private double rotationAngle;
+    private BigDecimal rotationAngle;
 
 
-    private double m00, m10, m01, m11;
+    private BigDecimal m00, m10, m01, m11;
     private boolean isLinearTransformFinalized;
 
     public Transform2D(){
-        translateX = 0.0;
-        translateY = 0.0;
+        translateX = new BigDecimal(0.0);
+        translateY = new BigDecimal(0.0);
 
-        shearX = 0.0;
-        shearY = 0.0;
-        scaleX = 1.0;
-        scaleY = 1.0;
+        shearX = new BigDecimal(0.0);
+        shearY = new BigDecimal(0.0);
+        scaleX = new BigDecimal(1.0);
+        scaleY = new BigDecimal(1.0);
 
-        rotationAngle = 0.0;
+        rotationAngle = new BigDecimal(0.0);
         isLinearTransformFinalized = false;
     }
 
@@ -57,16 +58,18 @@ public class Transform2D
         //rotate X shear X scale
 
         //rotate X shear
-        m00 = Math.cos(rotationAngle) - shearY * Math.sin(rotationAngle);
-        m01 = shearX * Math.cos(rotationAngle) - Math.sin(rotationAngle);
-        m10 = Math.sin(rotationAngle) + shearY * Math.cos(rotationAngle);
-        m11 = shearX * Math.sin(rotationAngle) + Math.cos(rotationAngle);
+        BigDecimal cosRotation = new BigDecimal(Math.cos(rotationAngle.doubleValue()));
+        BigDecimal sinRotation = new BigDecimal(Math.sin(rotationAngle.doubleValue()));
+        m00 = cosRotation.subtract(shearY.multiply(sinRotation));
+        m01 = shearX.multiply(cosRotation).subtract(sinRotation);
+        m10 = sinRotation.add(shearY.multiply(cosRotation));
+        m11 = shearX.multiply(sinRotation).add(cosRotation);
 
         //(rotate X shear) X scale
-        m00 = scaleX * m00;
-        m01 = scaleY * m01;
-        m10 = scaleX * m10;
-        m11 = scaleY * m11;
+        m00 = scaleX.multiply(m00);
+        m01 = scaleY.multiply(m01);
+        m10 = scaleX.multiply(m10);
+        m11 = scaleY.multiply(m11);
 
         isLinearTransformFinalized = true;
     }
@@ -86,46 +89,48 @@ public class Transform2D
      *         <li>Any Non-linear Transformation</li>
      *     </ol>
      */
-    public final Point2D.Double transform(Point2D.Double src){
-        double x = src.x;
-        double y = src.y;
+    public final PrecisePoint2D transform(PrecisePoint2D src){
+        BigDecimal x = src.getPreciseX();
+        BigDecimal y = src.getPreciseY();
 
 
         if(!isLinearTransformFinalized){
             LOGGER.warn("For best performance, finalizeLinearTransform() should be called on all Transform2D objects" +
                     "before applying the transformation");
-            double origX;
-            double origY;
+            BigDecimal origX;
+            BigDecimal origY;
 
             //scale
             origX = x;
             origY = y;
-            x = origX * scaleX;
-            y = origY * scaleY;
+            x = origX.multiply(scaleX);
+            y = origY.multiply(scaleY);
 
             //shear
             origX = x;
             origY = y;
-            x += shearX * origY;
-            y += shearY * origX;
+            x = x.add(shearX.multiply(origY));
+            y = y.add(shearY.multiply(origX));
 
             //rotate
             origX = x;
             origY = y;
-            x = origX * Math.cos(rotationAngle) - origY * Math.sin(rotationAngle);
-            y = origX * Math.sin(rotationAngle) + origY * Math.cos(rotationAngle);
+            BigDecimal cosRotation = new BigDecimal(Math.cos(rotationAngle.doubleValue()));
+            BigDecimal sinRotation = new BigDecimal(Math.sin(rotationAngle.doubleValue()));
+            x = origX.multiply(cosRotation).subtract(origY.multiply(sinRotation));
+            y = origX.multiply(sinRotation).add(origY.multiply(cosRotation));
 
             //translate
             origX = x;
             origY = y;
-            x = origX + translateX;
-            y = origY + translateY;
+            x = origX.add(translateX);
+            y = origY.add(translateY);
         }
         else{
-            double origX = x;
-            double origY = y;
-            x = m00 * origX + m01 * origY + translateX;
-            y = m10 * origX + m11 * origY + translateY;
+            BigDecimal origX = x;
+            BigDecimal origY = y;
+            x = m00.multiply(origX).add(m01.multiply(origY)).add(translateX);
+            y = m10.multiply(origX).add(m11.multiply(origY)).add(translateY);
         }
 
 
@@ -133,113 +138,119 @@ public class Transform2D
     }
 
     /**
-     * Transforms multiple points. See {@link #transform(Point2D.Double)}
+     * Transforms multiple points. See {@link #transform(PrecisePoint2D)}
      */
-    public final Point2D.Double[] transform(Point2D.Double[] src){
-        Point2D.Double[] dest = new Point2D.Double[src.length];
+    public final PrecisePoint2D[] transform(PrecisePoint2D[] src){
+        PrecisePoint2D[] dest = new PrecisePoint2D[src.length];
         for(int i = 0; i < src.length; i++){
             dest[i] = transform(src[i]);
         }
         return dest;
     }
 
-    protected Point2D.Double transformNonLinear(double x, double y){
+    protected PrecisePoint2D transformNonLinear(BigDecimal x, BigDecimal y){
         //Base class implements a strictly linear transformation. Derivative classes may not be linear.
-        return new Point2D.Double(x, y);
+        return new PrecisePoint2D(x, y);
     }
 
     public void setTranslation(double tx, double ty){
+        translateX = new BigDecimal(tx);
+        translateY = new BigDecimal(ty);
+        isLinearTransformFinalized = false;
+    }
+
+    public void setTranslation(BigDecimal tx, BigDecimal ty){
         translateX = tx;
         translateY = ty;
         isLinearTransformFinalized = false;
     }
 
     public void setScale(double sx, double sy){
-        scaleX = sx;
-        scaleY = sy;
+        scaleX = new BigDecimal(sx);
+        scaleY = new BigDecimal(sy);
         isLinearTransformFinalized = false;
     }
 
     public void setShear(double sx, double sy){
-        shearX = sx;
-        shearY = sy;
+        shearX = new BigDecimal(sx);
+        shearY = new BigDecimal(sy);
         isLinearTransformFinalized = false;
     }
 
     public double getTranslateX()
     {
-        return translateX;
+        return translateX.doubleValue();
     }
 
     public void setTranslateX(double translateX)
     {
-        this.translateX = translateX;
+        this.translateX = new BigDecimal(translateX);
         isLinearTransformFinalized = false;
     }
 
     public double getTranslateY()
     {
-        return translateY;
+        return translateY.doubleValue();
     }
 
     public void setTranslateY(double translateY)
     {
-        this.translateY = translateY;
+        this.translateY = new BigDecimal(translateY);
         isLinearTransformFinalized = false;
     }
 
     public double getShearX()
     {
-        return shearX;
+        return shearX.doubleValue();
     }
 
     public void setShearX(double shearX)
     {
-        this.shearX = shearX;
+        this.shearX = new BigDecimal(shearX);
         isLinearTransformFinalized = false;
     }
 
     public double getShearY()
     {
-        return shearY;
+        return shearY.doubleValue();
     }
 
     public void setShearY(double shearY)
     {
-        this.shearY = shearY;
+        this.shearY = new BigDecimal(shearY);
         isLinearTransformFinalized = false;
     }
 
     public double getScaleX()
     {
-        return scaleX;
+        return scaleX.doubleValue();
     }
 
     public void setScaleX(double scaleX)
     {
-        this.scaleX = scaleX;
+        this.scaleX = new BigDecimal(scaleX);
         isLinearTransformFinalized = false;
     }
 
     public double getScaleY()
     {
-        return scaleY;
+        return scaleY.doubleValue();
     }
 
     public void setScaleY(double scaleY)
     {
-        this.scaleY = scaleY;
+        this.scaleY = new BigDecimal(scaleY);
         isLinearTransformFinalized = false;
     }
 
     public double getRotationAngle()
     {
-        return rotationAngle;
+        return rotationAngle.doubleValue();
     }
 
     public void setRotationAngle(double rotationAngle)
     {
-        this.rotationAngle = rotationAngle;
+        this.rotationAngle = new BigDecimal(rotationAngle);
         isLinearTransformFinalized = false;
     }
 }

@@ -1,13 +1,12 @@
 package com.samvasta.imagegenerator.generatorpack1.tessellation.patterngenerators.pgg;
 
 import com.samvasta.imageGenerator.common.helpers.MathHelper;
+import com.samvasta.imageGenerator.common.models.PrecisePoint2D;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.Tile;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.TilePattern;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.TilePatternLibrary;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.patterngenerators.IPatternGenerator;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.patterngenerators.PatternGeneratorParameter;
-
-import java.awt.geom.Point2D;
 
 public class N3_18 implements IPatternGenerator
 {
@@ -94,13 +93,13 @@ public class N3_18 implements IPatternGenerator
         double tx2 = lenAB + lenBC + 2*lenAC * Math.cos(angleC) + lenAC * Math.cos(Math.PI - angleC);
         double ty2 = 2*lenAC * Math.sin(angleC) + lenAC * Math.sin(Math.PI - angleC);
 
-        Point2D.Double[] neighborCenters = new Point2D.Double[]{
-                new Point2D.Double(tx0, ty0),
-                new Point2D.Double(tx1, ty1),
-                new Point2D.Double(tx2, ty2),
-                new Point2D.Double(-tx2, -ty2),
-                new Point2D.Double(-tx0 - tx2, -ty0 - ty2),
-                new Point2D.Double(-tx1 + tx2, -ty1 + ty2)
+        PrecisePoint2D[] neighborCenters = new PrecisePoint2D[]{
+                new PrecisePoint2D(tx0, ty0),
+                new PrecisePoint2D(tx1, ty1),
+                new PrecisePoint2D(tx2, ty2),
+                new PrecisePoint2D(-tx2, -ty2),
+                new PrecisePoint2D(-tx0 - tx2, -ty0 - ty2),
+                new PrecisePoint2D(-tx1 + tx2, -ty1 + ty2)
         };
 
 
@@ -109,45 +108,45 @@ public class N3_18 implements IPatternGenerator
         return new TilePattern(tiles, neighborCenters, neighborRotations);
     }
 
-    private Point2D.Double[] getBasicTile(double widthA, double widthB, double height, double rotation, double offsetX, double offsetY){
-        Point2D.Double[] verts = new Point2D.Double[3];
+    private PrecisePoint2D[] getBasicTile(double widthA, double widthB, double height, double rotation, double offsetX, double offsetY){
+        PrecisePoint2D[] verts = new PrecisePoint2D[3];
 
         double srcX = 0;
         double srcY = 0;
-        verts[0] = new Point2D.Double(offsetX, offsetY);
+        verts[0] = new PrecisePoint2D(offsetX, offsetY);
 
         srcX = widthA + widthB;
         srcY = 0;
         double dstX = srcX * Math.cos(rotation) - srcY * Math.sin(rotation);
         double dstY = srcX * Math.sin(rotation) + srcY * Math.cos(rotation);
-        verts[1] = new Point2D.Double(offsetX + dstX, offsetY + dstY);
+        verts[1] = new PrecisePoint2D(offsetX + dstX, offsetY + dstY);
 
         srcX = widthA;
         srcY = height;
         dstX = srcX * Math.cos(rotation) - srcY * Math.sin(rotation);
         dstY = srcX * Math.sin(rotation) + srcY * Math.cos(rotation);
-        verts[2] = new Point2D.Double(offsetX + dstX, offsetY + dstY);
+        verts[2] = new PrecisePoint2D(offsetX + dstX, offsetY + dstY);
 
         return verts;
     }
-    private Point2D.Double[] getReflectedTile(double widthA, double widthB, double height, double rotation, double offsetX, double offsetY){
-        Point2D.Double[] verts = new Point2D.Double[3];
+    private PrecisePoint2D[] getReflectedTile(double widthA, double widthB, double height, double rotation, double offsetX, double offsetY){
+        PrecisePoint2D[] verts = new PrecisePoint2D[3];
 
         double srcX = 0;
         double srcY = 0;
-        verts[0] = new Point2D.Double(offsetX, offsetY);
+        verts[0] = new PrecisePoint2D(offsetX, offsetY);
 
         srcX = -widthA - widthB;
         srcY = 0;
         double dstX = srcX * Math.cos(rotation) - srcY * Math.sin(rotation);
         double dstY = srcX * Math.sin(rotation) + srcY * Math.cos(rotation);
-        verts[1] = new Point2D.Double(offsetX + dstX, offsetY + dstY);
+        verts[1] = new PrecisePoint2D(offsetX + dstX, offsetY + dstY);
 
         srcX = -widthA;
         srcY = height;
         dstX = srcX * Math.cos(rotation) - srcY * Math.sin(rotation);
         dstY = srcX * Math.sin(rotation) + srcY * Math.cos(rotation);
-        verts[2] = new Point2D.Double(offsetX + dstX, offsetY + dstY);
+        verts[2] = new PrecisePoint2D(offsetX + dstX, offsetY + dstY);
 
         return verts;
     }

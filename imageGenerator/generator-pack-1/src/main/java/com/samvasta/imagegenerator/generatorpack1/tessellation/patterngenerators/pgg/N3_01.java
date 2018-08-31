@@ -1,12 +1,11 @@
 package com.samvasta.imagegenerator.generatorpack1.tessellation.patterngenerators.pgg;
 
+import com.samvasta.imageGenerator.common.models.PrecisePoint2D;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.Tile;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.TilePattern;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.TilePatternLibrary;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.patterngenerators.IPatternGenerator;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.patterngenerators.PatternGeneratorParameter;
-
-import java.awt.geom.Point2D;
 
 public class N3_01 implements IPatternGenerator
 {
@@ -30,7 +29,7 @@ public class N3_01 implements IPatternGenerator
         double ln1 = TilePatternLibrary.UNIT_SIDE_LENGTH * parameter;
         double ln2 = TilePatternLibrary.UNIT_SIDE_LENGTH - ln1;
 
-        Point2D.Double[] points = getBasicTriangle(ln1, ln2, 0, 0, 0);
+        PrecisePoint2D[] points = getBasicTriangle(ln1, ln2, 0, 0, 0);
         tiles[0] = new Tile(points);
 
         points = getBasicTriangle(ln1, ln2, Math.PI / 2.0, ln2, -ln1);
@@ -62,35 +61,35 @@ public class N3_01 implements IPatternGenerator
         points = getReflectedTriangle(ln1, ln2, angle, tx7, ty7);
         tiles[7] = new Tile(points);
 
-        Point2D.Double[] neighborCenters = new Point2D.Double[]{
-                new Point2D.Double(ln2 - ln1 -tx6, -ln2 - ln1 - ty6),
-                new Point2D.Double(ln2 - ln1, -ln2 - ln1),
-                new Point2D.Double(tx6, ty6),
-                new Point2D.Double(tx6 + ln1 - ln2, ty6 + ln1 + ln2),
-                new Point2D.Double(ln1 - ln2, ln1 + ln2),
-                new Point2D.Double(-tx6, -ty6)
+        PrecisePoint2D[] neighborCenters = new PrecisePoint2D[]{
+                new PrecisePoint2D(ln2 - ln1 -tx6, -ln2 - ln1 - ty6),
+                new PrecisePoint2D(ln2 - ln1, -ln2 - ln1),
+                new PrecisePoint2D(tx6, ty6),
+                new PrecisePoint2D(tx6 + ln1 - ln2, ty6 + ln1 + ln2),
+                new PrecisePoint2D(ln1 - ln2, ln1 + ln2),
+                new PrecisePoint2D(-tx6, -ty6)
         };
 
         double[] neighborRotations = new double[] { 0, 0, 0, 0, 0, 0 };
         return new TilePattern(tiles, neighborCenters, neighborRotations);
     }
 
-    private Point2D.Double[] getBasicTriangle(double ln1, double ln2, double rotation, double offsetX, double offsetY){
-        Point2D.Double[] points = new Point2D.Double[3];
+    private PrecisePoint2D[] getBasicTriangle(double ln1, double ln2, double rotation, double offsetX, double offsetY){
+        PrecisePoint2D[] points = new PrecisePoint2D[3];
 
-        points[0] = new Point2D.Double(offsetX, offsetY);
-        points[1] = new Point2D.Double(offsetX + Math.cos(rotation) * ln1, offsetY + Math.sin(rotation) * ln1);
-        points[2] = new Point2D.Double(offsetX + Math.cos(rotation) * ln1 - Math.sin(rotation) * ln2, offsetY + Math.sin(rotation) * ln1 + Math.cos(rotation) * ln2);
+        points[0] = new PrecisePoint2D(offsetX, offsetY);
+        points[1] = new PrecisePoint2D(offsetX + Math.cos(rotation) * ln1, offsetY + Math.sin(rotation) * ln1);
+        points[2] = new PrecisePoint2D(offsetX + Math.cos(rotation) * ln1 - Math.sin(rotation) * ln2, offsetY + Math.sin(rotation) * ln1 + Math.cos(rotation) * ln2);
 
         return points;
     }
 
-    private Point2D.Double[] getReflectedTriangle(double ln1, double ln2, double rotation, double offsetX, double offsetY){
-        Point2D.Double[] points = new Point2D.Double[3];
+    private PrecisePoint2D[] getReflectedTriangle(double ln1, double ln2, double rotation, double offsetX, double offsetY){
+        PrecisePoint2D[] points = new PrecisePoint2D[3];
 
-        points[0] = new Point2D.Double(offsetX, offsetY);
-        points[1] = new Point2D.Double(offsetX - Math.cos(rotation) * ln1, offsetY + Math.sin(rotation) * ln1);
-        points[2] = new Point2D.Double(offsetX - Math.cos(rotation) * ln1 + Math.sin(rotation) * ln2, offsetY + Math.sin(rotation) * ln1 + Math.cos(rotation) * ln2);
+        points[0] = new PrecisePoint2D(offsetX, offsetY);
+        points[1] = new PrecisePoint2D(offsetX - Math.cos(rotation) * ln1, offsetY + Math.sin(rotation) * ln1);
+        points[2] = new PrecisePoint2D(offsetX - Math.cos(rotation) * ln1 + Math.sin(rotation) * ln2, offsetY + Math.sin(rotation) * ln1 + Math.cos(rotation) * ln2);
 
         return points;
     }

@@ -1,13 +1,12 @@
 package com.samvasta.imagegenerator.generatorpack1.tessellation.patterngenerators.pgg;
 
 import com.samvasta.imageGenerator.common.helpers.MathHelper;
+import com.samvasta.imageGenerator.common.models.PrecisePoint2D;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.Tile;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.TilePattern;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.TilePatternLibrary;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.patterngenerators.IPatternGenerator;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.patterngenerators.PatternGeneratorParameter;
-
-import java.awt.geom.Point2D;
 
 public class P5_06 implements IPatternGenerator
 {
@@ -45,11 +44,11 @@ public class P5_06 implements IPatternGenerator
         offsetY += shapeDetails.lenAB * Math.sin(parameters[0]) + shapeDetails.lenCD * Math.sin(parameters[0]);
         tiles[3] = getBasicTile(shapeDetails, offsetX, offsetY, Math.PI);
 
-        Point2D.Double[] neighborCenters = new Point2D.Double[]{
-                new Point2D.Double(0, shapeDetails.height),
-                new Point2D.Double(2*shapeDetails.rectWidth*Math.cos(parameters[0]) + 2*parameters[3], (2*shapeDetails.rectWidth)*Math.sin(parameters[0])),
-                new Point2D.Double(-(2*shapeDetails.rectWidth*Math.cos(parameters[0]) + 2*parameters[3]), -(2*shapeDetails.rectWidth)*Math.sin(parameters[0])),
-                new Point2D.Double(0, -shapeDetails.height)
+        PrecisePoint2D[] neighborCenters = new PrecisePoint2D[]{
+                new PrecisePoint2D(0, shapeDetails.height),
+                new PrecisePoint2D(2*shapeDetails.rectWidth*Math.cos(parameters[0]) + 2*parameters[3], (2*shapeDetails.rectWidth)*Math.sin(parameters[0])),
+                new PrecisePoint2D(-(2*shapeDetails.rectWidth*Math.cos(parameters[0]) + 2*parameters[3]), -(2*shapeDetails.rectWidth)*Math.sin(parameters[0])),
+                new PrecisePoint2D(0, -shapeDetails.height)
         };
 
 
@@ -59,28 +58,28 @@ public class P5_06 implements IPatternGenerator
     }
 
     private Tile getBasicTile(ShapeDetails shapeDetails, double xOffset, double yOffset, double rotation){
-        Point2D.Double[] verts = new Point2D.Double[5];
+        PrecisePoint2D[] verts = new PrecisePoint2D[5];
 
-        verts[0] = new Point2D.Double(xOffset + shapeDetails.aX, yOffset + shapeDetails.aY);
+        verts[0] = new PrecisePoint2D(xOffset + shapeDetails.aX, yOffset + shapeDetails.aY);
 
         double dstX = shapeDetails.bX * Math.cos(rotation) - shapeDetails.bY * Math.sin(rotation);
         double dstY = shapeDetails.bX * Math.sin(rotation) + shapeDetails.bY * Math.cos(rotation);
-        verts[1] = new Point2D.Double(xOffset + dstX, yOffset + dstY);
+        verts[1] = new PrecisePoint2D(xOffset + dstX, yOffset + dstY);
 
 
         dstX = shapeDetails.cX * Math.cos(rotation) - shapeDetails.cY * Math.sin(rotation);
         dstY = shapeDetails.cX * Math.sin(rotation) + shapeDetails.cY * Math.cos(rotation);
-        verts[2] = new Point2D.Double(xOffset + dstX, yOffset + dstY);
+        verts[2] = new PrecisePoint2D(xOffset + dstX, yOffset + dstY);
 
 
         dstX = shapeDetails.dX * Math.cos(rotation) - shapeDetails.dY * Math.sin(rotation);
         dstY = shapeDetails.dX * Math.sin(rotation) + shapeDetails.dY * Math.cos(rotation);
-        verts[3] = new Point2D.Double(xOffset + dstX, yOffset + dstY);
+        verts[3] = new PrecisePoint2D(xOffset + dstX, yOffset + dstY);
 
 
         dstX = shapeDetails.eX * Math.cos(rotation) - shapeDetails.eY * Math.sin(rotation);
         dstY = shapeDetails.eX * Math.sin(rotation) + shapeDetails.eY * Math.cos(rotation);
-        verts[4] = new Point2D.Double(xOffset + dstX, yOffset + dstY);
+        verts[4] = new PrecisePoint2D(xOffset + dstX, yOffset + dstY);
 
         return new Tile(verts);
     }
@@ -141,16 +140,15 @@ public class P5_06 implements IPatternGenerator
             lenDE = Math.sqrt((eX - dX) * (eX - dX) + (eY - dY) * (eY - dY));
             lenAE = Math.sqrt((eX - aX) * (eX - aX) + (eY - aY) * (eY - aY));
 
-            angleE = 2*Math.atan2(height*0.5, ln5);  //GOOD
-
+            angleE = 2*Math.atan2(height*0.5, ln5);
             anglePointBToPointC = Math.atan2(cY-bY, cX-bX);
             angleB = parameters[0] + (Math.PI - anglePointBToPointC);
 
             angleEAD = (Math.PI - angleE)/2.0;
-            angleA = angleEAD + (Math.PI/2.0 - parameters[0]);//Math.atan2((eY - aY), (eX - aX)) - Math.atan2((bY - aY), (bX - aX));
-            angleD = 2*Math.PI - angleA - angleE;   //GOOD
+            angleA = angleEAD + (Math.PI/2.0 - parameters[0]);
+            angleD = 2*Math.PI - angleA - angleE;
 
-            angleC = Math.PI - angleB;      //GOOD
+            angleC = Math.PI - angleB;
 
         }
     }

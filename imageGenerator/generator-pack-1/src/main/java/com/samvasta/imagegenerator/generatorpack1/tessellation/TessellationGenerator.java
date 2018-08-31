@@ -1,18 +1,25 @@
 package com.samvasta.imagegenerator.generatorpack1.tessellation;
 
+import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
+import com.samvasta.imageGenerator.common.graphics.colors.ColorUtil;
+import com.samvasta.imageGenerator.common.graphics.colors.palettes.LinearLchPaletteBuilder;
 import com.samvasta.imageGenerator.common.interfaces.IGenerator;
 import com.samvasta.imageGenerator.common.interfaces.ISnapshotListener;
 import com.samvasta.imageGenerator.common.models.IniSchemaOption;
+import com.samvasta.imageGenerator.common.models.PrecisePoint2D;
 import com.samvasta.imageGenerator.common.models.Transform2D;
 import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.log4j.Logger;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.List;
 
 public class TessellationGenerator implements IGenerator
 {
+    private static final Logger logger = Logger.getLogger(TessellationGenerator.class);
+
     //Polygons shouldn't really be smaller than 5 pixels anyways
     private static final double MIN_POLYGON_DISTANCE = 5.0;
 
@@ -68,85 +75,124 @@ public class TessellationGenerator implements IGenerator
         imageSize = imageSizeIn;
         random = randomIn;
 
-        xScale   = random.nextDouble() * imageSize.width/5 + imageSize.width / 25;
-        yScale   = random.nextDouble() * imageSize.height/5 + imageSize.height / 25;
-        xShear   = random.nextGaussian() * 0.25;
-        yShear   = random.nextGaussian() * 0.25;
+        xScale = random.nextDouble() * imageSize.width/5 + imageSize.width / 50;
+        if(random.nextDouble() < 0.2){
+            yScale = random.nextDouble() * imageSize.height/5 + imageSize.height / 50;
+        }
+        else{
+            yScale = xScale;
+        }
+
+        //Prevent the case where xScale and yScale are too different. We don't want something too far from a square ratio
+        if(Math.abs(xScale - yScale) > imageSize.width / 10){
+            yScale = xScale;
+        }
+
+        if(random.nextDouble() < 3){
+            xShear   = random.nextDouble() * 0.125;
+            yShear   = random.nextDouble() * 0.125;
+        }
+        else{
+            xShear = 0;
+            yShear = 0;
+        }
         rotation = random.nextDouble() * Math.PI * 2.0;
 
-//        xScale   = 400;
+//        xScale   = 200;
 //        yScale   = xScale;
 //        xShear   = 0;
 //        yShear   = 0;
 //        rotation = 0;
 
+        logger.debug(String.format("%nxScale\t%s%nyScale\t%s%nxShear\t%s%nyShear\t%s%nrot\t%s", xScale, yScale, xShear, yShear, rotation));
 
         TilePattern pattern = TilePatternLibrary.INSTANCE.getRandomPattern(random);
 
-        Stack<Transform2D> transformsToRender = new Stack<>();
+        Transform2D noTranslation = getTransform(new BigDecimal(0), new BigDecimal(0));
+        noTranslation.finalizeLinearTransform();
+        Dimension patternSize = pattern.getDimension(noTranslation);
 
-        Transform2D transform = getTransform(imageSize.width/2, imageSize.height/2);
+        LinkedList<Transform2D> transformsToRender = new LinkedList<>();
+
+        Transform2D transform = getTransform(
+                new BigDecimal(imageSize.width/2 - patternSize.getWidth()/2 + random.nextDouble() * patternSize.getWidth()),
+                new BigDecimal(imageSize.height/2 - patternSize.getHeight()/2 + random.nextDouble() * patternSize.getHeight())
+        );
         transform.finalizeLinearTransform();
         transformsToRender.add(transform);
 
         fillCanvas(pattern, transformsToRender);
     }
 
-    private void fillCanvas(TilePattern pattern, Stack<Transform2D> transformsToRender){
-        ArrayList<Point2D.Double> visitedPoints = new ArrayList<>();
+    private void fillCanvas(TilePattern pattern, LinkedList<Transform2D> transformsToRender){
+        ArrayList<PrecisePoint2D> visitedPoints = new ArrayList<>();
 
         ArrayList<Polygon> polygons = new ArrayList<>();
 
-        while(!transformsToRender.empty()){
-            Transform2D transform = transformsToRender.pop();
-            Point2D.Double[] boundingBox = pattern.getBoundingBox(transform);
+        while(!transformsToRender.isEmpty()){
+            Transform2D transform = transformsToRender.removeFirst();
+            PrecisePoint2D[] boundingBox = pattern.getBoundingBox(transform);
 
-            visitedPoints.add(new Point2D.Double(transform.getTranslateX(), transform.getTranslateY()));
+            visitedPoints.add(new PrecisePoint2D(transform.getTranslateX(), transform.getTranslateY()));
 
             if(!isAnyPointOnCanvas(boundingBox)){
                 continue;
             }
 
-            List<Point2D.Double[]> polys = pattern.getPolygons(transform);
+            List<PrecisePoint2D[]> polys = pattern.getPolygons(transform);
 
             for(int i = 0; i < polys.size(); i++){
                 Polygon poly = getPolygon(polys.get(i));
                 polygons.add(poly);
             }
 
-            Point2D.Double[] neighborPoints = pattern.getNeighborCenters(transform);
+            PrecisePoint2D[] neighborPoints = pattern.getNeighborCenters(transform);
             double[] neighborRotations = pattern.getNeighborRotations();
             for(int neighborIdx = 0; neighborIdx < neighborPoints.length; neighborIdx++){
-                Point2D.Double p = neighborPoints[neighborIdx];
-                int neighborX = (int)p.x;
-                int neighborY = (int)p.y;
+                PrecisePoint2D p = neighborPoints[neighborIdx];
+                int neighborX = (int)Math.round(p.getX());
+                int neighborY = (int)Math.round(p.getY());
 
                 g.setColor(Color.BLUE);
-                g.drawOval((int)p.x, (int)p.y, 3, 3);
+                g.drawOval(neighborX, neighborY, 3, 3);
                 if(hasVisited(visitedPoints, neighborX, neighborY, MIN_POLYGON_DISTANCE)){
                     continue;
                 }
 
 
-                Transform2D neighborTransform = getTransform(p.x, p.y);
+                Transform2D neighborTransform = getTransform(p.getPreciseX(), p.getPreciseY());
                 neighborTransform.setRotationAngle(transform.getRotationAngle() + neighborRotations[neighborIdx]);
                 neighborTransform.finalizeLinearTransform();
-                transformsToRender.push(neighborTransform);
-                visitedPoints.add(new Point2D.Double(neighborTransform.getTranslateX(), neighborTransform.getTranslateY()));
+                transformsToRender.addLast(neighborTransform);
+                visitedPoints.add(new PrecisePoint2D(neighborTransform.getTranslateX(), neighborTransform.getTranslateY()));
             }
         }
 
+        boolean useStroke = random.nextDouble() < 0.7;
+        ColorPalette palette = new LinearLchPaletteBuilder(random).build();
+        g.setColor(palette.getBiggestColor());
+        g.fillRect(0,0,imageSize.width, imageSize.height);
+
+        int strokeWeight = 2 + (int)(random.nextDouble() * 50 * xScale / imageSize.width);
+        g.setStroke(new BasicStroke(strokeWeight, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+        Color color = palette.getColor(random.nextDouble());
+        double colorClosenessFactor = Math.abs(random.nextGaussian() * random.nextDouble()) + 0.05;
         for(Polygon poly : polygons){
-            g.setColor(new Color(255, 0,0,64));
+            if(random.nextDouble() < 0.1){
+                color = palette.getColor(random.nextDouble());
+            }
+            g.setColor(ColorUtil.getClose(color, colorClosenessFactor));
             g.fillPolygon(poly);
-            g.setColor(Color.BLACK);
-            g.drawPolygon(poly);
+            if(useStroke){
+                g.setColor(Color.BLACK);
+                g.drawPolygon(poly);
+            }
         }
     }
 
-    private boolean hasVisited(List<Point2D.Double> vistedPoints, double x, double y, double tolerance){
+    private boolean hasVisited(List<PrecisePoint2D> vistedPoints, double x, double y, double tolerance){
         double toleranceSq = tolerance * tolerance;
-        for(Point2D.Double visited : vistedPoints){
+        for(PrecisePoint2D visited : vistedPoints){
             if(visited.distanceSq(x, y) <= toleranceSq){
                 return true;
             }
@@ -154,7 +200,7 @@ public class TessellationGenerator implements IGenerator
         return false;
     }
 
-    private Transform2D getTransform(double translateX, double translateY){
+    private Transform2D getTransform(BigDecimal translateX, BigDecimal translateY){
         Transform2D transform = new Transform2D();
         transform.setTranslation(translateX, translateY);
         transform.setRotationAngle(rotation);
@@ -163,26 +209,51 @@ public class TessellationGenerator implements IGenerator
         return transform;
     }
 
-    private Polygon getPolygon(Point2D.Double[] points){
+    private Polygon getPolygon(PrecisePoint2D[] points){
         int[] xPoints = new int[points.length];
         int[] yPoints = new int[points.length];
 
         for(int i = 0; i < points.length; i++){
-            xPoints[i] = (int)(Math.round(points[i].x));
-            yPoints[i] = (int)(Math.round(points[i].y));
+            xPoints[i] = (int)(Math.round(points[i].getX()));
+            yPoints[i] = (int)(Math.round(points[i].getY()));
         }
 
         return new Polygon(xPoints, yPoints, points.length);
     }
 
-    private boolean isAnyPointOnCanvas(Point2D.Double[] points){
+    private boolean isAnyPointOnCanvas(PrecisePoint2D[] points){
+        boolean isAbove = false;
+        boolean isBelow = false;
+        boolean isRight = false;
+        boolean isLeft = false;
+
         for(int i = 0; i < points.length; i++){
-            double x = points[i].x;
-            double y = points[i].y;
-            if(x <= imageSize.width && x >= 0 && y <= imageSize.height && y >= 0){
+            double x = points[i].getX();
+            double y = points[i].getY();
+
+            boolean isMiddleHorizontal = false;
+            if(x < 0){
+                isLeft = true;
+            }
+            else if(x > imageSize.width){
+                isRight = true;
+            }
+            else{
+                isMiddleHorizontal = true;
+            }
+
+            if(y < 0){
+                isAbove = true;
+            }
+            else if(y > imageSize.height){
+                isBelow = true;
+            }
+            else if(isMiddleHorizontal){
                 return true;
             }
         }
-        return false;
+
+        //corner case where two points span the width or span the height
+        return (isAbove && isBelow) ^ (isLeft && isRight);
     }
 }

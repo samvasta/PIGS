@@ -1,25 +1,25 @@
 package com.samvasta.imagegenerator.generatorpack1.tessellation;
 
-import java.awt.geom.Point2D;
+import com.samvasta.imageGenerator.common.models.PrecisePoint2D;
 
 public class Tile
 {
-    private Point2D.Double[] verticies;
+    private PrecisePoint2D[] verticies;
 
-    private Point2D.Double[] boundingBox;
+    private PrecisePoint2D[] boundingBox;
 
-    public Tile(Point2D.Double...verticiesIn){
+    public Tile(PrecisePoint2D...verticiesIn){
 
-        verticies = new Point2D.Double[verticiesIn.length];
+        verticies = new PrecisePoint2D[verticiesIn.length];
         double minX = Double.MAX_VALUE;
         double maxX = -Double.MAX_VALUE;
         double minY = Double.MAX_VALUE;
         double maxY = -Double.MAX_VALUE;
 
         for(int i = 0; i < verticiesIn.length; i++){
-            double x = verticiesIn[i].x;
-            double y = verticiesIn[i].y;
-            verticies[i] = new Point2D.Double(x, y);
+            double x = verticiesIn[i].getX();
+            double y = verticiesIn[i].getY();
+            verticies[i] = new PrecisePoint2D(x, y);
 
             if(x < minX){
                 minX = x;
@@ -36,19 +36,19 @@ public class Tile
             }
         }
 
-        boundingBox = new Point2D.Double[] {
-                                            new Point2D.Double(minX, minY),
-                                            new Point2D.Double(minX, maxY),
-                                            new Point2D.Double(maxX, maxY),
-                                            new Point2D.Double(maxX, minY)
+        boundingBox = new PrecisePoint2D[] {
+                                            new PrecisePoint2D(minX, minY),
+                                            new PrecisePoint2D(minX, maxY),
+                                            new PrecisePoint2D(maxX, maxY),
+                                            new PrecisePoint2D(maxX, minY)
                                             };
     }
 
-    public Point2D.Double[] getVerticies(){
+    public PrecisePoint2D[] getVerticies(){
         return verticies;
     }
 
-    public Point2D.Double[] getBoundingBox(){
+    public PrecisePoint2D[] getBoundingBox(){
         return boundingBox;
     }
 }
