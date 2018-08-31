@@ -144,7 +144,7 @@ public class MidpointDisplacement
 
     private static int getMidpointDisplacementLength(int numRecursionSteps){
         if(numRecursionSteps == 1){
-            //special case. After step 1, it follows the pattern 2^n + 1
+            //special case. After withStep 1, it follows the pattern 2^n + 1
             return 3;
         }
         return (2 << (numRecursionSteps-1)) + 1;

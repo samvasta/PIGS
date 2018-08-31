@@ -1,7 +1,18 @@
 package com.samvasta.imageGenerator.common.helpers;
 
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+
 public class MathHelper
 {
+    public static final double DEG01 = Math.PI / 180.0;
+    public static final double DEG30 = Math.PI / 6.0;
+    public static final double DEG60 = Math.PI / 3.0;
+    public static final double DEG90 = Math.PI / 2.0;
+    public static final double DEG120 = Math.PI * 2.0 / 3.0;
+    public static final double DEG150 = Math.PI * 5.0 / 12.0;
+    public static final double SQRT_3 = Math.sqrt(3.0);
+
     public static double clamp(double value, double min, double max){
         if(max < min){
             throw new IllegalArgumentException("Max must be less than or equal to min");
