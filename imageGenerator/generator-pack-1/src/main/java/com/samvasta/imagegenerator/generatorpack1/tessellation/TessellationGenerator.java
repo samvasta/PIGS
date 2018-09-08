@@ -7,13 +7,12 @@ import com.samvasta.imageGenerator.common.graphics.colors.palettes.MonochromePal
 import com.samvasta.imageGenerator.common.interfaces.IGenerator;
 import com.samvasta.imageGenerator.common.interfaces.ISnapshotListener;
 import com.samvasta.imageGenerator.common.models.IniSchemaOption;
-import com.samvasta.imageGenerator.common.models.PrecisePoint2D;
 import com.samvasta.imageGenerator.common.models.Transform2D;
 import org.apache.commons.math3.random.MersenneTwister;
 import org.apache.log4j.Logger;
 
 import java.awt.*;
-import java.math.BigDecimal;
+import java.awt.geom.Point2D;
 import java.util.*;
 import java.util.List;
 
@@ -109,15 +108,15 @@ public class TessellationGenerator implements IGenerator
 
         TilePattern pattern = TilePatternLibrary.INSTANCE.getRandomPattern(random);
 
-        Transform2D noTranslation = getTransform(new BigDecimal(0), new BigDecimal(0));
+        Transform2D noTranslation = getTransform(0, 0);
         noTranslation.finalizeLinearTransform();
         Dimension patternSize = pattern.getDimension(noTranslation);
 
         LinkedList<Transform2D> transformsToRender = new LinkedList<>();
 
         Transform2D transform = getTransform(
-                new BigDecimal(imageSize.width/2 - patternSize.getWidth()/2 + random.nextDouble() * patternSize.getWidth()),
-                new BigDecimal(imageSize.height/2 - patternSize.getHeight()/2 + random.nextDouble() * patternSize.getHeight())
+                imageSize.width/2 - patternSize.getWidth()/2 + random.nextDouble() * patternSize.getWidth(),
+                imageSize.height/2 - patternSize.getHeight()/2 + random.nextDouble() * patternSize.getHeight()
         );
         transform.finalizeLinearTransform();
         transformsToRender.add(transform);
@@ -126,31 +125,31 @@ public class TessellationGenerator implements IGenerator
     }
 
     private void fillCanvas(TilePattern pattern, LinkedList<Transform2D> transformsToRender){
-        ArrayList<PrecisePoint2D> visitedPoints = new ArrayList<>();
+        ArrayList<Point2D.Double> visitedPoints = new ArrayList<>();
 
         ArrayList<Polygon> polygons = new ArrayList<>();
 
         while(!transformsToRender.isEmpty()){
             Transform2D transform = transformsToRender.removeFirst();
-            PrecisePoint2D[] boundingBox = pattern.getBoundingBox(transform);
+            Point2D.Double[] boundingBox = pattern.getBoundingBox(transform);
 
-            visitedPoints.add(new PrecisePoint2D(transform.getTranslateX(), transform.getTranslateY()));
+            visitedPoints.add(new Point2D.Double(transform.getTranslateX(), transform.getTranslateY()));
 
             if(!isAnyPointOnCanvas(boundingBox)){
                 continue;
             }
 
-            List<PrecisePoint2D[]> polys = pattern.getPolygons(transform);
+            List<Point2D.Double[]> polys = pattern.getPolygons(transform);
 
             for(int i = 0; i < polys.size(); i++){
                 Polygon poly = getPolygon(polys.get(i));
                 polygons.add(poly);
             }
 
-            PrecisePoint2D[] neighborPoints = pattern.getNeighborCenters(transform);
+            Point2D.Double[] neighborPoints = pattern.getNeighborCenters(transform);
             double[] neighborRotations = pattern.getNeighborRotations();
             for(int neighborIdx = 0; neighborIdx < neighborPoints.length; neighborIdx++){
-                PrecisePoint2D p = neighborPoints[neighborIdx];
+                Point2D.Double p = neighborPoints[neighborIdx];
                 int neighborX = (int)Math.round(p.getX());
                 int neighborY = (int)Math.round(p.getY());
 
@@ -161,11 +160,11 @@ public class TessellationGenerator implements IGenerator
                 }
 
 
-                Transform2D neighborTransform = getTransform(p.getPreciseX(), p.getPreciseY());
+                Transform2D neighborTransform = getTransform(p.getX(), p.getY());
                 neighborTransform.setRotationAngle(transform.getRotationAngle() + neighborRotations[neighborIdx]);
                 neighborTransform.finalizeLinearTransform();
                 transformsToRender.addLast(neighborTransform);
-                visitedPoints.add(new PrecisePoint2D(neighborTransform.getTranslateX(), neighborTransform.getTranslateY()));
+                visitedPoints.add(new Point2D.Double(neighborTransform.getTranslateX(), neighborTransform.getTranslateY()));
             }
         }
 
@@ -192,9 +191,9 @@ public class TessellationGenerator implements IGenerator
         }
     }
 
-    private boolean hasVisited(List<PrecisePoint2D> vistedPoints, double x, double y, double tolerance){
+    private boolean hasVisited(List<Point2D.Double> vistedPoints, double x, double y, double tolerance){
         double toleranceSq = tolerance * tolerance;
-        for(PrecisePoint2D visited : vistedPoints){
+        for(Point2D.Double visited : vistedPoints){
             if(visited.distanceSq(x, y) <= toleranceSq){
                 return true;
             }
@@ -202,7 +201,7 @@ public class TessellationGenerator implements IGenerator
         return false;
     }
 
-    private Transform2D getTransform(BigDecimal translateX, BigDecimal translateY){
+    private Transform2D getTransform(double translateX, double translateY){
         Transform2D transform = new Transform2D();
         transform.setTranslation(translateX, translateY);
         transform.setRotationAngle(rotation);
@@ -211,7 +210,7 @@ public class TessellationGenerator implements IGenerator
         return transform;
     }
 
-    private Polygon getPolygon(PrecisePoint2D[] points){
+    private Polygon getPolygon(Point2D.Double[] points){
         int[] xPoints = new int[points.length];
         int[] yPoints = new int[points.length];
 
@@ -223,7 +222,7 @@ public class TessellationGenerator implements IGenerator
         return new Polygon(xPoints, yPoints, points.length);
     }
 
-    private boolean isAnyPointOnCanvas(PrecisePoint2D[] points){
+    private boolean isAnyPointOnCanvas(Point2D.Double[] points){
         boolean isAbove = false;
         boolean isBelow = false;
         boolean isRight = false;

@@ -1,12 +1,13 @@
 package com.samvasta.imagegenerator.generatorpack1.tessellation.patterngenerators.p6;
 
 import com.samvasta.imageGenerator.common.helpers.MathHelper;
-import com.samvasta.imageGenerator.common.models.PrecisePoint2D;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.Tile;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.TilePattern;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.TilePatternLibrary;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.patterngenerators.IPatternGenerator;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.patterngenerators.PatternGeneratorParameter;
+
+import java.awt.geom.Point2D;
 
 public class N3_02b implements IPatternGenerator
 {
@@ -50,27 +51,27 @@ public class N3_02b implements IPatternGenerator
 
         tiles[11] = new Tile(getReflectedTile(SIDE_LENGTH_SHORT * Math.cos(MathHelper.DEG120), SIDE_LENGTH_SHORT * Math.sin(MathHelper.DEG120), -MathHelper.DEG60));
 
-        PrecisePoint2D[] neighborCenters = TilePatternLibrary.getRegularPolygonRadius(6, SIDE_LENGTH_LONG * 2, MathHelper.DEG30);
+        Point2D.Double[] neighborCenters = TilePatternLibrary.getRegularPolygonRadius(6, SIDE_LENGTH_LONG * 2, MathHelper.DEG30);
 
         double[] neighborRotations = new double[6];
 
         return new TilePattern(tiles, neighborCenters, neighborRotations);
     }
 
-    private PrecisePoint2D[] getTile(double offsetX, double offsetY, double rotation){
-        PrecisePoint2D[] verts = new PrecisePoint2D[3];
+    private Point2D.Double[] getTile(double offsetX, double offsetY, double rotation){
+        Point2D.Double[] verts = new Point2D.Double[3];
 
         //    30/60/90 special right triangle
 
         double srcX = 0;
         double srcY = 0;
-        verts[0] = new PrecisePoint2D(offsetX + srcX, offsetY + srcY);
+        verts[0] = new Point2D.Double(offsetX + srcX, offsetY + srcY);
 
         srcX = SIDE_LENGTH_SHORT;
         srcY = 0;
         double dstX = srcX * Math.cos(rotation) - srcY * Math.sin(rotation);
         double dstY = srcX * Math.sin(rotation) + srcY * Math.cos(rotation);
-        verts[1] = new PrecisePoint2D(offsetX + dstX, offsetY + dstY);
+        verts[1] = new Point2D.Double(offsetX + dstX, offsetY + dstY);
 
 
 
@@ -78,25 +79,25 @@ public class N3_02b implements IPatternGenerator
         srcY = SIDE_LENGTH_LONG;
         dstX = srcX * Math.cos(rotation) - srcY * Math.sin(rotation);
         dstY = srcX * Math.sin(rotation) + srcY * Math.cos(rotation);
-        verts[2] = new PrecisePoint2D(offsetX + dstX, offsetY + dstY);
+        verts[2] = new Point2D.Double(offsetX + dstX, offsetY + dstY);
 
         return verts;
     }
 
-    private PrecisePoint2D[] getReflectedTile(double offsetX, double offsetY, double rotation){
-        PrecisePoint2D[] verts = new PrecisePoint2D[3];
+    private Point2D.Double[] getReflectedTile(double offsetX, double offsetY, double rotation){
+        Point2D.Double[] verts = new Point2D.Double[3];
 
         //    30/60/90 special right triangle
 
         double srcX = 0;
         double srcY = 0;
-        verts[0] = new PrecisePoint2D(offsetX + srcX, offsetY + srcY);
+        verts[0] = new Point2D.Double(offsetX + srcX, offsetY + srcY);
 
         srcX = -SIDE_LENGTH_SHORT;
         srcY = 0;
         double dstX = srcX * Math.cos(rotation) - srcY * Math.sin(rotation);
         double dstY = srcX * Math.sin(rotation) + srcY * Math.cos(rotation);
-        verts[1] = new PrecisePoint2D(offsetX + dstX, offsetY + dstY);
+        verts[1] = new Point2D.Double(offsetX + dstX, offsetY + dstY);
 
 
 
@@ -104,7 +105,7 @@ public class N3_02b implements IPatternGenerator
         srcY = SIDE_LENGTH_LONG;
         dstX = srcX * Math.cos(rotation) - srcY * Math.sin(rotation);
         dstY = srcX * Math.sin(rotation) + srcY * Math.cos(rotation);
-        verts[2] = new PrecisePoint2D(offsetX + dstX, offsetY + dstY);
+        verts[2] = new Point2D.Double(offsetX + dstX, offsetY + dstY);
 
         return verts;
     }

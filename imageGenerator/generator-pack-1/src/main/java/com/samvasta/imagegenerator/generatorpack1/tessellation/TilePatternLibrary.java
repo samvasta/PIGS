@@ -1,12 +1,12 @@
 package com.samvasta.imagegenerator.generatorpack1.tessellation;
 
-import com.samvasta.imageGenerator.common.models.PrecisePoint2D;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.patterngenerators.*;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.patterngenerators.p6.*;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.patterngenerators.pgg.*;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.log4j.Logger;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -61,32 +61,32 @@ public class TilePatternLibrary
     /****************************************************
      * Helper Functions
      ****************************************************/
-    public static PrecisePoint2D[] getRegularPolygonSideLength(int numSides, double sideLen, double angleOffset){
+    public static Point2D.Double[] getRegularPolygonSideLength(int numSides, double sideLen, double angleOffset){
         double apothemLen = getRegPolyApothemLength(sideLen, numSides);
         double radius = Math.sqrt((apothemLen * apothemLen) + (sideLen * sideLen * 0.25));
 
-        PrecisePoint2D[] points = new PrecisePoint2D[numSides];
+        Point2D.Double[] points = new Point2D.Double[numSides];
 
         double dTheta = Math.PI * 2.0 / (double)numSides;
         double angle = angleOffset;
         for(int i = 0; i < numSides; i++){
             double x = radius * Math.cos(angle);
             double y = radius * Math.sin(angle);
-            points[i] = new PrecisePoint2D(x, y);
+            points[i] = new Point2D.Double(x, y);
             angle += dTheta;
         }
         return points;
     }
 
-    public static PrecisePoint2D[] getRegularPolygonRadius(int numSides, double radius, double angleOffset){
-        PrecisePoint2D[] points = new PrecisePoint2D[numSides];
+    public static Point2D.Double[] getRegularPolygonRadius(int numSides, double radius, double angleOffset){
+        Point2D.Double[] points = new Point2D.Double[numSides];
 
         double dTheta = Math.PI * 2.0 / (double)numSides;
         double angle = angleOffset;
         for(int i = 0; i < numSides; i++){
             double x = radius * Math.cos(angle);
             double y = radius * Math.sin(angle);
-            points[i] = new PrecisePoint2D(x, y);
+            points[i] = new Point2D.Double(x, y);
             angle += dTheta;
         }
         return points;
