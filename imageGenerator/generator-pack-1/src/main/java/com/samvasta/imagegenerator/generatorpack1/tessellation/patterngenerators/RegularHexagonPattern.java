@@ -7,6 +7,7 @@ import com.samvasta.imagegenerator.generatorpack1.tessellation.TilePatternLibrar
 
 public class RegularHexagonPattern implements IPatternGenerator
 {
+    private static final double HEX_SIDE_LENGTH = TilePatternLibrary.UNIT_SIDE_LENGTH / 4.0;
     @Override
     public PatternGeneratorParameter[] getParameters()
     {
@@ -16,11 +17,11 @@ public class RegularHexagonPattern implements IPatternGenerator
     @Override
     public TilePattern generatePattern(double[] parameters)
     {
-        PrecisePoint2D[] hexPoints = TilePatternLibrary.getRegularPolygonSideLength(6, TilePatternLibrary.UNIT_SIDE_LENGTH, 0);
+        PrecisePoint2D[] hexPoints = TilePatternLibrary.getRegularPolygonSideLength(6, HEX_SIDE_LENGTH, 0);
         Tile hexagon = new Tile(hexPoints);
 
         double halfAngle = Math.PI / 6.0;
-        double apothemLen = TilePatternLibrary.getRegPolyApothemLength(TilePatternLibrary.UNIT_SIDE_LENGTH, 6);
+        double apothemLen = TilePatternLibrary.getRegPolyApothemLength(HEX_SIDE_LENGTH, 6);
         PrecisePoint2D[] neighborCenters = TilePatternLibrary.getRegularPolygonRadius(6, 2 * apothemLen, halfAngle);
 
         double[] neighborRotations = new double[] { 0,0,0,0,0,0 };

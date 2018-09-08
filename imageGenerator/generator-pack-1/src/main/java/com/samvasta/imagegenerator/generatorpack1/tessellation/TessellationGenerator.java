@@ -3,6 +3,7 @@ package com.samvasta.imagegenerator.generatorpack1.tessellation;
 import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
 import com.samvasta.imageGenerator.common.graphics.colors.ColorUtil;
 import com.samvasta.imageGenerator.common.graphics.colors.palettes.LinearLchPaletteBuilder;
+import com.samvasta.imageGenerator.common.graphics.colors.palettes.MonochromePalette;
 import com.samvasta.imageGenerator.common.interfaces.IGenerator;
 import com.samvasta.imageGenerator.common.interfaces.ISnapshotListener;
 import com.samvasta.imageGenerator.common.models.IniSchemaOption;
@@ -170,6 +171,7 @@ public class TessellationGenerator implements IGenerator
 
         boolean useStroke = random.nextDouble() < 0.7;
         ColorPalette palette = new LinearLchPaletteBuilder(random).build();
+        palette = new MonochromePalette(random);
         g.setColor(palette.getBiggestColor());
         g.fillRect(0,0,imageSize.width, imageSize.height);
 

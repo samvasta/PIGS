@@ -8,6 +8,7 @@ import com.samvasta.imagegenerator.generatorpack1.tessellation.TilePatternLibrar
 
 public class RegularQuadPattern implements IPatternGenerator
 {
+    private static final double QUAD_SIDE_LENGTH = TilePatternLibrary.UNIT_SIDE_LENGTH / 2.0;
     @Override
     public PatternGeneratorParameter[] getParameters()
     {
@@ -17,11 +18,11 @@ public class RegularQuadPattern implements IPatternGenerator
     @Override
     public TilePattern generatePattern(double[] parameters)
     {
-        PrecisePoint2D[] squarePoints = TilePatternLibrary.getRegularPolygonSideLength(4, TilePatternLibrary.UNIT_SIDE_LENGTH, 0);
+        PrecisePoint2D[] squarePoints = TilePatternLibrary.getRegularPolygonSideLength(4, QUAD_SIDE_LENGTH, 0);
         Tile square = new Tile(squarePoints);
 
         double halfAngle = Math.PI / 4.0;
-        double apothemLen = TilePatternLibrary.getRegPolyApothemLength(TilePatternLibrary.UNIT_SIDE_LENGTH, 4);
+        double apothemLen = TilePatternLibrary.getRegPolyApothemLength(QUAD_SIDE_LENGTH, 4);
         PrecisePoint2D[] neighborCenters = TilePatternLibrary.getRegularPolygonRadius(4, 2 * apothemLen, halfAngle);
 
         double[] neighborRotations = new double[] { 0,0,0,0 };

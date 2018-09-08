@@ -8,6 +8,7 @@ import com.samvasta.imagegenerator.generatorpack1.tessellation.TilePatternLibrar
 
 public class RegularTrianglePattern implements IPatternGenerator
 {
+    private static final double TRIANGLE_SIDE_LENGTH = TilePatternLibrary.UNIT_SIDE_LENGTH / 2.0;
     @Override
     public PatternGeneratorParameter[] getParameters()
     {
@@ -16,11 +17,11 @@ public class RegularTrianglePattern implements IPatternGenerator
 
     @Override
     public TilePattern generatePattern(double[] parameters) {
-        PrecisePoint2D[] triPoints = TilePatternLibrary.getRegularPolygonSideLength(3, TilePatternLibrary.UNIT_SIDE_LENGTH, 0);
+        PrecisePoint2D[] triPoints = TilePatternLibrary.getRegularPolygonSideLength(3, TRIANGLE_SIDE_LENGTH, 0);
         Tile triangle = new Tile(triPoints);
 
         double halfAngle = Math.PI / 3.0;
-        double apothemLen = TilePatternLibrary.getRegPolyApothemLength(TilePatternLibrary.UNIT_SIDE_LENGTH, 3);
+        double apothemLen = TilePatternLibrary.getRegPolyApothemLength(TRIANGLE_SIDE_LENGTH, 3);
         PrecisePoint2D[] neighborCenters = TilePatternLibrary.getRegularPolygonRadius(3, 2 * apothemLen, halfAngle);
 
         double[] neighborRotations = new double[] { Math.PI, Math.PI, Math.PI };

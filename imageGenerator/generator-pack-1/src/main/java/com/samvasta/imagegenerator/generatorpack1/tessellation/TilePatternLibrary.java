@@ -43,11 +43,11 @@ public class TilePatternLibrary
     {
         patterns = new ArrayList<>();
         //todo: create tile patterns
-        patterns.add(new N3_01());
-        patterns.add(new N3_02a());
-        patterns.add(new N3_02b());
-        patterns.add(new N3_18());
-        patterns.add(new P5_06());
+//        patterns.add(new N3_01());
+//        patterns.add(new N3_02a());
+//        patterns.add(new N3_02b());
+//        patterns.add(new N3_18());
+//        patterns.add(new P5_06());
         patterns.add(new P5_16());
         patterns.add(new RegularTrianglePattern());
         patterns.add(new RegularQuadPattern());
