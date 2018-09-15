@@ -2,6 +2,7 @@ package com.samvasta.imageGenerator.common.graphics.colors.palettes;
 
 import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
 import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomGenerator;
 
 import java.awt.*;
 
@@ -12,7 +13,7 @@ public class SingleColorPalette extends ColorPalette
     }
 
     @Override
-    protected void initColorsAndWeights(MersenneTwister random)
+    protected void initColorsAndWeights(RandomGenerator random)
     {
         //don't care about this
     }

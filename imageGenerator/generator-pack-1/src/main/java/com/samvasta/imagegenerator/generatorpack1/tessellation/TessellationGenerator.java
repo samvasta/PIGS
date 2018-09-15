@@ -168,9 +168,12 @@ public class TessellationGenerator implements IGenerator
             }
         }
 
+        drawPolygons(polygons);
+    }
+
+    private void drawPolygons(List<Polygon> polygons){
         boolean useStroke = random.nextDouble() < 0.7;
-        ColorPalette palette = new LinearLchPaletteBuilder(random).build();
-        palette = new MonochromePalette(random);
+        ColorPalette palette = ColorUtil.getRandomPalette(random);
         g.setColor(palette.getBiggestColor());
         g.fillRect(0,0,imageSize.width, imageSize.height);
 

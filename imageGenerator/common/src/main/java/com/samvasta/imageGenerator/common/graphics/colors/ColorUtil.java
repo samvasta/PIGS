@@ -1,7 +1,13 @@
 package com.samvasta.imageGenerator.common.graphics.colors;
 
+import com.samvasta.imageGenerator.common.exceptions.ColorPaletteException;
+import com.samvasta.imageGenerator.common.graphics.colors.palettes.LinearLchPalette;
+import com.samvasta.imageGenerator.common.graphics.colors.palettes.LinearLchPaletteBuilder;
+import com.samvasta.imageGenerator.common.graphics.colors.palettes.MonochromePalette;
+import com.samvasta.imageGenerator.common.graphics.colors.palettes.TriadPalette;
 import com.samvasta.imageGenerator.common.helpers.MathHelper;
 import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomGenerator;
 
 import java.awt.*;
 import java.awt.color.ColorSpace;
@@ -10,6 +16,17 @@ public class ColorUtil
 {
     private static final Object getCloseColorLock = new Object();
 
+    private static final int NUM_PALETTES = 3;
+
+    public static final ColorPalette getRandomPalette(RandomGenerator rand){
+        int i = rand.nextInt(NUM_PALETTES);
+        switch(i){
+            case 0: return new LinearLchPaletteBuilder(rand).build();
+            case 1: return new MonochromePalette(rand);
+            case 2: return new TriadPalette(rand);
+        }
+        throw new ColorPaletteException("No color palette registered for index " + i);
+    }
 
     public static Color getClose(Color source, double percentDifferent){
         synchronized (getCloseColorLock){

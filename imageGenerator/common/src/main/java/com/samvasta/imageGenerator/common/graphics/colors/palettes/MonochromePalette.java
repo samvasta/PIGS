@@ -3,6 +3,7 @@ package com.samvasta.imageGenerator.common.graphics.colors.palettes;
 import com.samvasta.imageGenerator.common.graphics.colors.CeiLchColor;
 import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
 import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomGenerator;
 
 public class MonochromePalette extends ColorPalette
 {
@@ -12,19 +13,19 @@ public class MonochromePalette extends ColorPalette
     private final int numColors;
     private final double startHue;
 
-    public MonochromePalette(MersenneTwister random){
+    public MonochromePalette(RandomGenerator random){
         this(random.nextInt((MAX_COLORS - MIN_COLORS)) + MIN_COLORS, random.nextInt(360), random);
     }
 
-    public MonochromePalette(int numColors, MersenneTwister random){
+    public MonochromePalette(int numColors, RandomGenerator random){
         this(numColors, random.nextInt(360), random);
     }
 
-    public MonochromePalette(double startHue, MersenneTwister random){
+    public MonochromePalette(double startHue, RandomGenerator random){
         this(random.nextInt((MAX_COLORS - MIN_COLORS)) + MIN_COLORS, startHue, random);
     }
 
-    public MonochromePalette(int numColors, double startHue, MersenneTwister random){
+    public MonochromePalette(int numColors, double startHue, RandomGenerator random){
         super(random);
         this.startHue = startHue;
         this.numColors = numColors;
@@ -32,7 +33,7 @@ public class MonochromePalette extends ColorPalette
     }
 
     @Override
-    protected void initColorsAndWeights(MersenneTwister random)
+    protected void initColorsAndWeights(RandomGenerator random)
     {
         double bigLumChange = 30 + random.nextGaussian() * 10;
         double smallLumChange = bigLumChange * 0.6;

@@ -3,6 +3,7 @@ package com.samvasta.imageGenerator.common.graphics.colors.palettes;
 import com.samvasta.imageGenerator.common.graphics.colors.CeiLchColor;
 import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
 import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomGenerator;
 
 public class LinearLchPalette extends ColorPalette
 {
@@ -15,7 +16,7 @@ public class LinearLchPalette extends ColorPalette
     private final double deltaChroma;
     private final double deltaHue;
 
-    public LinearLchPalette(int numColors, double startLum, double startChroma, double startHue, double deltaLum, double deltaChroma, double deltaHue, MersenneTwister random)
+    public LinearLchPalette(int numColors, double startLum, double startChroma, double startHue, double deltaLum, double deltaChroma, double deltaHue, RandomGenerator random)
     {
         super(random);
         this.numColors = numColors;
@@ -29,7 +30,7 @@ public class LinearLchPalette extends ColorPalette
     }
 
     @Override
-    protected void initColorsAndWeights(MersenneTwister random)
+    protected void initColorsAndWeights(RandomGenerator random)
     {
         CeiLchColor col = new CeiLchColor(startLum, startChroma, startHue);
 

@@ -2,6 +2,7 @@ package com.samvasta.imagegenerator.debuggenerator.it;
 
 import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
 import com.samvasta.imageGenerator.common.graphics.colors.palettes.LinearLchPaletteBuilder;
+import com.samvasta.imageGenerator.common.graphics.colors.palettes.TriadPalette;
 import com.samvasta.imageGenerator.common.interfaces.IGenerator;
 import com.samvasta.imageGenerator.common.interfaces.ISnapshotListener;
 import com.samvasta.imageGenerator.common.models.IniSchemaOption;
@@ -67,6 +68,8 @@ public class ColorPaletteTestGenerator implements IGenerator
                 .deltaChroma(-5)
                 .deltaHue(dHue)
                 .build();
+
+        palette = new TriadPalette(random);
 
         double startX = 0;
         for(int i = 0; i < palette.getNumColors(); i++){

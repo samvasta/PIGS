@@ -83,7 +83,7 @@ public class ParticleFieldTest implements IGenerator
         ParticleSimulator simulator = new ParticleSimulator();
         simulator.setParticleField(field);
 
-        final ColorPalette palette = new MonochromePalette(20, random);
+        final ColorPalette palette = ColorUtil.getRandomPalette(random);
 
         for(int i = 0; i < 125; i++){
 

@@ -2,13 +2,14 @@ package com.samvasta.imageGenerator.common.graphics.colors.palettes;
 
 import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
 import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomGenerator;
 
 public class LinearLchPaletteBuilder implements IColorPaletteBuilder
 {
     private static final int MAX_COLORS = 10;
     private static final int MIN_COLORS = 5;
 
-    private MersenneTwister random;
+    private RandomGenerator random;
 
     private int numColors;
     private double startLum;
@@ -19,7 +20,7 @@ public class LinearLchPaletteBuilder implements IColorPaletteBuilder
     private double deltaChroma;
     private double deltaHue;
 
-    public LinearLchPaletteBuilder(MersenneTwister random){
+    public LinearLchPaletteBuilder(RandomGenerator random){
         this.random = random;
         numColors = MIN_COLORS + random.nextInt(MAX_COLORS - MIN_COLORS);
         startLum = 50 + 50 * random.nextGaussian();

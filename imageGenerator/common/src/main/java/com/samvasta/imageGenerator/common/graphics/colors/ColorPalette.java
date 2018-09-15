@@ -1,6 +1,7 @@
 package com.samvasta.imageGenerator.common.graphics.colors;
 
 import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomGenerator;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public abstract class ColorPalette
      * @param random the random generator is normally unused in the constructor, but helps remind implementations of
      *               {@link ColorPalette} to use a random generator from a constructor instead of creating their own.
      */
-    public ColorPalette(MersenneTwister random){
+    public ColorPalette(RandomGenerator random){
         colors = new ArrayList<>();
         relativeWeights = new ArrayList<>();
         totalRelativeWeight = 0;
@@ -42,7 +43,7 @@ public abstract class ColorPalette
         biggestColorWeight = -1;
     }
 
-    protected abstract void initColorsAndWeights(MersenneTwister random);
+    protected abstract void initColorsAndWeights(RandomGenerator random);
 
     protected void addColor(Color col, double weight){
         colors.add(col);
