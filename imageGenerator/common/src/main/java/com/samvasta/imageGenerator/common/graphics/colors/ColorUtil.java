@@ -53,7 +53,6 @@ public class ColorUtil
 
             return new Color(Color.HSBtoRGB(parts[0], parts[1], parts[2]));
         }
-        //change to test github verified commits
     }
 
     public static Color getRandomColor(MersenneTwister random){
