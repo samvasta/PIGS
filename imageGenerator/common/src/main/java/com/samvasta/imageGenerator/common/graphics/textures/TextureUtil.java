@@ -53,4 +53,47 @@ public class TextureUtil
         return img;
     }
 
+
+
+    public static BufferedImage colorizeSmooth(ProtoTexture protoTexture, ColorPalette palette){
+        int width = protoTexture.getWidth();
+        int height = protoTexture.getHeight();
+        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+        int[] pixels = new int[width * height];
+        pixels = img.getRGB(0, 0, width, height, pixels, 0, width);
+
+        double[] texture = protoTexture.getPixelsCopy();
+
+        for(int x = 0; x < width; x++){
+            for(int y = 0; y < height; y++){
+                pixels[x + y * width] = palette.getColorSmooth(texture[x + y * width]).getRGB();
+            }
+        }
+
+        img.setRGB(0, 0, width, height, pixels, 0, width);
+
+        return img;
+    }
+
+    public static BufferedImage colorize(ProtoTexture protoTexture, ColorPalette palette){
+        int width = protoTexture.getWidth();
+        int height = protoTexture.getHeight();
+        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+        int[] pixels = new int[width * height];
+        pixels = img.getRGB(0, 0, width, height, pixels, 0, width);
+
+        double[] texture = protoTexture.getPixelsCopy();
+
+        for(int x = 0; x < width; x++){
+            for(int y = 0; y < height; y++){
+                pixels[x + y * width] = palette.getColor(texture[x + y * width]).getRGB();
+            }
+        }
+
+        img.setRGB(0, 0, width, height, pixels, 0, width);
+
+        return img;
+    }
 }

@@ -156,7 +156,7 @@ public class LandscapeGenerator implements IGenerator
         {
             startY += (twoPercentHeight + random.nextGaussian() * twoPercentHeight + twoPercentHeight);
             endY = startY + (random.nextDouble() + 0.5) * 5.0 * twoPercentHeight;
-            int dipX = imageSize.width/ 2 + (int)(imageSize.width/2.0 * dipXGenerator.GetSimplex(0, i));
+            int dipX = imageSize.width/ 2 + (int)(imageSize.width/2.0 * dipXGenerator.getSimplex(0, i));
             drawRidge(g, startY, endY, dipX, palette.getColorByIndex(i), random, i);
             System.out.println(dipX);
 

@@ -13,7 +13,7 @@ public class DebugGenerator
 {
 
     public static void main(String...args){
-        IGenerator generator = new TessellationGenerator();
+        IGenerator generator = new SimpleGenerator();
 
         GeneratorWindow window = new GeneratorWindow(generator, new Dimension(1920, 1080));
 

@@ -11,7 +11,7 @@ public class CommonLibraryTest
 
 
     public static void main(String...args){
-        IGenerator generator = new ColorPaletteTestGenerator();
+        IGenerator generator = new NoiseTest();
 
         GeneratorWindow window = new GeneratorWindow(generator, new Dimension(2560, 1440));
 

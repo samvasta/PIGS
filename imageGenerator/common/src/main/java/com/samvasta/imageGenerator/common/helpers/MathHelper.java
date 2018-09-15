@@ -49,6 +49,10 @@ public class MathHelper
         return (percent * v1) + ((1-percent) * v2);
     }
 
+    public static float lerp(float v1, float v2, float percent){
+        return (percent * v1) + ((1-percent) * v2);
+    }
+
     public static double lerp2d(double tl, double tr, double bl, double br, double xPercent, double yPercent){
         double top = lerp(tl, tr, xPercent);
         double bottom = lerp(bl, br, xPercent);

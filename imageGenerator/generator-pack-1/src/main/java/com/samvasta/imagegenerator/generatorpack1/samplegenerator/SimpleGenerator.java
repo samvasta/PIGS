@@ -1,6 +1,9 @@
 package com.samvasta.imagegenerator.generatorpack1.samplegenerator;
 
 import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
+import com.samvasta.imageGenerator.common.graphics.colors.ColorUtil;
+import com.samvasta.imageGenerator.common.graphics.colors.palettes.LinearLchPalette;
+import com.samvasta.imageGenerator.common.graphics.colors.palettes.LinearLchPaletteBuilder;
 import com.samvasta.imageGenerator.common.graphics.colors.palettes.MonochromePalette;
 import com.samvasta.imageGenerator.common.graphics.images.BlendMode;
 import com.samvasta.imageGenerator.common.graphics.images.ProtoTexture;
@@ -63,7 +66,7 @@ public class SimpleGenerator implements IGenerator
     }
 
     public void generateImage(final Map<String, Object> settings, final Graphics2D g, final Dimension imageSize, final MersenneTwister random) {
-        final ColorPalette palette = new MonochromePalette(random);
+        final ColorPalette palette = ColorUtil.getRandomPalette(random);
 
         ITexture fadeUp = new ITexture()
         {
@@ -130,10 +133,12 @@ public class SimpleGenerator implements IGenerator
                 double[] pixels = new double[textureSize.width * textureSize.height];
 
                 FastNoise noiseGen = new FastNoise(random.nextInt());
+                noiseGen.setNoiseType(FastNoise.NoiseType.SimplexFractal);
+                noiseGen.setFractalOctaves(5);
 
                 for(int x = 0; x < textureSize.width; x++){
                     for(int y = 0; y < textureSize.height; y++){
-                        pixels[x + y * textureSize.width] = (noiseGen.GetPerlin(x, y) + 1.0) * 0.5;
+                        pixels[x + y * textureSize.width] = (noiseGen.getValueFractal(x, y) + 1.0) * 0.5;
                     }
                 }
 
@@ -173,17 +178,17 @@ public class SimpleGenerator implements IGenerator
 
                         ySquared = ySquared * ySquared;
 
-                        double one = (xSquared)/(hrSquared) + (ySquared)/(vrSquared);
+                        double radiusRatio = (xSquared)/(hrSquared) + (ySquared)/(vrSquared);
 
                         double threshold = random.nextDouble();
-                        if(one <= 1){
-                            pixels[x + y * textureSize.width] = one * threshold;
+                        if(radiusRatio <= 1){
+                            pixels[x + y * textureSize.width] = radiusRatio * threshold;
                         }
-                        else if(one * threshold * threshold > 1){
+                        else if(radiusRatio * threshold * threshold > 1){
                             pixels[x + y * textureSize.width] = threshold;
                         }
                         else{
-                            pixels[x + y * textureSize.width] = one * threshold;
+                            pixels[x + y * textureSize.width] = radiusRatio * threshold;
                         }
                     }
                 }
@@ -199,24 +204,21 @@ public class SimpleGenerator implements IGenerator
             }
         };
 
-        g.setColor(palette.getBiggestColor());
-        g.fillRect(0, 0, imageSize.width, imageSize.height);
+//        g.setColor(palette.getBiggestColor());
+//        g.fillRect(0, 0, imageSize.width, imageSize.height);
 
         CompositeTexture backgroundTexture = new CompositeTexture(noise);
-        backgroundTexture.addTexture(noise, BlendMode.LIGHTEN_ONLY);
-        backgroundTexture.addTexture(noise, BlendMode.DARKEN_ONLY);
-        backgroundTexture.addTexture(noise, BlendMode.LIGHTEN_ONLY);
-        backgroundTexture.addTexture(vignette, BlendMode.SUBTRACT);
+//        backgroundTexture.addTexture(vignette, BlendMode.SUBTRACT);
 
         g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-        g.drawImage(TextureUtil.colorizeSingleColor(backgroundTexture.getTexture(imageSize, random), palette.getSmallestColor()), 0, 0, null);
+        g.drawImage(TextureUtil.colorizeSmooth(backgroundTexture.getTexture(imageSize, random), palette), 0, 0, null);
 
         final CompositeTexture compositeTexture = new CompositeTexture(noise);
         compositeTexture.addTexture(fadeLeft, BlendMode.SCREEN);
         compositeTexture.addTexture(fadeUp, BlendMode.SCREEN);
-//        compositeTexture.addTexture(noise, BlendMode.LIGHTEN_ONLY);
-//        compositeTexture.addTexture(noise, BlendMode.LIGHTEN_ONLY);
-//        compositeTexture.addTexture(noise, BlendMode.MULTIPLY);
+        compositeTexture.addTexture(noise, BlendMode.LIGHTEN_ONLY);
+        compositeTexture.addTexture(noise, BlendMode.LIGHTEN_ONLY);
+        compositeTexture.addTexture(noise, BlendMode.MULTIPLY);
 
 
 
@@ -236,15 +238,15 @@ public class SimpleGenerator implements IGenerator
             }
         };
 
-        for(int i = 0; i < 17; i++){
-            StampInfo info = new StampInfoBuilder()
-                                .x(random.nextInt((int)(imageSize.width * 1.5)) - imageSize.width/4)
-                                .y(random.nextInt((int)(imageSize.height * 1.5)) - imageSize.height/4)
-                                .width((int)(imageSize.width * (random.nextDouble() * 0.15 + 0.01)))
-                                .height((int)(imageSize.width * (random.nextDouble() * 0.15 + 0.01)))
-                                .build();
-
-            texturedCircleStamp.stamp(g, info, random);
-        }
+//        for(int i = 0; i < 17; i++){
+//            StampInfo info = new StampInfoBuilder()
+//                                .x(random.nextInt((int)(imageSize.width * 1.5)) - imageSize.width/4)
+//                                .y(random.nextInt((int)(imageSize.height * 1.5)) - imageSize.height/4)
+//                                .width((int)(imageSize.width * (random.nextDouble() * 0.15 + 0.01)))
+//                                .height((int)(imageSize.width * (random.nextDouble() * 0.15 + 0.01)))
+//                                .build();
+//
+//            texturedCircleStamp.stamp(g, info, random);
+//        }
     }
 }

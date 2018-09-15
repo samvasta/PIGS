@@ -2,7 +2,6 @@ package com.samvasta.imagegenerator.debuggenerator.it;
 
 import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
 import com.samvasta.imageGenerator.common.graphics.colors.ColorUtil;
-import com.samvasta.imageGenerator.common.graphics.colors.palettes.MonochromePalette;
 import com.samvasta.imageGenerator.common.interfaces.IGenerator;
 import com.samvasta.imageGenerator.common.interfaces.ISnapshotListener;
 import com.samvasta.imageGenerator.common.models.IniSchemaOption;
@@ -67,7 +66,7 @@ public class ParticleFieldTest implements IGenerator
 
         for(int x = 0; x < pFieldWidth; x++){
             for(int y = 0; y < pFieldHeight; y++){
-                pFieldValues[x + y * pFieldWidth] = new PolarVector(angleNoise.GetSimplex(x*0.75f, y*0.75f) * 2.0 * Math.PI, (magnitudeNoise.GetSimplex(x*0.5f, y*0.5f) + 1.0));
+                pFieldValues[x + y * pFieldWidth] = new PolarVector(angleNoise.getSimplex(x*0.75f, y*0.75f) * 2.0 * Math.PI, (magnitudeNoise.getSimplex(x*0.5f, y*0.5f) + 1.0));
             }
         }
 
