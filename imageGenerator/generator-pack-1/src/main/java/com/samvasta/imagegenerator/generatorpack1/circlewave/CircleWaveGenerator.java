@@ -92,8 +92,6 @@ public class CircleWaveGenerator implements IGenerator {
 
         takeSnapshot();
 
-        //Change to test github account recognition
-
         double yStart = centerY + (random.nextGaussian() * radius / 2.0);
         double yEnd = (radius) - (yStart - centerY);
 
