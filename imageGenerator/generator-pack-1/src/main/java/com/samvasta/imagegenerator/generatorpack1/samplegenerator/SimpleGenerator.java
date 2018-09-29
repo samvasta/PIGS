@@ -16,6 +16,7 @@ import com.samvasta.imageGenerator.common.graphics.textures.TextureUtil;
 import com.samvasta.imageGenerator.common.interfaces.IGenerator;
 import com.samvasta.imageGenerator.common.interfaces.ISnapshotListener;
 import com.samvasta.imageGenerator.common.models.IniSchemaOption;
+import com.samvasta.imageGenerator.common.noise.NoiseHelper;
 import com.samvasta.imageGenerator.common.noise.fastnoise.FastNoise;
 import org.apache.commons.math3.random.MersenneTwister;
 import org.apache.commons.math3.random.RandomGenerator;
@@ -131,9 +132,7 @@ public class SimpleGenerator implements IGenerator
 
                 double[] pixels = new double[textureSize.width * textureSize.height];
 
-                FastNoise noiseGen = new FastNoise(random.nextInt());
-                noiseGen.setNoiseType(FastNoise.NoiseType.SimplexFractal);
-                noiseGen.setFractalOctaves(5);
+                FastNoise noiseGen = NoiseHelper.getFractalSimplex(random, 5);
 
                 for(int x = 0; x < textureSize.width; x++){
                     for(int y = 0; y < textureSize.height; y++){

@@ -5,6 +5,7 @@ import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
 import com.samvasta.imageGenerator.common.graphics.colors.palettes.LinearLchPaletteBuilder;
 import com.samvasta.imageGenerator.common.graphics.stamps.StampInfo;
 import com.samvasta.imageGenerator.common.graphics.stamps.StampInfoBuilder;
+import com.samvasta.imageGenerator.common.helpers.InterpHelper;
 import com.samvasta.imageGenerator.common.helpers.MathHelper;
 import com.samvasta.imageGenerator.common.interfaces.IGenerator;
 import com.samvasta.imageGenerator.common.interfaces.ISnapshotListener;
@@ -336,7 +337,7 @@ public class LandscapeGenerator implements IGenerator
 
                 double xPercent = (x - points[i-1].x) / dx;
 
-                double y = MathHelper.lerp(points[i-1].y, points[i].y, xPercent);
+                double y = InterpHelper.lerp(points[i-1].y, points[i].y, xPercent);
 
                 info.setX(x);
                 info.setY(y);

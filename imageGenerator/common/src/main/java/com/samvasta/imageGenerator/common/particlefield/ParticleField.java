@@ -1,6 +1,6 @@
 package com.samvasta.imageGenerator.common.particlefield;
 
-import com.samvasta.imageGenerator.common.helpers.MathHelper;
+import com.samvasta.imageGenerator.common.helpers.InterpHelper;
 import com.samvasta.imageGenerator.common.models.PolarVector;
 
 public class ParticleField
@@ -81,8 +81,8 @@ public class ParticleField
         PolarVector bl = getFieldValue(xFloor, yCeil);
         PolarVector br = getFieldValue(xCeil, yCeil);
 
-        double angle = MathHelper.lerp2d(tl.angle, tr.angle, bl.angle, br.angle, xPercent, yPercent);
-        double magnitude = MathHelper.lerp2d(tl.magnitude, tr.magnitude, bl.magnitude, br.magnitude, xPercent, yPercent);
+        double angle = InterpHelper.lerp2d(tl.angle, tr.angle, bl.angle, br.angle, xPercent, yPercent);
+        double magnitude = InterpHelper.lerp2d(tl.magnitude, tr.magnitude, bl.magnitude, br.magnitude, xPercent, yPercent);
 
         return new ParticleFieldValue(x, y, angle, magnitude);
     }

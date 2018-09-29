@@ -2,13 +2,18 @@ package com.samvasta.imagegenerator.generatorpack1.tessellation;
 
 import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
 import com.samvasta.imageGenerator.common.graphics.colors.ColorUtil;
-import com.samvasta.imageGenerator.common.graphics.colors.palettes.LinearLchPaletteBuilder;
-import com.samvasta.imageGenerator.common.graphics.colors.palettes.MonochromePalette;
+import com.samvasta.imageGenerator.common.graphics.images.ProtoTexture;
+import com.samvasta.imageGenerator.common.graphics.textures.ITexture;
 import com.samvasta.imageGenerator.common.interfaces.IGenerator;
 import com.samvasta.imageGenerator.common.interfaces.ISnapshotListener;
 import com.samvasta.imageGenerator.common.models.IniSchemaOption;
 import com.samvasta.imageGenerator.common.models.Transform2D;
+import com.samvasta.imageGenerator.common.noise.NoiseHelper;
+import com.samvasta.imageGenerator.common.noise.fastnoise.FastNoise;
+import com.samvasta.imagegenerator.generatorpack1.tessellation.filltextures.NoiseTexture;
+import com.samvasta.imagegenerator.generatorpack1.tessellation.filltextures.SolidColorTexture;
 import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.log4j.Logger;
 
 import java.awt.*;
@@ -20,8 +25,13 @@ public class TessellationGenerator implements IGenerator
 {
     private static final Logger logger = Logger.getLogger(TessellationGenerator.class);
 
+    private static final String OPTION_SOLID_COLORS_ONLY = "Solid Colors Only";
+    private static final List<IniSchemaOption<?>> OPTIONS = new ArrayList<IniSchemaOption<?>>(){{
+        add(new IniSchemaOption<>(OPTION_SOLID_COLORS_ONLY, true, Boolean.class));
+    }};
+
     //Polygons shouldn't really be smaller than 5 pixels anyways
-    private static final double MIN_POLYGON_DISTANCE = 5.0;
+    private static final double MIN_POLYGON_DISTANCE = 15.0;
 
     private List<ISnapshotListener> snapshotListeners;
 
@@ -33,6 +43,7 @@ public class TessellationGenerator implements IGenerator
     private double xShear;
     private double yShear;
     private double rotation;
+    private double solidColorChance;
 
     public TessellationGenerator(){
         snapshotListeners = new ArrayList<>();
@@ -47,7 +58,7 @@ public class TessellationGenerator implements IGenerator
     @Override
     public List<IniSchemaOption<?>> getIniSettings()
     {
-        return new ArrayList<IniSchemaOption<?>>();
+        return OPTIONS;
     }
 
     @Override
@@ -74,6 +85,13 @@ public class TessellationGenerator implements IGenerator
         g = gIn;
         imageSize = imageSizeIn;
         random = randomIn;
+
+        if((Boolean)settings.get(OPTION_SOLID_COLORS_ONLY)){
+            solidColorChance = 1.0;
+        }
+        else{
+            solidColorChance = 0.95 - random.nextDouble() * 0.07;
+        }
 
         xScale = random.nextDouble() * imageSize.width/5 + imageSize.width / 50;
         if(random.nextDouble() < 0.2){
@@ -186,7 +204,12 @@ public class TessellationGenerator implements IGenerator
                 color = palette.getColor(random.nextDouble());
             }
             g.setColor(ColorUtil.getClose(color, colorClosenessFactor));
-            g.fillPolygon(poly);
+            g.setClip(poly);
+            ITexture texture = getFillTexture(random);
+            Rectangle polyBounds = poly.getBounds();
+
+            ProtoTexture textureImg = texture.getTexture(new Dimension((int)Math.ceil(polyBounds.getWidth()), (int)Math.ceil(polyBounds.getHeight())), random);
+            g.drawImage(texture.colorize(textureImg, palette, random), polyBounds.x, polyBounds.y, null);
             if(useStroke){
                 g.setColor(Color.BLACK);
                 g.drawPolygon(poly);
@@ -259,5 +282,14 @@ public class TessellationGenerator implements IGenerator
 
         //corner case where two points span the width or span the height
         return (isAbove && isBelow) ^ (isLeft && isRight);
+    }
+
+    private ITexture getFillTexture(RandomGenerator random){
+        double percent = random.nextDouble();
+        if(percent < solidColorChance){
+            return new SolidColorTexture();
+        }
+        FastNoise noise = NoiseHelper.getFractalSimplex(random, random.nextInt(3) + 3);
+        return new NoiseTexture(noise);
     }
 }

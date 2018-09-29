@@ -2,6 +2,7 @@ package com.samvasta.generatorpack1.it;
 
 import com.samvasta.imageGenerator.common.interfaces.IGenerator;
 import com.samvasta.imageGenerator.debuggenerator.GeneratorWindow;
+import com.samvasta.imagegenerator.generatorpack1.circlewave.CircleWaveGenerator;
 import com.samvasta.imagegenerator.generatorpack1.landscape.LandscapeGenerator;
 import com.samvasta.imagegenerator.generatorpack1.samplegenerator.SimpleGenerator;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.TessellationGenerator;
@@ -13,7 +14,7 @@ public class DebugGenerator
 {
 
     public static void main(String...args){
-        IGenerator generator = new SimpleGenerator();
+        IGenerator generator = new CircleWaveGenerator();
 
         GeneratorWindow window = new GeneratorWindow(generator, new Dimension(1920, 1080));
 

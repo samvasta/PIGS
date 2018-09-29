@@ -110,6 +110,40 @@ public abstract class ColorPalette
         return ColorUtil.blend(floorCol, ceilCol, 1-((float)percent - floorPercent) / (ceilPercent - floorPercent));
     }
 
+    public Color getColorInverseSmooth(double percent) {
+        if(colors.size() == 0 || relativeWeights.size() == 0){
+            throw new ArrayIndexOutOfBoundsException("This color palette was not initialized! You must call initColorsAndWeights before using this palette.");
+        }
+
+        if(percent <= 0){
+            return colors.get(0);
+        }
+        if(percent >= 1){
+            return colors.get(colors.size()-1);
+        }
+
+        double weightAcc = 0;
+        int weightIdx = 0;
+
+        Color floorCol = colors.get(0);
+        Color ceilCol;
+        float floorPercent = 0;
+        float ceilPercent;
+        while(weightAcc < percent && weightIdx < colors.size()){
+            floorCol = colors.get(weightIdx);
+            floorPercent = (float)weightAcc;
+            weightAcc += getNormalizedWeightByIndex(weightIdx);
+            weightIdx++;
+        }
+        if(weightIdx >= colors.size()){
+            return colors.get(colors.size()-1);
+        }
+        ceilCol = colors.get(weightIdx);
+        ceilPercent = (float)weightAcc;
+
+        return ColorUtil.blend(floorCol, ceilCol, ((float)percent - floorPercent) / (ceilPercent - floorPercent));
+    }
+
     public Color getColorByIndex(int index){
         if(colors.size() == 0 || relativeWeights.size() == 0){
             throw new ArrayIndexOutOfBoundsException("This color palette was not initialized! You must call initColorsAndWeights before using this palette.");

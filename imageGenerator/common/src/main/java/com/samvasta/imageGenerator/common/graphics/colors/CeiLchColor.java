@@ -33,7 +33,13 @@ public class CeiLchColor
         double[] ceiLab = ColorUtil.ceiLchToCeiLab(ceiLch);
         double[] xyz = ColorUtil.ceiLabToXyz(ceiLab, ColorIlluminant.DEFAULT);
         return ColorUtil.xyzToRgb(xyz);
+    }
 
+    public Color toColor(int alpha){
+        double[] ceiLch = new double[]{luminance, chroma, hue};
+        double[] ceiLab = ColorUtil.ceiLchToCeiLab(ceiLch);
+        double[] xyz = ColorUtil.ceiLabToXyz(ceiLab, ColorIlluminant.DEFAULT);
+        return ColorUtil.xyzToRgb(xyz, alpha);
     }
 
     public static CeiLchColor fromColor(Color c){

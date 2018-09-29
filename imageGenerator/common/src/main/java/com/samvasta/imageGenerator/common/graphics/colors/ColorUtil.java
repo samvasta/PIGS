@@ -1,16 +1,15 @@
 package com.samvasta.imageGenerator.common.graphics.colors;
 
 import com.samvasta.imageGenerator.common.exceptions.ColorPaletteException;
-import com.samvasta.imageGenerator.common.graphics.colors.palettes.LinearLchPalette;
 import com.samvasta.imageGenerator.common.graphics.colors.palettes.LinearLchPaletteBuilder;
 import com.samvasta.imageGenerator.common.graphics.colors.palettes.MonochromePalette;
 import com.samvasta.imageGenerator.common.graphics.colors.palettes.TriadPalette;
+import com.samvasta.imageGenerator.common.helpers.InterpHelper;
 import com.samvasta.imageGenerator.common.helpers.MathHelper;
 import org.apache.commons.math3.random.MersenneTwister;
 import org.apache.commons.math3.random.RandomGenerator;
 
 import java.awt.*;
-import java.awt.color.ColorSpace;
 
 public class ColorUtil
 {
@@ -127,9 +126,9 @@ public class ColorUtil
 
         float[] hsbOut = new float[]
         {
-                MathHelper.lerp(hsb1[0], hsb2[0], percent),
-                MathHelper.lerp(hsb1[1], hsb2[1], percent),
-                MathHelper.lerp(hsb1[2], hsb2[2], percent)
+                InterpHelper.lerp(hsb1[0], hsb2[0], percent),
+                InterpHelper.lerp(hsb1[1], hsb2[1], percent),
+                InterpHelper.lerp(hsb1[2], hsb2[2], percent)
         };
 
         return Color.getHSBColor(hsbOut[0], hsbOut[1], hsbOut[2]);
@@ -203,6 +202,14 @@ public class ColorUtil
      * @see <a href="http://www.easyrgb.com/en/math.php">http://www.easyrgb.com/en/math.php</a>
      */
     public static Color xyzToRgb(double[] xyz){
+        return xyzToRgb(xyz, 255);
+    }
+
+    /**
+     * @param xyz double array with index 0 = X, 1 = Y, 2 = Z
+     * @see <a href="http://www.easyrgb.com/en/math.php">http://www.easyrgb.com/en/math.php</a>
+     */
+    public static Color xyzToRgb(double[] xyz, int alpha){
         double x = xyz[0] / 100;
         double y = xyz[1] / 100;
         double z = xyz[2] / 100;
@@ -235,7 +242,7 @@ public class ColorUtil
         g = MathHelper.clamp01(g);
         b = MathHelper.clamp01(b);
 
-        return new Color((int)(r * 255), (int)(g * 255), (int)(b * 255));
+        return new Color((int)(r * 255), (int)(g * 255), (int)(b * 255), alpha);
     }
 
     public static double[] xyzToCeiLab(double[] xyz, ColorIlluminant illuminant){

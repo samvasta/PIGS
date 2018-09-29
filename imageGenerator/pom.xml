@@ -17,6 +17,7 @@
         <module>batch-generator</module>
         <module>generator-pack-1</module>
         <module>debug-generator</module>
+        <module>procgen-ideas</module>
     </modules>
 
 </project>

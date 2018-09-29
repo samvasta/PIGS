@@ -1,8 +1,5 @@
 package com.samvasta.imageGenerator.common.helpers;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-
 public class MathHelper
 {
     public static final double DEG01 = Math.PI / 180.0;
@@ -43,20 +40,6 @@ public class MathHelper
             value += (max - min);
         }
         return value;
-    }
-
-    public static double lerp(double v1, double v2, double percent){
-        return (percent * v1) + ((1-percent) * v2);
-    }
-
-    public static float lerp(float v1, float v2, float percent){
-        return (percent * v1) + ((1-percent) * v2);
-    }
-
-    public static double lerp2d(double tl, double tr, double bl, double br, double xPercent, double yPercent){
-        double top = lerp(tl, tr, xPercent);
-        double bottom = lerp(bl, br, xPercent);
-        return lerp(top, bottom, yPercent);
     }
 
     public static double min(double...values){
