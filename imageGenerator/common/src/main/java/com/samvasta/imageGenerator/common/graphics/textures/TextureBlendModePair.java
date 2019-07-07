@@ -1,7 +1,7 @@
 package com.samvasta.imageGenerator.common.graphics.textures;
 
 import com.samvasta.imageGenerator.common.graphics.images.BlendMode;
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 public class TextureBlendModePair
 {

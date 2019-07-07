@@ -13,6 +13,7 @@
         <module name="debuggenerator" />
         <module name="generator-pack-1" />
         <module name="generatorpack1" />
+        <module name="procgen-ideas" />
         <module name="procgenideas" />
       </profile>
     </annotationProcessing>

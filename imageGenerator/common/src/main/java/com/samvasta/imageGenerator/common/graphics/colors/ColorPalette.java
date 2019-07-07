@@ -58,6 +58,15 @@ public abstract class ColorPalette
             smallestColor = col;
             smallestColorWeight = weight;
         }
+
+        //If all colors are equal weight, ensure that biggest color and smallest color are not equivalent
+        if(Math.abs(biggestColorWeight - smallestColorWeight) <= 1e-3){
+            biggestColor = colors.get(0);
+            biggestColorWeight = relativeWeights.get(0);
+
+            smallestColor = colors.get(colors.size()-1);
+            smallestColorWeight = relativeWeights.get(relativeWeights.size()-1);
+        }
     }
 
     public Color getColor(double percent) {

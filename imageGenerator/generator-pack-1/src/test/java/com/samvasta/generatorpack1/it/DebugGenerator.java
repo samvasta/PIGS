@@ -3,8 +3,10 @@ package com.samvasta.generatorpack1.it;
 import com.samvasta.imageGenerator.common.interfaces.IGenerator;
 import com.samvasta.imageGenerator.debuggenerator.GeneratorWindow;
 import com.samvasta.imagegenerator.generatorpack1.circlewave.CircleWaveGenerator;
+import com.samvasta.imagegenerator.generatorpack1.flowfield.FlowFieldGenerator;
 import com.samvasta.imagegenerator.generatorpack1.landscape.LandscapeGenerator;
 import com.samvasta.imagegenerator.generatorpack1.samplegenerator.SimpleGenerator;
+import com.samvasta.imagegenerator.generatorpack1.tangles.TangleGenerator;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.TessellationGenerator;
 
 import javax.swing.*;
@@ -14,7 +16,8 @@ public class DebugGenerator
 {
 
     public static void main(String...args){
-        IGenerator generator = new CircleWaveGenerator();
+        IGenerator generator = new FlowFieldGenerator();
+        generator = new TangleGenerator();
 
         GeneratorWindow window = new GeneratorWindow(generator, new Dimension(1920, 1080));
 
