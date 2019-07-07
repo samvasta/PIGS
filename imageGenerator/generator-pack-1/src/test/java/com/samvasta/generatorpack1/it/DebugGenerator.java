@@ -17,7 +17,6 @@ public class DebugGenerator
 
     public static void main(String...args){
         IGenerator generator = new FlowFieldGenerator();
-        generator = new TangleGenerator();
 
         GeneratorWindow window = new GeneratorWindow(generator, new Dimension(1920, 1080));
 

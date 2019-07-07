@@ -96,6 +96,13 @@ public abstract class Particle
         //no logic by default
     }
 
+    public void updateIsActive(ParticleField field){
+        if(getPositionX() < 0 || getPositionX() > field.getWidth() ||
+                getPositionY() < 0 || getPositionY() > field.getHeight()){
+            isActive = false;
+        }
+    }
+
     public double getLastPositionX()
     {
         return lastPosition.x;

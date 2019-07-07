@@ -144,9 +144,11 @@ public class GeneratorWindow extends JFrame
 
     @Override
     public void paint(Graphics g){
-        g.clearRect(0, 0, this.getWidth(), this.getHeight());
         BufferedImage img = images.get(currentImageIdx);
-        g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
+
+        BufferedImage bufferedImage = new BufferedImage(img.getWidth(), img.getHeight(), img.getType());
+        Graphics bufferGraphics = bufferedImage.getGraphics();
+        bufferGraphics.drawImage(img, 0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), null);
 
         if(isInfoVisible){
             StringBuilder sb = new StringBuilder();
@@ -166,25 +168,29 @@ public class GeneratorWindow extends JFrame
 
             String[] infoTexts = sb.toString().split("\n");
 
-            g.setFont(new Font("Monospaced", Font.PLAIN, 14));
-            FontMetrics fontMetrics = g.getFontMetrics();
+            bufferGraphics.setFont(new Font("Monospaced", Font.PLAIN, 14));
+            FontMetrics fontMetrics = bufferGraphics.getFontMetrics();
             int height = 0;
             int maxWidth = 0;
             for(String text : infoTexts){
-                Rectangle2D infoBounds = fontMetrics.getStringBounds(text, g);
+                Rectangle2D infoBounds = fontMetrics.getStringBounds(text, bufferGraphics);
                 height += fontMetrics.getHeight();
                 maxWidth = Math.max(maxWidth, (int)infoBounds.getWidth());
             }
-            g.setColor(new Color(255, 255, 255, 128));
+            bufferGraphics.setColor(new Color(255, 255, 255, 128));
 
-            g.fillRect(20, 40, maxWidth + 20, height + 20);
+            bufferGraphics.fillRect(20, 40, maxWidth + 20, height + 20);
 
-            g.setColor(Color.BLACK);
+            bufferGraphics.setColor(Color.BLACK);
             int y = 40 + fontMetrics.getHeight();
             for(String text : infoTexts){
-                g.drawString(text, 30, y);
+                bufferGraphics.drawString(text, 30, y);
                 y += fontMetrics.getHeight();
             }
         }
+
+        bufferGraphics.dispose();
+        g.drawImage(bufferedImage, 0, 0, this.getWidth(), this.getHeight(), null);
+
     }
 }

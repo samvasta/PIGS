@@ -33,6 +33,9 @@ public class ParticleSimulator
 
     public void addParticle(Particle particle){
         particles.add(particle);
+        if(field != null){
+            particle.updateIsActive(field);
+        }
     }
 
     public List<Particle> getParticles(){
@@ -41,9 +44,30 @@ public class ParticleSimulator
 
     public void setParticleField(ParticleField field){
         this.field = field;
+        for(Particle p : particles){
+            p.updateIsActive(field);
+        }
     }
 
     public ParticleField getParticleField(){
         return field;
+    }
+
+    public boolean areAllParticlesActive(){
+        for(Particle p : particles){
+            if(!p.isActive()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean areAnyParticlesActive(){
+        for(Particle p : particles){
+            if(p.isActive()){
+                return true;
+            }
+        }
+        return false;
     }
 }

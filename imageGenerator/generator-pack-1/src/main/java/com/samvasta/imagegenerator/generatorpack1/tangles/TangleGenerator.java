@@ -112,8 +112,18 @@ public class TangleGenerator implements IGenerator {
             }
         }
 
+        int cell = 0;
         for(IGridCoordinate key : cellMap.keySet()){
+            if(cell++ % 5 == 0){
+                takeSnapshot();
+            }
             paintCell(g, fg, bg, cellMap.get(key), sideLength, angle, gridOrigin, tubeWidthPercent);
+        }
+    }
+
+    private void takeSnapshot(){
+        for(ISnapshotListener listener : snapshotListeners){
+            listener.takeSnapshot();
         }
     }
 
