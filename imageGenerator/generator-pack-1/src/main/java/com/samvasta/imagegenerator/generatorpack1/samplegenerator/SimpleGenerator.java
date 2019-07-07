@@ -238,8 +238,8 @@ public class SimpleGenerator implements IGenerator
 
 //        for(int i = 0; i < 17; i++){
 //            StampInfo info = new StampInfoBuilder()
-//                                .y(random.nextInt((int)(imageSize.width * 1.5)) - imageSize.width/4)
-//                                .z(random.nextInt((int)(imageSize.height * 1.5)) - imageSize.height/4)
+//                                .x(random.nextInt((int)(imageSize.width * 1.5)) - imageSize.width/4)
+//                                .y(random.nextInt((int)(imageSize.height * 1.5)) - imageSize.height/4)
 //                                .width((int)(imageSize.width * (random.nextDouble() * 0.15 + 0.01)))
 //                                .height((int)(imageSize.width * (random.nextDouble() * 0.15 + 0.01)))
 //                                .build();

@@ -25,7 +25,7 @@ public class StampInfo
 
     /**
      * Because nobody likes having casts everywhere
-     * @return {@code (int)y}
+     * @return {@code (int)x}
      */
     public int getXInt(){
         return (int)x;
@@ -43,7 +43,7 @@ public class StampInfo
 
     /**
      * Because nobody likes having casts everywhere
-     * @return {@code (int)z}
+     * @return {@code (int)y}
      */
     public int getYInt(){
         return (int)y;
