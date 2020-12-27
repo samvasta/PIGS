@@ -6,21 +6,20 @@ import org.apache.commons.math3.random.RandomGenerator;
 
 import java.awt.*;
 
-
-public class TriadPalette extends ColorPalette {
+public class ComplementaryPalette extends ColorPalette {
 
     private final double angle;
     private final double startHue;
 
-    public TriadPalette(RandomGenerator random){
-        this((random.nextBoolean() ? 1 : -1) * (random.nextGaussian() * 40 + 100), random.nextDouble() * 360, random);
+    public ComplementaryPalette(RandomGenerator random){
+        this(random.nextGaussian() * 40 + 180, random.nextDouble() * 360, random);
     }
 
-    public TriadPalette(double startHue, RandomGenerator random){
-        this((random.nextBoolean() ? 1 : -1) * (random.nextGaussian() * 40 + 100), startHue, random);
+    public ComplementaryPalette(double startHue, RandomGenerator random){
+        this(random.nextGaussian() * 40 + 180, startHue, random);
     }
 
-    public TriadPalette(double angleIn, double startHueIn, RandomGenerator random){
+    public ComplementaryPalette(double angleIn, double startHueIn, RandomGenerator random){
         super(random);
         angle = angleIn;
         startHue = startHueIn;
@@ -48,6 +47,5 @@ public class TriadPalette extends ColorPalette {
 
         addColor(col1, 1);
         addColor(col2, 1);
-        addColor(col3, 1);
     }
 }

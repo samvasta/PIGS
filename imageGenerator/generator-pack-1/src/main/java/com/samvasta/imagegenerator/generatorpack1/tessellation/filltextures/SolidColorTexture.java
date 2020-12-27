@@ -1,11 +1,3 @@
-//------------------------------------------------------------------------------
-// AnalyticsOS
-// Copyright (c) 2018. Lone Star Aerospace, Inc
-// com.samvasta.imagegenerator.generatorpack1.tessellation.filltextures.SolidColorTexture
-//
-// Unauthorized copying of this file, via any medium, is strictly prohibited.
-// Proprietary. All rights reserved.
-//------------------------------------------------------------------------------
 package com.samvasta.imagegenerator.generatorpack1.tessellation.filltextures;
 
 import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;

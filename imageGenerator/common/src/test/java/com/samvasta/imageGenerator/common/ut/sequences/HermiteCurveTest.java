@@ -1,11 +1,3 @@
-//------------------------------------------------------------------------------
-// AnalyticsOS
-// Copyright (c) 2018. Lone Star Aerospace, Inc
-// com.samvasta.imageGenerator.common.ut.sequences.HermiteCurveTest
-//
-// Unauthorized copying of this file, via any medium, is strictly prohibited.
-// Proprietary. All rights reserved.
-//------------------------------------------------------------------------------
 package com.samvasta.imageGenerator.common.ut.sequences;
 
 import com.samvasta.imageGenerator.common.models.curves.HermiteCurve;

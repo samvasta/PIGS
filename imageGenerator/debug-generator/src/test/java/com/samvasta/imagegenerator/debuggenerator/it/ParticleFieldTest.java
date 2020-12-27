@@ -1,7 +1,8 @@
-package com.samvasta.imagegenerator.debuggenerator.it;
+package com.samvasta.imagegenerator.debuggenColorUtilerator.it;
 
 import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
 import com.samvasta.imageGenerator.common.graphics.colors.ColorUtil;
+import com.samvasta.imageGenerator.common.graphics.colors.PaletteFactory;
 import com.samvasta.imageGenerator.common.interfaces.IGenerator;
 import com.samvasta.imageGenerator.common.interfaces.ISnapshotListener;
 import com.samvasta.imageGenerator.common.models.IniSchemaOption;
@@ -82,7 +83,7 @@ public class ParticleFieldTest implements IGenerator
         ParticleSimulator simulator = new ParticleSimulator();
         simulator.setParticleField(field);
 
-        final ColorPalette palette = ColorUtil.getRandomPalette(random);
+        final ColorPalette palette = PaletteFactory.getRandomPalette(random);
 
         for(int i = 0; i < 125; i++){
 

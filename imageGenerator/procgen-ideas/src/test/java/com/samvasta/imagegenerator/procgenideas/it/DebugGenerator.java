@@ -1,11 +1,3 @@
-//------------------------------------------------------------------------------
-// AnalyticsOS
-// Copyright (c) 2018. Lone Star Aerospace, Inc
-// com.samvasta.imagegenerator.procgenideas.it.DebugGenerator
-//
-// Unauthorized copying of this file, via any medium, is strictly prohibited.
-// Proprietary. All rights reserved.
-//------------------------------------------------------------------------------
 package com.samvasta.imagegenerator.procgenideas.it;
 
 import com.samvasta.imageGenerator.common.interfaces.IGenerator;

@@ -69,7 +69,7 @@ public class ColorPaletteTestGenerator implements IGenerator
                 .deltaHue(dHue)
                 .build();
 
-        palette = new TriadPalette(random);
+//        palette = new TriadPalette(random);
 
         double startX = 0;
         for(int i = 0; i < palette.getNumColors(); i++){

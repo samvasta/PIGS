@@ -15,17 +15,6 @@ public class ColorUtil
 {
     private static final Object getCloseColorLock = new Object();
 
-    private static final int NUM_PALETTES = 3;
-
-    public static final ColorPalette getRandomPalette(RandomGenerator rand){
-        int i = rand.nextInt(NUM_PALETTES);
-        switch(i){
-            case 0: return new LinearLchPaletteBuilder(rand).build();
-            case 1: return new MonochromePalette(rand);
-            case 2: return new TriadPalette(rand);
-        }
-        throw new ColorPaletteException("No color palette registered for index " + i);
-    }
 
     public static Color getClose(Color source, double percentDifferent){
         synchronized (getCloseColorLock){
@@ -68,10 +57,18 @@ public class ColorUtil
     }
 
     /**
-     * Copies the RGB components of th ecolor and uses the alpha parameter for the new alpha channel
+     * Copies the RGB components of the color and uses the alpha parameter for the new alpha channel
      */
     public static Color getTransparent(Color c, int alpha){
         return new Color(c.getRed(), c.getGreen(), c.getBlue(), alpha);
+    }
+
+
+    /**
+     * Copies the RGB components of the color and uses the alpha parameter for the new alpha channel
+     */
+    public static Color getTransparent(Color c, double alpha){
+        return new Color(c.getRed(), c.getGreen(), c.getBlue(), (int)(alpha * 255.0));
     }
 
     /**

@@ -3,6 +3,7 @@ package com.samvasta.imagegenerator.generatorpack1.tangles;
 import com.samvasta.imageGenerator.common.graphics.colors.CeiLchColor;
 import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
 import com.samvasta.imageGenerator.common.graphics.colors.ColorUtil;
+import com.samvasta.imageGenerator.common.graphics.colors.PaletteFactory;
 import com.samvasta.imageGenerator.common.helpers.GeomHelper;
 import com.samvasta.imageGenerator.common.interfaces.IGenerator;
 import com.samvasta.imageGenerator.common.interfaces.ISnapshotListener;
@@ -63,7 +64,7 @@ public class TangleGenerator implements IGenerator {
         final Point2D gridOrigin = new Point2D.Double(width/2.0, height/2.0);
         Map<IGridCoordinate, TangleGridCell> cellMap = new HashMap<>();
 
-        ColorPalette palette = ColorUtil.getRandomPalette(random);
+        ColorPalette palette = PaletteFactory.getRandomPalette(random);
         Color fg = palette.getBiggestColor();
         Color bg = palette.getSmallestColor();
 

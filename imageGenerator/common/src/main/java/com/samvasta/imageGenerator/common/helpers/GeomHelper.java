@@ -66,4 +66,20 @@ public class GeomHelper {
 
         return new Point.Double(x, y);
     }
+
+    public static Point2D.Double scale(Point2D.Double p, double scale) {
+        return new Point2D.Double(p.x * scale, p.y * scale);
+    }
+
+    public static Point2D.Double rotate(Point2D.Double p, double angle){
+        double newX = (p.x * Math.cos(angle)) - (p.y * Math.sin(angle));
+        double newY = (p.x * Math.sin(angle)) + (p.y * Math.cos(angle));
+        return new Point2D.Double(newX, newY);
+    }
+
+    public static void rotate(Point2D.Double[] points, double angle){
+        for(int i = 0; i < points.length; i++){
+            points[i] = rotate(points[i], angle);
+        }
+    }
 }

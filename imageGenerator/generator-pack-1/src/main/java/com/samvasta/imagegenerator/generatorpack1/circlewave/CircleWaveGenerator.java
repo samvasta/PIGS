@@ -1,11 +1,3 @@
-//------------------------------------------------------------------------------
-// AnalyticsOS
-// Copyright (c) 2018. Lone Star Aerospace, Inc
-// com.samvasta.imagegenerator.generatorpack1.circlewave.CircleWaveGenerator
-//
-// Unauthorized copying of this file, via any medium, is strictly prohibited.
-// Proprietary. All rights reserved.
-//------------------------------------------------------------------------------
 package com.samvasta.imagegenerator.generatorpack1.circlewave;
 
 import com.samvasta.imageGenerator.common.graphics.colors.CeiLchColor;

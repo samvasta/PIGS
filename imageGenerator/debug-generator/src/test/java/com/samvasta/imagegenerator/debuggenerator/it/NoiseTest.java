@@ -1,15 +1,8 @@
-//------------------------------------------------------------------------------
-// AnalyticsOS
-// Copyright (c) 2018. Lone Star Aerospace, Inc
-// com.samvasta.imagegenerator.debuggenerator.it.NoiseTest
-//
-// Unauthorized copying of this file, via any medium, is strictly prohibited.
-// Proprietary. All rights reserved.
-//------------------------------------------------------------------------------
 package com.samvasta.imagegenerator.debuggenerator.it;
 
 import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
 import com.samvasta.imageGenerator.common.graphics.colors.ColorUtil;
+import com.samvasta.imageGenerator.common.graphics.colors.PaletteFactory;
 import com.samvasta.imageGenerator.common.graphics.images.BlendMode;
 import com.samvasta.imageGenerator.common.graphics.images.ProtoTexture;
 import com.samvasta.imageGenerator.common.graphics.textures.ITexture;
@@ -62,7 +55,7 @@ public class NoiseTest implements IGenerator {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, imageSize.width, imageSize.height);
 
-        ColorPalette palette = ColorUtil.getRandomPalette(random);
+        ColorPalette palette = PaletteFactory.getRandomPalette(random);
 
         NoiseTexture tex1 = new NoiseTexture();
 

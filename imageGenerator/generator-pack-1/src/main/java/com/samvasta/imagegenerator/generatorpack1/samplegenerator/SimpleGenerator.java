@@ -2,6 +2,7 @@ package com.samvasta.imagegenerator.generatorpack1.samplegenerator;
 
 import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
 import com.samvasta.imageGenerator.common.graphics.colors.ColorUtil;
+import com.samvasta.imageGenerator.common.graphics.colors.PaletteFactory;
 import com.samvasta.imageGenerator.common.graphics.colors.palettes.LinearLchPalette;
 import com.samvasta.imageGenerator.common.graphics.colors.palettes.LinearLchPaletteBuilder;
 import com.samvasta.imageGenerator.common.graphics.colors.palettes.MonochromePalette;
@@ -66,7 +67,7 @@ public class SimpleGenerator implements IGenerator
     }
 
     public void generateImage(final Map<String, Object> settings, final Graphics2D g, final Dimension imageSize, final MersenneTwister random) {
-        final ColorPalette palette = ColorUtil.getRandomPalette(random);
+        final ColorPalette palette = PaletteFactory.getRandomPalette(random);
 
         ITexture fadeUp = new ITexture()
         {

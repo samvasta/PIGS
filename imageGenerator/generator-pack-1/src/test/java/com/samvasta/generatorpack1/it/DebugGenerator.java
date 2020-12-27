@@ -8,6 +8,7 @@ import com.samvasta.imagegenerator.generatorpack1.landscape.LandscapeGenerator;
 import com.samvasta.imagegenerator.generatorpack1.samplegenerator.SimpleGenerator;
 import com.samvasta.imagegenerator.generatorpack1.tangles.TangleGenerator;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.TessellationGenerator;
+import com.samvasta.imagegenerator.generatorpack1.triangulation.TriangulationGenerator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +17,7 @@ public class DebugGenerator
 {
 
     public static void main(String...args){
-        IGenerator generator = new FlowFieldGenerator();
+        IGenerator generator = new TriangulationGenerator();
 
         GeneratorWindow window = new GeneratorWindow(generator, new Dimension(1920, 1080));
 

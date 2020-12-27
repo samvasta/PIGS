@@ -14,6 +14,12 @@ public class CeiLchColor
     public final double chroma;
     public final double hue;
 
+    /**
+     * Creates a color in the CEI-Lch color space
+     * @param luminance in range [0,100]
+     * @param chroma in range [0,200]
+     * @param hue in range [0,360]
+     */
     public CeiLchColor(double luminance, double chroma, double hue){
         this.luminance = luminance;
         this.chroma = chroma;
