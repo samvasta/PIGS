@@ -15,6 +15,11 @@ public class ColorUtil
 {
     private static final Object getCloseColorLock = new Object();
 
+    public static float getHsvValue(Color c){
+        float[] hsv = new float[3];
+        hsv = Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), hsv);
+        return hsv[2];
+    }
 
     public static Color getClose(Color source, double percentDifferent){
         synchronized (getCloseColorLock){
@@ -336,5 +341,30 @@ public class ColorUtil
         double b = Math.sin(h * Math.PI / 180.0) * c;
 
         return new double[] { L, a, b };
+    }
+
+    public static boolean useDarkBackground(ColorPalette pal){
+        return useDarkBackground(pal, 0.179);
+    }
+
+    private static final Object useDarkBackgroundLock = new Object();
+    public static boolean useDarkBackground(ColorPalette pal, double threshold){
+        synchronized (useDarkBackgroundLock){
+            double avgLuminance = 0;
+            for(Color c : pal.getAllColors()){
+                float[] rgb = c.getRGBColorComponents(new float[3]);
+                for(int i = 0; i < rgb.length; i++){
+                    if(rgb[i] <= 0.03928){
+                        rgb[i] = rgb[i] / 12.92f;
+                    }
+                    else{
+                        rgb[i] = (float)Math.pow(((rgb[i] + 0.055) / 1.055), 2.4);
+                    }
+                }
+                avgLuminance += 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2];
+
+            }
+            return avgLuminance / pal.getNumColors() <= threshold;
+        }
     }
 }

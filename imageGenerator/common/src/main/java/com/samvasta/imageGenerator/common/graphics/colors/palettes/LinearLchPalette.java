@@ -16,9 +16,9 @@ public class LinearLchPalette extends ColorPalette
     private final double deltaChroma;
     private final double deltaHue;
 
-    public LinearLchPalette(int numColors, double startLum, double startChroma, double startHue, double deltaLum, double deltaChroma, double deltaHue, RandomGenerator random)
+    public LinearLchPalette(int numColors, double startLum, double startChroma, double startHue, double deltaLum, double deltaChroma, double deltaHue, RandomGenerator random, String nameIn)
     {
-        super(random);
+        super(random, nameIn);
         this.numColors = numColors;
         this.startLum = startLum;
         this.startChroma = startChroma;

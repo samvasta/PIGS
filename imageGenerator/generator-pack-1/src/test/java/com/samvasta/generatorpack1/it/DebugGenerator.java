@@ -2,13 +2,7 @@ package com.samvasta.generatorpack1.it;
 
 import com.samvasta.imageGenerator.common.interfaces.IGenerator;
 import com.samvasta.imageGenerator.debuggenerator.GeneratorWindow;
-import com.samvasta.imagegenerator.generatorpack1.circlewave.CircleWaveGenerator;
-import com.samvasta.imagegenerator.generatorpack1.flowfield.FlowFieldGenerator;
-import com.samvasta.imagegenerator.generatorpack1.landscape.LandscapeGenerator;
-import com.samvasta.imagegenerator.generatorpack1.samplegenerator.SimpleGenerator;
-import com.samvasta.imagegenerator.generatorpack1.tangles.TangleGenerator;
-import com.samvasta.imagegenerator.generatorpack1.tessellation.TessellationGenerator;
-import com.samvasta.imagegenerator.generatorpack1.triangulation.TriangulationGenerator;
+import com.samvasta.imagegenerator.generatorpack1.bezier.BezierGenerator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +11,7 @@ public class DebugGenerator
 {
 
     public static void main(String...args){
-        IGenerator generator = new TessellationGenerator();
+        IGenerator generator = new BezierGenerator();
 
         GeneratorWindow window = new GeneratorWindow(generator, new Dimension(1920, 1080));
 

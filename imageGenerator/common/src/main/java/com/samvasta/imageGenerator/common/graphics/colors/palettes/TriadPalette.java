@@ -12,16 +12,16 @@ public class TriadPalette extends ColorPalette {
     private final double angle;
     private final double startHue;
 
-    public TriadPalette(RandomGenerator random){
-        this((random.nextBoolean() ? 1 : -1) * (random.nextGaussian() * 40 + 100), random.nextDouble() * 360, random);
+    public TriadPalette(RandomGenerator random, String nameIn){
+        this((random.nextBoolean() ? 1 : -1) * (random.nextGaussian() * 40 + 100), random.nextDouble() * 360, random, nameIn);
     }
 
-    public TriadPalette(double startHue, RandomGenerator random){
-        this((random.nextBoolean() ? 1 : -1) * (random.nextGaussian() * 40 + 100), startHue, random);
+    public TriadPalette(double startHue, RandomGenerator random, String nameIn){
+        this((random.nextBoolean() ? 1 : -1) * (random.nextGaussian() * 40 + 100), startHue, random, nameIn);
     }
 
-    public TriadPalette(double angleIn, double startHueIn, RandomGenerator random){
-        super(random);
+    public TriadPalette(double angleIn, double startHueIn, RandomGenerator random, String nameIn){
+        super(random, nameIn);
         angle = angleIn;
         startHue = startHueIn;
         initColorsAndWeights(random);

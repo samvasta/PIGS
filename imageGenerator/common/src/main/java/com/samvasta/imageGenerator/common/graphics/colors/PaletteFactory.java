@@ -8,33 +8,33 @@ import com.samvasta.imageGenerator.common.graphics.colors.palettes.TriadPalette;
 import org.apache.commons.math3.random.RandomGenerator;
 
 public class PaletteFactory {
-    private enum PaletteOptions {
+    public enum PaletteOptions {
         ANALOGOUS {
             @Override
-            ColorPalette generate(RandomGenerator rand) {
-                return new LinearLchPaletteBuilder(rand).build();
+            public ColorPalette generate(RandomGenerator rand) {
+                return new LinearLchPaletteBuilder(rand, "Analogous").build();
             }
         },
         MONOCHROME {
             @Override
-            ColorPalette generate(RandomGenerator rand) {
-                return new MonochromePalette(rand);
+            public ColorPalette generate(RandomGenerator rand) {
+                return new MonochromePalette(rand, "Monochrome");
             }
         },
         TRIAD {
             @Override
-            ColorPalette generate(RandomGenerator rand) {
-                return new TriadPalette(rand);
+            public ColorPalette generate(RandomGenerator rand) {
+                return new TriadPalette(rand, "Triad");
             }
         },
         COMPLEMENTARY {
             @Override
-            ColorPalette generate(RandomGenerator rand) {
-                return new ComplementaryPalette(rand);
+            public ColorPalette generate(RandomGenerator rand) {
+                return new ComplementaryPalette(rand, "Complementary");
             }
         },
         ;
-        abstract ColorPalette generate(RandomGenerator rand);
+        public abstract ColorPalette generate(RandomGenerator rand);
     }
 
     public static final ColorPalette getRandomPalette(RandomGenerator rand) {
@@ -43,7 +43,7 @@ public class PaletteFactory {
     }
 
     public static final ColorPalette getAnalogousPalette(RandomGenerator rand, CeiLchColor base) {
-        return new LinearLchPaletteBuilder(rand)
+        return new LinearLchPaletteBuilder(rand, "Analogous")
                 .startHue(base.hue)
                 .startChroma(base.chroma)
                 .startLum(base.luminance)

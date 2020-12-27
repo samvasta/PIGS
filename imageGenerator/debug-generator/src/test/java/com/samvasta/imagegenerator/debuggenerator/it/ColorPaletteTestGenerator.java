@@ -59,7 +59,7 @@ public class ColorPaletteTestGenerator implements IGenerator
         double dHue = random.nextGaussian() * 5 + (random.nextBoolean() ? -5 : 5);
         int numColors = random.nextInt(5) + 5;
         double startLum = 50.0;
-        this.palette = new LinearLchPaletteBuilder(random)
+        this.palette = new LinearLchPaletteBuilder(random, "test")
                 .numColors(numColors)
                 .startHue(hue)
                 .startLum(startLum)

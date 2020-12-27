@@ -79,7 +79,7 @@ public class LandscapeGenerator implements IGenerator
         if(isNightMode){
             startLum = 30.0;
         }
-        LinearLchPaletteBuilder paletteBuilder = new LinearLchPaletteBuilder(random)
+        LinearLchPaletteBuilder paletteBuilder = new LinearLchPaletteBuilder(random, "Landscape")
                                                     .numColors(numColors)
                                                     .startHue(hue)
                                                     .startLum(startLum)

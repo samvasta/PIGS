@@ -13,20 +13,20 @@ public class MonochromePalette extends ColorPalette
     private final int numColors;
     private final double startHue;
 
-    public MonochromePalette(RandomGenerator random){
-        this(random.nextInt((MAX_COLORS - MIN_COLORS)) + MIN_COLORS, random.nextInt(360), random);
+    public MonochromePalette(RandomGenerator random, String nameIn){
+        this(random.nextInt((MAX_COLORS - MIN_COLORS)) + MIN_COLORS, random.nextInt(360), random, nameIn);
     }
 
-    public MonochromePalette(int numColors, RandomGenerator random){
-        this(numColors, random.nextInt(360), random);
+    public MonochromePalette(int numColors, RandomGenerator random, String nameIn){
+        this(numColors, random.nextInt(360), random, nameIn);
     }
 
-    public MonochromePalette(double startHue, RandomGenerator random){
-        this(random.nextInt((MAX_COLORS - MIN_COLORS)) + MIN_COLORS, startHue, random);
+    public MonochromePalette(double startHue, RandomGenerator random, String nameIn){
+        this(random.nextInt((MAX_COLORS - MIN_COLORS)) + MIN_COLORS, startHue, random, nameIn);
     }
 
-    public MonochromePalette(int numColors, double startHue, RandomGenerator random){
-        super(random);
+    public MonochromePalette(int numColors, double startHue, RandomGenerator random, String nameIn){
+        super(random, nameIn);
         this.startHue = startHue;
         this.numColors = numColors;
         initColorsAndWeights(random);

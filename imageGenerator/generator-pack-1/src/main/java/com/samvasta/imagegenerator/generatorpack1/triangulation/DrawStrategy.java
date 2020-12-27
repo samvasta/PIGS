@@ -4,7 +4,6 @@ import com.samvasta.imageGenerator.common.graphics.colors.CeiLchColor;
 import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
 import com.samvasta.imageGenerator.common.graphics.colors.ColorUtil;
 import com.samvasta.imageGenerator.common.graphics.colors.PaletteFactory;
-import com.samvasta.imageGenerator.common.graphics.colors.palettes.ComplementaryPalette;
 import com.samvasta.imageGenerator.common.helpers.MathHelper;
 import com.samvasta.imagegenerator.generatorpack1.triangulation.halfedge.DelaunayGraph;
 import com.samvasta.imagegenerator.generatorpack1.triangulation.halfedge.Edge;
@@ -59,7 +58,7 @@ public enum DrawStrategy
                 void draw(Graphics2D g, DelaunayGraph graph, Dimension imgSize, MersenneTwister random)
                 {
                     double offsetMin = Math.min(imgSize.width, imgSize.height) / 100;
-                    ColorPalette palette = new ComplementaryPalette(random);
+                    ColorPalette palette = PaletteFactory.PaletteOptions.COMPLEMENTARY.generate(random);
 
                     g.setColor(palette.getColorByIndex(0));
                     g.fillRect(0, 0, imgSize.width, imgSize.height);

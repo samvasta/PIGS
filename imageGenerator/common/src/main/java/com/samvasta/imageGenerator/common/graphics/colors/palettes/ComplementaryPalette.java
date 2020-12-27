@@ -11,16 +11,16 @@ public class ComplementaryPalette extends ColorPalette {
     private final double angle;
     private final double startHue;
 
-    public ComplementaryPalette(RandomGenerator random){
-        this(random.nextGaussian() * 40 + 180, random.nextDouble() * 360, random);
+    public ComplementaryPalette(RandomGenerator random, String nameIn){
+        this(random.nextGaussian() * 40 + 180, random.nextDouble() * 360, random, nameIn);
     }
 
-    public ComplementaryPalette(double startHue, RandomGenerator random){
-        this(random.nextGaussian() * 40 + 180, startHue, random);
+    public ComplementaryPalette(double startHue, RandomGenerator random, String nameIn){
+        this(random.nextGaussian() * 40 + 180, startHue, random, nameIn);
     }
 
-    public ComplementaryPalette(double angleIn, double startHueIn, RandomGenerator random){
-        super(random);
+    public ComplementaryPalette(double angleIn, double startHueIn, RandomGenerator random, String nameIn){
+        super(random, nameIn);
         angle = angleIn;
         startHue = startHueIn;
         initColorsAndWeights(random);

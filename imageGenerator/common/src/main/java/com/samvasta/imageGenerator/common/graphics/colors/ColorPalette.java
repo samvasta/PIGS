@@ -18,7 +18,9 @@ public abstract class ColorPalette
     private Color smallestColor;
     private double smallestColorWeight;
 
-    public ColorPalette(Color[] colorsArr, double[] weights){
+    private String name;
+
+    public ColorPalette(Color[] colorsArr, double[] weights, String nameIn){
         colors = new ArrayList<>();
         relativeWeights = new ArrayList<>();
         totalRelativeWeight = 0;
@@ -28,6 +30,7 @@ public abstract class ColorPalette
         for(int i = 0; i < colorsArr.length; i++){
             addColor(colorsArr[i], weights[i]);
         }
+        name = nameIn;
     }
 
     /**
@@ -35,12 +38,13 @@ public abstract class ColorPalette
      * @param random the random generator is normally unused in the constructor, but helps remind implementations of
      *               {@link ColorPalette} to use a random generator from a constructor instead of creating their own.
      */
-    public ColorPalette(RandomGenerator random){
+    public ColorPalette(RandomGenerator random, String nameIn){
         colors = new ArrayList<>();
         relativeWeights = new ArrayList<>();
         totalRelativeWeight = 0;
         smallestColorWeight = Double.MAX_VALUE;
         biggestColorWeight = -1;
+        name = nameIn;
     }
 
     protected abstract void initColorsAndWeights(RandomGenerator random);
@@ -294,5 +298,9 @@ public abstract class ColorPalette
         }
 
         return smallestColor;
+    }
+
+    public String getName(){
+        return this.name;
     }
 }

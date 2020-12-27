@@ -56,7 +56,7 @@ public class CircleWaveGenerator implements IGenerator {
 
         double wavePrimaryHue = baseHue + (random.nextBoolean() ? 1 : -1) * (random.nextDouble() * 50 + 90);
 
-        ColorPalette primaryRamp = new LinearLchPaletteBuilder(random)
+        ColorPalette primaryRamp = new LinearLchPaletteBuilder(random, "Rainbow")
                                         .startLum(25)
                                         .startChroma(85)
                                         .startHue(wavePrimaryHue)

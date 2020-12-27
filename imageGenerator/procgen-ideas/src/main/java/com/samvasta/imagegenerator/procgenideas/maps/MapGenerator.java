@@ -44,7 +44,7 @@ public class MapGenerator implements IGenerator {
     }
 
     public void generateImage(Map<String, Object> settings, Graphics2D g, Dimension imageSize, MersenneTwister random) {
-        ColorPalette waterPalette = new LinearLchPaletteBuilder(random)
+        ColorPalette waterPalette = new LinearLchPaletteBuilder(random, "Water")
                 .startHue(290)
                 .deltaHue(-10)
                 .startLum(25)

@@ -20,7 +20,9 @@ public class LinearLchPaletteBuilder implements IColorPaletteBuilder
     private double deltaChroma;
     private double deltaHue;
 
-    public LinearLchPaletteBuilder(RandomGenerator random){
+    private String name;
+
+    public LinearLchPaletteBuilder(RandomGenerator random, String nameIn){
         this.random = random;
         numColors = MIN_COLORS + random.nextInt(MAX_COLORS - MIN_COLORS);
         startLum = 50 + 50 * random.nextGaussian();
@@ -34,6 +36,8 @@ public class LinearLchPaletteBuilder implements IColorPaletteBuilder
         deltaLum = (endLum - startLum) / numColors;
         deltaChroma = (endChroma - startChroma) / numColors;
         deltaHue = (endHue - startHue) / numColors;
+
+        name = nameIn;
     }
 
     public LinearLchPaletteBuilder numColors(int numColors)
@@ -88,6 +92,7 @@ public class LinearLchPaletteBuilder implements IColorPaletteBuilder
                 deltaLum,
                 deltaChroma,
                 deltaHue,
-                random);
+                random,
+                name);
     }
 }

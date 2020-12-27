@@ -9,7 +9,7 @@ import java.awt.*;
 public class SingleColorPalette extends ColorPalette
 {
     public SingleColorPalette(Color color){
-        super(new Color[]{color}, new double[]{1.0});
+        super(new Color[]{color}, new double[]{1.0}, "Single");
     }
 
     @Override
