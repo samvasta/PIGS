@@ -17,7 +17,7 @@ public class DebugGenerator
 {
 
     public static void main(String...args){
-        IGenerator generator = new TriangulationGenerator();
+        IGenerator generator = new TessellationGenerator();
 
         GeneratorWindow window = new GeneratorWindow(generator, new Dimension(1920, 1080));
 

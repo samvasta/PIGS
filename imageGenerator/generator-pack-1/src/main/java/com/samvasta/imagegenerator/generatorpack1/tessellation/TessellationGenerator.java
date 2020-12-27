@@ -117,6 +117,7 @@ public class TessellationGenerator implements IGenerator
         }
         rotation = random.nextDouble() * Math.PI * 2.0;
 
+        // Useful for testing
 //        xScale   = 200;
 //        yScale   = xScale;
 //        xShear   = 0;

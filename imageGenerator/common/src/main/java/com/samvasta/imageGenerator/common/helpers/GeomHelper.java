@@ -35,10 +35,19 @@ public class GeomHelper {
         return new Point2D.Double(midX, midY);
     }
 
-    public static Point2D addPolar(Point2D p, double magnitude, double angle){
+    public static Point2D.Double addPolar(Point2D p, double magnitude, double angle){
         double x = p.getX() + magnitude * Math.cos(angle);
         double y = p.getY() + magnitude * Math.sin(angle);
         return new Point2D.Double(x, y);
+    }
+
+
+    public static Point2D.Double[] addPolar(Point2D[] points, double magnitude, double angle){
+        Point2D.Double[] results = new Point2D.Double[points.length];
+        for(int i = 0; i < points.length; i++){
+            results[i] = addPolar(points[i], magnitude, angle);
+        }
+        return results;
     }
 
     public static Point2D getIntersection(Point2D p1, double angle1, Point2D p2, double angle2){
