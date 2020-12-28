@@ -1,10 +1,7 @@
 package com.samvasta.imageGenerator.common.graphics.colors;
 
 import com.samvasta.imageGenerator.common.exceptions.ColorPaletteException;
-import com.samvasta.imageGenerator.common.graphics.colors.palettes.ComplementaryPalette;
-import com.samvasta.imageGenerator.common.graphics.colors.palettes.LinearLchPaletteBuilder;
-import com.samvasta.imageGenerator.common.graphics.colors.palettes.MonochromePalette;
-import com.samvasta.imageGenerator.common.graphics.colors.palettes.TriadPalette;
+import com.samvasta.imageGenerator.common.graphics.colors.palettes.*;
 import org.apache.commons.math3.random.RandomGenerator;
 
 public class PaletteFactory {
@@ -33,6 +30,12 @@ public class PaletteFactory {
                 return new ComplementaryPalette(rand, "Complementary");
             }
         },
+        BALANCED {
+            @Override
+            public ColorPalette generate(RandomGenerator rand) {
+                return new BalancedPalette(rand, "Balanced");
+            }
+        }
         ;
         public abstract ColorPalette generate(RandomGenerator rand);
     }

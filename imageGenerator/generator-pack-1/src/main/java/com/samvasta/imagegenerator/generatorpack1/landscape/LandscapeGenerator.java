@@ -159,16 +159,6 @@ public class LandscapeGenerator implements IGenerator
             endY = startY + (random.nextDouble() + 0.5) * 5.0 * twoPercentHeight;
             int dipX = imageSize.width/ 2 + (int)(imageSize.width/2.0 * dipXGenerator.getSimplex(0, i));
             drawRidge(g, startY, endY, dipX, palette.getColorByIndex(i), random, i);
-            System.out.println(dipX);
-
-//            if (i < numLayers - 1)
-//            {
-////                g.setClip(0, (int) (endY  - twoPercentHeight), imageSize.width, imageSize.height);
-//                g.setColor(new Color(255, 255, 255));
-//                g.fill(water);
-//                g.setClip(null);
-//            }
-
 
             takeSnapshot();
         }
@@ -187,16 +177,12 @@ public class LandscapeGenerator implements IGenerator
         double minY = Integer.MAX_VALUE;
         int minYIdx = -1;
         for(int i = 1; i < ridgeLinePoints.length-1; i++){
-            if(ridgeLinePoints[i].y <= ridgeLinePoints[i+1].y && ridgeLinePoints[i].y <= ridgeLinePoints[i-1].y){
-                g.drawOval((int)(ridgeLinePoints[i].x-5), (int)(ridgeLinePoints[i].y-5), 11, 11);
-            }
             if(ridgeLinePoints[i].y < minY){
                 minY = ridgeLinePoints[i].y;
                 minYIdx = i;
             }
         }
 
-        g.fillOval((int)(ridgeLinePoints[minYIdx].x-5), (int)(ridgeLinePoints[minYIdx].y-5), 11, 11);
 
         double highlightEndX;
         if(isSunOnLeft){

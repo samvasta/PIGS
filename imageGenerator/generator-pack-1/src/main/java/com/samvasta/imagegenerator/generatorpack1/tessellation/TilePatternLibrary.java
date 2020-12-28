@@ -1,6 +1,12 @@
 package com.samvasta.imagegenerator.generatorpack1.tessellation;
 
 import com.samvasta.imagegenerator.generatorpack1.tessellation.patterngenerators.*;
+import com.samvasta.imagegenerator.generatorpack1.tessellation.patterngenerators.p6.N3_02a;
+import com.samvasta.imagegenerator.generatorpack1.tessellation.patterngenerators.p6.N3_02b;
+import com.samvasta.imagegenerator.generatorpack1.tessellation.patterngenerators.p6.P5_16;
+import com.samvasta.imagegenerator.generatorpack1.tessellation.patterngenerators.pgg.N3_01;
+import com.samvasta.imagegenerator.generatorpack1.tessellation.patterngenerators.pgg.N3_18;
+import com.samvasta.imagegenerator.generatorpack1.tessellation.patterngenerators.pgg.P5_06;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.log4j.Logger;
 
@@ -41,15 +47,15 @@ public class TilePatternLibrary
     {
         patterns = new ArrayList<>();
         //todo: create tile patterns
-//        patterns.add(new N3_01());
-//        patterns.add(new N3_02a());
-//        patterns.add(new N3_02b());
-//        patterns.add(new N3_18());
-//        patterns.add(new P5_06());
-//        patterns.add(new P5_16());
-//        patterns.add(new RegularTrianglePattern());
-//        patterns.add(new RegularQuadPattern());
-//        patterns.add(new RegularHexagonPattern());
+        patterns.add(new N3_01());
+        patterns.add(new N3_02a());
+        patterns.add(new N3_02b());
+        patterns.add(new N3_18());
+        patterns.add(new P5_06());
+        patterns.add(new P5_16());
+        patterns.add(new RegularTrianglePattern());
+        patterns.add(new RegularQuadPattern());
+        patterns.add(new RegularHexagonPattern());
         patterns.add(new TruncatedTrihexagonalPattern());
     }
 

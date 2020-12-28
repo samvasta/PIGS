@@ -28,7 +28,7 @@ public class TessellationGenerator implements IGenerator
 
     private static final String OPTION_SOLID_COLORS_ONLY = "Solid Colors Only";
     private static final List<IniSchemaOption<?>> OPTIONS = new ArrayList<IniSchemaOption<?>>(){{
-        add(new IniSchemaOption<>(OPTION_SOLID_COLORS_ONLY, true, Boolean.class));
+        add(new IniSchemaOption<>(OPTION_SOLID_COLORS_ONLY, false, Boolean.class));
     }};
 
     //Polygons shouldn't really be smaller than 5 pixels anyways
@@ -107,7 +107,7 @@ public class TessellationGenerator implements IGenerator
             yScale = xScale;
         }
 
-        if(random.nextDouble() < 3){
+        if(random.nextDouble() < 0.67){
             xShear   = random.nextDouble() * 0.125;
             yShear   = random.nextDouble() * 0.125;
         }
@@ -201,13 +201,17 @@ public class TessellationGenerator implements IGenerator
         g.setStroke(new BasicStroke(strokeWeight, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
         Color color = palette.getColor(random.nextDouble());
         double colorClosenessFactor = Math.abs(random.nextGaussian() * random.nextDouble()) + 0.05;
+
+        //50/50 chance to always change or only sometimes change (which can create a spiral effect)
+        double colorChangeChance = random.nextBoolean() ? 1 : random.nextDouble() * 0.15 + 0.05;
+
         for(Polygon poly : polygons){
-            if(random.nextDouble() < 0.1){
+            if(random.nextDouble() < colorChangeChance){
                 color = palette.getColor(random.nextDouble());
             }
-            g.setColor(ColorUtil.getClose(color, colorClosenessFactor));
+            color = ColorUtil.getClose(color, colorClosenessFactor);
             g.setClip(poly);
-            ITexture texture = getFillTexture(random);
+            ITexture texture = getFillTexture(random, color);
             Rectangle polyBounds = poly.getBounds();
 
             ProtoTexture textureImg = texture.getTexture(new Dimension((int)Math.ceil(polyBounds.getWidth()), (int)Math.ceil(polyBounds.getHeight())), random);
@@ -286,10 +290,10 @@ public class TessellationGenerator implements IGenerator
         return (isAbove && isBelow) ^ (isLeft && isRight);
     }
 
-    private ITexture getFillTexture(RandomGenerator random){
+    private ITexture getFillTexture(RandomGenerator random, Color prevFill){
         double percent = random.nextDouble();
         if(percent < solidColorChance){
-            return new SolidColorTexture();
+            return new SolidColorTexture(prevFill);
         }
         FastNoise noise = NoiseHelper.getFractalSimplex(random, random.nextInt(3) + 3);
         return new NoiseTexture(noise);

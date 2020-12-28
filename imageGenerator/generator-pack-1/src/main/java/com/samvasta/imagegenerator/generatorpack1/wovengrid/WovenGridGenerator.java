@@ -49,11 +49,14 @@ public class WovenGridGenerator implements IGenerator {
 
     @Override
     public void generateImage(Map<String, Object> settings, Graphics2D g, Dimension imageSize, MersenneTwister random) {
+        g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING,  RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+        g.setRenderingHint(RenderingHints.KEY_RENDERING,  RenderingHints.VALUE_RENDER_QUALITY);
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,  RenderingHints.VALUE_ANTIALIAS_ON);
 
-        if(random.nextDouble() < 0.7){
+        if (random.nextDouble() < 0.7) {
             //Rotate graphics by a random amount (+/- 45deg)
             AffineTransform transform = new AffineTransform();
-            transform.rotate(Math.PI/4d - Math.PI/2d * random.nextDouble(), imageSize.width/2, imageSize.height/2);
+            transform.rotate(Math.PI / 4d - Math.PI / 2d * random.nextDouble(), imageSize.width / 2, imageSize.height / 2);
             g.setTransform(transform);
         }
 
@@ -119,8 +122,8 @@ public class WovenGridGenerator implements IGenerator {
         float[] shadowStops = new float[]
                 {
                         Math.max(0, 0.5f - fiberSizeAsPercent),
-                        0.5f - fiberSizeAsPercent/2f,
-                        0.5f + fiberSizeAsPercent/2f,
+                        0.5f - fiberSizeAsPercent / 2f,
+                        0.5f + fiberSizeAsPercent / 2f,
                         Math.min(1, 0.5f + fiberSizeAsPercent)
                 };
 
@@ -133,9 +136,9 @@ public class WovenGridGenerator implements IGenerator {
                 };
 
         //We are rotating by a random amount so fill a circle big enough to cover the entire output image size at any rotation
-        int circleRadius = (int)Math.sqrt(imageSize.width * imageSize.width + imageSize.height * imageSize.height);
+        int circleRadius = (int) Math.sqrt(imageSize.width * imageSize.width + imageSize.height * imageSize.height);
         g.setColor(palette.getBg().toColor());
-        g.fillOval(-circleRadius/2,-circleRadius/2, circleRadius*2, circleRadius*2);
+        g.fillOval(-circleRadius / 2, -circleRadius / 2, circleRadius * 2, circleRadius * 2);
 
 
         int drawAreaWidth = imageSize.width - leftMargin - rightMargin;
@@ -163,14 +166,14 @@ public class WovenGridGenerator implements IGenerator {
             //shadow
             Paint origPaint = g.getPaint();
             g.setPaint(new LinearGradientPaint(leftMargin + x * gridSize, 0, leftMargin + (x + 1) * gridSize, 0, shadowStops, shadowCols));
-            g.fillRect(leftMargin + x * gridSize, -circleRadius, gridSize, circleRadius+topMargin);
+            g.fillRect(leftMargin + x * gridSize, -circleRadius, gridSize, circleRadius + topMargin);
             g.fillRect(leftMargin + x * gridSize, topMargin + (gridSize * numCellsY), gridSize, circleRadius);
 
             //line
             g.setPaint(origPaint);
             g.setColor(verticalColors[x]);
-            g.fillRect(leftMargin + x * gridSize + (int) (gridSize - fiberSize) / 2, -circleRadius, fiberSize, topMargin+circleRadius);
-            g.fillRect(leftMargin + x * gridSize + (int) (gridSize - fiberSize) / 2, topMargin + (gridSize * numCellsY), fiberSize, circleRadius);
+            g.fillRect(leftMargin + x * gridSize + (int) (gridSize - fiberSize) / 2, -circleRadius, fiberSize, topMargin + circleRadius + 1);
+            g.fillRect(leftMargin + x * gridSize + (int) (gridSize - fiberSize) / 2, topMargin + (gridSize * numCellsY) - 1, fiberSize, circleRadius);
         }
         for (int y = 0; y < numCellsY; y++) {
 
@@ -183,8 +186,8 @@ public class WovenGridGenerator implements IGenerator {
             //line
             g.setPaint(origPaint);
             g.setColor(horizontalColors[y]);
-            g.fillRect(-circleRadius, topMargin + y * gridSize + (int) (gridSize - fiberSize) / 2, circleRadius+leftMargin, fiberSize);
-            g.fillRect(leftMargin + (gridSize * numCellsX), topMargin + y * gridSize + (int) (gridSize - fiberSize) / 2, circleRadius, fiberSize);
+            g.fillRect(-circleRadius, topMargin + y * gridSize + (int) (gridSize - fiberSize) / 2, circleRadius + leftMargin + 1, fiberSize);
+            g.fillRect(leftMargin + (gridSize * numCellsX) - 1, topMargin + y * gridSize + (int) (gridSize - fiberSize) / 2, circleRadius, fiberSize);
         }
     }
 
@@ -207,7 +210,7 @@ public class WovenGridGenerator implements IGenerator {
             //vertical line
             g.setPaint(origPaint);
             g.setColor(verticalCol);
-            g.fillRect(cellBounds.x + (cellBounds.width - fiberWidth) / 2, cellBounds.y, fiberWidth, cellBounds.height);
+            g.fillRect(cellBounds.x + (cellBounds.width - fiberWidth) / 2, cellBounds.y - 1, fiberWidth, cellBounds.height + 2);
 
 
             //horizontal shadow
@@ -217,7 +220,7 @@ public class WovenGridGenerator implements IGenerator {
             //horizontal line
             g.setPaint(origPaint);
             g.setColor(horizontalCol);
-            g.fillRect(cellBounds.x, cellBounds.y + (cellBounds.height - fiberWidth) / 2, cellBounds.width, fiberWidth);
+            g.fillRect(cellBounds.x - 1, cellBounds.y + (cellBounds.height - fiberWidth) / 2, cellBounds.width + 2, fiberWidth);
 
         } else {
 
@@ -228,7 +231,7 @@ public class WovenGridGenerator implements IGenerator {
             //horizontal line
             g.setPaint(origPaint);
             g.setColor(horizontalCol);
-            g.fillRect(cellBounds.x, cellBounds.y + (cellBounds.height - fiberWidth) / 2, cellBounds.width, fiberWidth);
+            g.fillRect(cellBounds.x - 1, cellBounds.y + (cellBounds.height - fiberWidth) / 2, cellBounds.width + 2, fiberWidth);
 
 
             //vertical shadow
@@ -238,7 +241,7 @@ public class WovenGridGenerator implements IGenerator {
             //vertical line
             g.setPaint(origPaint);
             g.setColor(verticalCol);
-            g.fillRect(cellBounds.x + (cellBounds.width - fiberWidth) / 2, cellBounds.y, fiberWidth, cellBounds.height);
+            g.fillRect(cellBounds.x + (cellBounds.width - fiberWidth) / 2, cellBounds.y - 1, fiberWidth, cellBounds.height + 2);
         }
         g.setPaint(origPaint);
     }
