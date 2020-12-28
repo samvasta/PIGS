@@ -3,6 +3,7 @@ package com.samvasta.generatorpack1.it;
 import com.samvasta.imageGenerator.common.interfaces.IGenerator;
 import com.samvasta.imageGenerator.debuggenerator.GeneratorWindow;
 import com.samvasta.imagegenerator.generatorpack1.bezier.BezierGenerator;
+import com.samvasta.imagegenerator.generatorpack1.wovengrid.WovenGridGenerator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +12,7 @@ public class DebugGenerator
 {
 
     public static void main(String...args){
-        IGenerator generator = new BezierGenerator();
+        IGenerator generator = new WovenGridGenerator();
 
         GeneratorWindow window = new GeneratorWindow(generator, new Dimension(1920, 1080));
 

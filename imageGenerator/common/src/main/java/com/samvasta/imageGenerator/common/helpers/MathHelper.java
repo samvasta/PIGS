@@ -10,6 +10,8 @@ public class MathHelper
     public static final double DEG150 = Math.PI * 5.0 / 12.0;
     public static final double SQRT_3 = Math.sqrt(3.0);
 
+    public static final double PHI = 1.618033988749894848204586834;
+
     public static double clamp(double value, double min, double max){
         if(max < min){
             throw new IllegalArgumentException("Max must be less than or equal to min");

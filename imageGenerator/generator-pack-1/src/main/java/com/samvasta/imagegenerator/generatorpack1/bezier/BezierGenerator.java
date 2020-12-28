@@ -165,7 +165,7 @@ public class BezierGenerator implements IGenerator {
             xi = paletteSize + (int) Math.floor(imageSize.width * 0.2 * percent);
 
             percent += palette.getNormalizedWeightByIndex(i);
-            
+
             yi = (int) (paletteSize * 2);
             xf = paletteSize + (int) Math.ceil(imageSize.width * 0.2 * percent);
             yf = (int) (paletteSize * 2.25);
