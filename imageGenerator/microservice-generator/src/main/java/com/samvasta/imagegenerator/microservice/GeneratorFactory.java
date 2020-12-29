@@ -25,7 +25,7 @@ public class GeneratorFactory {
     private static final String WOVEN_GRID = "wovengrid";
 
     public static final String[] GENERATOR_STRING_OPTIONS = {
-//            ALL_COLORS,
+//            ALL_COLORS,       // too expensive on CPU
             AMOEBAS,
             BEZIER,
             CIRCLE_WAVE,
@@ -49,6 +49,8 @@ public class GeneratorFactory {
             case TESSELLATION: return new TessellationGenerator();
             case TRIANGULATION: return new TriangulationGenerator();
             case WOVEN_GRID: return new WovenGridGenerator();
+
+            //yay antipatterns!
             default: return null;
         }
     }

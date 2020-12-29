@@ -1,17 +1,21 @@
 package com.samvasta.imagegenerator.microservice;
 
 import com.google.gson.Gson;
+import com.samvasta.imageGenerator.common.helpers.IniHelper;
 import com.samvasta.imageGenerator.common.interfaces.IGenerator;
+import com.samvasta.imageGenerator.common.models.IniSchemaOption;
 import org.apache.commons.math3.random.MersenneTwister;
 import org.apache.log4j.Logger;
 import spark.Request;
 import spark.Response;
 import spark.Spark;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.ByteArrayOutputStream;
+import java.util.*;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,12 +23,19 @@ public class Server {
 
     public static final Logger logger = Logger.getLogger(Server.class);
 
+    public static final Gson gson = new Gson();
+    public static final String INVALID_GENERATOR_NAME_RESPONSE = "{\"validNames\":" + gson.toJson(GeneratorFactory.GENERATOR_STRING_OPTIONS) + "}";
+    public static final String INVALID_DIMENSION_FORMAT_RESPONSE = gson.toJson("Invalid dimension. Expected string like \"123x456\"");
+    public static final String MISSING_DIMENSIONS_RESPONSE = "Missing dimensions in query. Expected something like \"/generate/<generator-name>/500x500\"";
+
     public static void main(String[] args) {
         int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080"));
         Spark.port(port);
 
-        final Gson gson = new Gson();
         final MersenneTwister random = new MersenneTwister(System.currentTimeMillis());
+
+        Spark.get("/", (req, res) -> "Hello world");
+        System.out.println("Server listening on port " + Spark.port());
 
         Spark.get(
                 "/list-generators",
@@ -43,10 +54,31 @@ public class Server {
                     if (generator == null) {
                         res.status(409);
                         res.type("application/json");
-                        return gson.toJson(new Object(){public String[] validOptions = GeneratorFactory.GENERATOR_STRING_OPTIONS;});
+                        return INVALID_GENERATOR_NAME_RESPONSE;
                     }
 
-                    return "";
+                    List<GeneratorOptionDetails> optionsList = new ArrayList<>();
+                    List<IniSchemaOption<?>> options = generator.getIniSettings();
+                    for(IniSchemaOption<?> option : options){
+                        optionsList.add(new GeneratorOptionDetails(option));
+                    }
+                    return gson.toJson(optionsList);
+                }
+        );
+
+        Spark.get(
+                "/generate/:generatorname",
+                (Request req, Response res) -> {
+                    String generatorName = req.params(":generatorname");
+                    IGenerator generator = GeneratorFactory.getGenerator(generatorName);
+                    if (generator == null) {
+                        res.status(409);
+                        res.type("application/json");
+                        return INVALID_GENERATOR_NAME_RESPONSE;
+                    }
+
+                    res.status(409);
+                    return MISSING_DIMENSIONS_RESPONSE;
                 }
         );
 
@@ -60,7 +92,7 @@ public class Server {
                     if (generator == null) {
                         res.status(409);
                         res.type("application/json");
-                        return gson.toJson(new Object(){public String[] validOptions = GeneratorFactory.GENERATOR_STRING_OPTIONS;});
+                        return INVALID_GENERATOR_NAME_RESPONSE;
                     }
 
                     String dimension = req.params(":dimension");
@@ -68,20 +100,46 @@ public class Server {
                     if(imageSize == null) {
                         res.status(400);
                         res.type("application/json");
-                        return gson.toJson("Invalid dimension. Expected string like \"123x456\"");
+                        return INVALID_DIMENSION_FORMAT_RESPONSE;
                     }
 
+                    //Build options
                     Map<String, Object> settings = new HashMap<>();
+                    List<IniSchemaOption<?>> options = generator.getIniSettings();
 
-                    Image img;
+                    Map<String, String> queryParams = new HashMap<>();
+                    for(String key : req.queryParams()) {
+                        queryParams.put(key.toLowerCase(), req.queryParams(key));
+                    }
+
+                    for(IniSchemaOption<?> option : options){
+                        String safeOptionName = GeneratorOptionDetails.getUrlSafeOptionName(option);
+                        if(queryParams.containsKey(safeOptionName)) {
+                            String paramValue = queryParams.get(safeOptionName);
+                            settings.put(option.getOptionName(), toObject(option.getValueType(), paramValue));
+                        }
+                        else {
+                            settings.put(option.getOptionName(), option.getDefaultValue());
+                        }
+                    }
+
+                    //Generate image
+                    byte[] imgBytes;
                     try {
-                        img = createImage(generator, imageSize, settings, random);
+                        BufferedImage img = createImage(generator, imageSize, settings, random);
+                        try(ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
+                            ImageIO.write(img, "png", stream );
+
+                            stream.flush();
+                            imgBytes = stream.toByteArray();
+                        }
                         res.type("image/png");
                     } catch (Exception e) {
                         res.status(500);
                         return "Internal Server Error";
                     }
-                    return img;
+
+                    return imgBytes;
                 });
         // [END run_system_package_handler]
         // [END cloudrun_system_package_handler]
@@ -114,18 +172,36 @@ public class Server {
     // [END run_system_package_exec]
     // [END cloudrun_system_package_exec]
 
-    private static final Pattern dimensionPattern = Pattern.compile("(\\d+)[x|X](\\d+)");
+    private static final Pattern dimensionPattern = Pattern.compile("(\\d+)[xX](\\d+)");
     private static final Dimension parseDimension(String dimensionStr) {
         try {
             Matcher matcher = dimensionPattern.matcher(dimensionStr);
-            String widthStr = matcher.group(0);
-            String heightStr = matcher.group(1);
+            if(matcher.find()){
+                String widthStr = matcher.group(1);
+                String heightStr = matcher.group(2);
 
-            int width = Integer.parseInt(widthStr);
-            int height = Integer.parseInt(heightStr);
-            return new Dimension(width, height);
+                int width = Integer.parseInt(widthStr);
+                int height = Integer.parseInt(heightStr);
+                return new Dimension(width, height);
+            }
+            //yay antipatterns!
+            return null;
         } catch (Exception e) {
+            e.printStackTrace();
+            //yay antipatterns!
             return null;
         }
+    }
+
+    //Shameless rip
+    public static Object toObject( Class clazz, String value ) {
+        if( Boolean.class == clazz ) return Boolean.parseBoolean( value );
+        if( Byte.class == clazz ) return Byte.parseByte( value );
+        if( Short.class == clazz ) return Short.parseShort( value );
+        if( Integer.class == clazz ) return Integer.parseInt( value );
+        if( Long.class == clazz ) return Long.parseLong( value );
+        if( Float.class == clazz ) return Float.parseFloat( value );
+        if( Double.class == clazz ) return Double.parseDouble( value );
+        return value;
     }
 }
