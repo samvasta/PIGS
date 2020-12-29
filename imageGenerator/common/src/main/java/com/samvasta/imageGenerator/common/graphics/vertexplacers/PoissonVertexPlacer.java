@@ -18,7 +18,7 @@ public class PoissonVertexPlacer implements IVertexPlacer
     double cellSize;
     int gridWidth;
     int gridHeight;
-    Map<Point, Point2D.Double> grid;
+    Map<Point, List<Point2D.Double>> grid;
     ArrayList<Point2D.Double> processingList;
 
     public PoissonVertexPlacer(){
@@ -39,7 +39,7 @@ public class PoissonVertexPlacer implements IVertexPlacer
         minDistance = minDistanceIn;
     }
 
-    public void placeVerticies(List<Point2D.Double> pointList, Rectangle bounds, RandomGenerator random)
+    public void placeVertices(List<Point2D.Double> pointList, Rectangle bounds, RandomGenerator random)
     {
         cellSize = minDistance / (2d * Math.PI);
         gridWidth = (int)Math.ceil(bounds.getWidth() / cellSize);
@@ -60,7 +60,7 @@ public class PoissonVertexPlacer implements IVertexPlacer
                 double distance = random.nextDouble() * minDistance + minDistance;
                 Point2D.Double candidate = new Point2D.Double(distance * Math.cos(angle) + point.x, distance * Math.sin(angle) + point.y);
 
-                if(isValidLocation(candidate, bounds)){
+                if(isValidLocation(candidate, bounds, pointList)){
                     pointList.add(candidate);
                     processingList.add(candidate);
                     addPointToGrid(candidate);
@@ -70,39 +70,28 @@ public class PoissonVertexPlacer implements IVertexPlacer
         }
     }
 
-    private boolean isValidLocation(Point2D.Double candidate, Rectangle bounds){
+    private boolean isValidLocation(Point2D.Double candidate, Rectangle bounds, List<Point2D.Double> points){
         if(!bounds.contains(candidate)){
             return false;
         }
 
-        int x = (int)(candidate.x / cellSize);
-        int y = (int)(candidate.y / cellSize);
-
-        for(int i = -1; i <= 1; i++){
-            for(int j = -1; j <= 1; j++){
-                try{
-                    Point2D.Double cellPoint = grid.get(new Point(x+i, y+j));
-                    if(cellPoint == null){
-                        continue;
-                    }
-                    else if(cellPoint.distanceSq(candidate) < minDistance * minDistance){
-                        return false;
-                    }
-                }
-                catch(ArrayIndexOutOfBoundsException ex){
-                    //do nothing, too lazy to properly avoid this. And besides,
-                    //we only tried to access a cell that isn't there so no worries
-                }
+        for(Point2D.Double point : points) {
+            double distSq = candidate.distanceSq(point);
+            if(distSq < minDistance * minDistance){
+                return false;
             }
         }
-
         return true;
     }
 
     private void addPointToGrid(Point2D.Double point){
         int x = (int)(point.x / cellSize);
         int y = (int)(point.y / cellSize);
-        grid.put(new Point(x, y), point);
+        Point cell = new Point(x, y);
+        if(!grid.containsKey(cell)) {
+            grid.put(cell, new ArrayList<>());
+        }
+        grid.get(cell).add(point);
     }
 
 }

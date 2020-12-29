@@ -91,4 +91,59 @@ public class GeomHelper {
             points[i] = rotate(points[i], angle);
         }
     }
+
+    /*
+    Centroid algorithm is based on an algorithm from
+    http://www.faqs.org/faqs/graphics/algorithms-faq/
+    (Relevant section copied below)
+    ============================================================================
+    Subject 2.02: How can the centroid of a polygon be computed?
+
+    The centroid (a.k.a. the center of mass, or center of gravity)
+    of a polygon can be computed as the weighted sum of the centroids
+    of a partition of the polygon into triangles.  The centroid of a
+    triangle is simply the average of its three vertices, i.e., it
+    has coordinates (x1 + x2 + x3)/3 and (y1 + y2 + y3)/3.  This
+    suggests first triangulating the polygon, then forming a sum
+    of the centroids of each triangle, weighted by the area of
+    each triangle, the whole sum normalized by the total polygon area.
+    This indeed works, but there is a simpler method:  the triangulation
+    need not be a partition, but rather can use positively and
+    negatively oriented triangles (with positive and negative areas),
+    as is used when computing the area of a polygon.  This leads to
+    a very simple algorithm for computing the centroid, based on a
+    sum of triangle centroids weighted with their signed area.
+    The triangles can be taken to be those formed by any fixed point,
+    e.g., the vertex v0 of the polygon, and the two endpoints of
+    consecutive edges of the polygon: (v1,v2), (v2,v3), etc.  The area
+    of a triangle with vertices a, b, c is half of this expression:
+                (b[X] - a[X]) * (c[Y] - a[Y]) -
+                (c[X] - a[X]) * (b[Y] - a[Y]);
+     */
+    /**
+     * Computes the centroid of a convex polygon
+     * @param points points of the polygon
+     * @return a single point representing the weighted center of the polygon
+     */
+    public static Point2D.Double getCentroid(Point2D.Double[] points) {
+        Point2D.Double a = points[0];
+
+        double xSum = 0;
+        double ySum = 0;
+        double weightSum = 0;
+
+        for(int i = 2; i < points.length; i++){
+            Point2D.Double b = points[i-1];
+            Point2D.Double c = points[i];
+            double area = (b.x - a.x) * (c.y - a.y) - (c.x - a.x) * (b.y - a.y);
+            area /= 2.0;
+
+            xSum += area * (a.x + b.x + c.x) / 3.0;
+            ySum += area * (a.y + b.y + c.y) / 3.0;
+
+            weightSum += area;
+        }
+
+        return new Point2D.Double(xSum / weightSum, ySum / weightSum);
+    }
 }

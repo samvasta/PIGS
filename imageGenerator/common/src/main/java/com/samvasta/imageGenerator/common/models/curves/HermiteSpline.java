@@ -1,5 +1,7 @@
 package com.samvasta.imageGenerator.common.models.curves;
 
+import com.samvasta.imageGenerator.common.helpers.MathHelper;
+
 import java.awt.geom.Point2D;
 
 public class HermiteSpline implements IParametricCurve{
@@ -20,6 +22,33 @@ public class HermiteSpline implements IParametricCurve{
         }
         else{
             initMultiSegmentCurve(points, tangentStart, tangentEnd, tangentMagnitude);
+        }
+
+        percentPerCurve = 1.0 / (double)curves.length;
+    }
+
+    /**
+     * Creates a hermite spline which connects the end to the start
+     */
+    public HermiteSpline(Point2D.Double[] points, double tangentMagnitude){
+        if(points.length < 2){
+            throw new IllegalArgumentException("Hermite Spline requires at least 2 points");
+        }
+
+        curves = new HermiteCurve[points.length-1];
+
+        Point2D.Double start = points[0];
+        Point2D.Double end = points[points.length-1];
+
+        double dy = end.y - start.y;
+        double dx = end.x - start.x;
+        double tangent = Math.atan2(dy, dx);
+
+        if(curves.length == 1){
+            initSingleSegmentCurve(points, tangent, tangent, tangentMagnitude);
+        }
+        else{
+            initMultiSegmentCurve(points, tangent, tangent, tangentMagnitude);
         }
 
         percentPerCurve = 1.0 / (double)curves.length;
@@ -47,6 +76,7 @@ public class HermiteSpline implements IParametricCurve{
     }
 
     public Point2D.Double interpolate(double percent){
+        percent = MathHelper.wrap(percent, 0, 1);
         if(percent == 1){
             return curves[curves.length-1].end;
         }
@@ -62,4 +92,12 @@ public class HermiteSpline implements IParametricCurve{
         return curves[curveIdx];
     }
 
+    public Point2D.Double[] getInterpolatedPoints(int numSegments) {
+        Point2D.Double[] points = new Point2D.Double[numSegments+1];
+        for(int i = 0; i < points.length; i++){
+            double percent = (double)i / (double)points.length;
+            points[i] = interpolate(percent);
+        }
+        return points;
+    }
 }

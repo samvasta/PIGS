@@ -11,5 +11,11 @@ import java.util.List;
  */
 public interface IVertexPlacer
 {
-    void placeVerticies(List<Point2D.Double> pointList, Rectangle bounds, RandomGenerator random);
+    /**
+     * Populates a list with vertices that fit inside the bounds
+     * @param pointList list to populate
+     * @param bounds all points will be inside these bounds
+     * @param random for rng
+     */
+    void placeVertices(List<Point2D.Double> pointList, Rectangle bounds, RandomGenerator random);
 }

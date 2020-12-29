@@ -30,7 +30,7 @@ public class JitterGridPlacer implements IVertexPlacer
     }
 
     @Override
-    public void placeVerticies(List<Point2D.Double> pointList, Rectangle bounds, RandomGenerator random)
+    public void placeVertices(List<Point2D.Double> pointList, Rectangle bounds, RandomGenerator random)
     {
         double initialCellX = -1 * random.nextDouble() * cellSize + bounds.getMinX();
         double cellY = -1 * random.nextDouble() * cellSize + bounds.getMinY();

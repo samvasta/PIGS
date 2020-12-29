@@ -29,7 +29,7 @@ public class UniformVertexPlacer implements IVertexPlacer
         return numVerticies;
     }
 
-    public void placeVerticies(List<Point2D.Double> pointList, Rectangle bounds, RandomGenerator random)
+    public void placeVertices(List<Point2D.Double> pointList, Rectangle bounds, RandomGenerator random)
     {
         for(int i = 0; i < numVerticies; i++){
             pointList.add(new Point2D.Double(random.nextInt((int)bounds.getWidth()) + bounds.getMinX(), random.nextInt((int)bounds.getHeight()) + bounds.getMinY()));

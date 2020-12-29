@@ -1,51 +1,16 @@
 package com.samvasta.imagegenerator.generatorpack1.wovengrid;
 
-import com.samvasta.imageGenerator.common.graphics.colors.CeiLchColor;
 import com.samvasta.imageGenerator.common.graphics.colors.ColorUtil;
 import com.samvasta.imageGenerator.common.graphics.colors.palettes.BalancedPalette;
-import com.samvasta.imageGenerator.common.interfaces.IGenerator;
-import com.samvasta.imageGenerator.common.interfaces.ISnapshotListener;
-import com.samvasta.imageGenerator.common.models.IniSchemaOption;
+import com.samvasta.imageGenerator.common.interfaces.SimpleGenerator;
 import org.apache.commons.math3.random.MersenneTwister;
 import org.apache.commons.math3.random.RandomGenerator;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-public class WovenGridGenerator implements IGenerator {
-    private List<ISnapshotListener> snapshotListeners;
-
-    @Override
-    public boolean isOnByDefault() {
-        return true;
-    }
-
-    @Override
-    public List<IniSchemaOption<?>> getIniSettings() {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public boolean isMultiThreadEnabled() {
-        return true;
-    }
-
-    @Override
-    public void addSnapshotListener(ISnapshotListener listener) {
-        snapshotListeners.add(listener);
-    }
-
-    @Override
-    public void removeSnapshotListener(ISnapshotListener listener) {
-        snapshotListeners.remove(listener);
-    }
-
-    public WovenGridGenerator() {
-        snapshotListeners = new ArrayList<>();
-    }
+public class WovenGridGenerator extends SimpleGenerator {
 
     @Override
     public void generateImage(Map<String, Object> settings, Graphics2D g, Dimension imageSize, MersenneTwister random) {

@@ -66,7 +66,7 @@ public class TriangulationGenerator implements IGenerator {
         IVertexPlacer vertexPlacer = VertexPlacerFactory.getRandomVertexPlacer(random, graphBounds);
         List<Point2D.Double> points = new ArrayList<>();
 
-        vertexPlacer.placeVerticies(points, graphBounds, random);
+        vertexPlacer.placeVertices(points, graphBounds, random);
 
         double maxBound = Math.max(imageSize.getHeight(), imageSize.getWidth());
         Point2D.Double p1 = new Point2D.Double(0, 3 * maxBound);

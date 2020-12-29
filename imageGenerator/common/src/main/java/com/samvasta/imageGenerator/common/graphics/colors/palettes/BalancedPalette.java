@@ -12,15 +12,22 @@ public class BalancedPalette extends ColorPalette {
     private CeiLchColor bg;
     private CeiLchColor fg;
     private CeiLchColor[] colors;
+    private boolean isDark;
 
     public BalancedPalette(RandomGenerator random, String nameIn) {
         super(random, nameIn);
+        isDark = random.nextBoolean();
+        initColorsAndWeights(random);
+    }
+
+    public BalancedPalette(RandomGenerator random, boolean isDarkIn, String nameIn) {
+        super(random, nameIn);
+        isDark = isDarkIn;
         initColorsAndWeights(random);
     }
 
     @Override
     protected void initColorsAndWeights(RandomGenerator random) {
-        boolean isDark = random.nextBoolean();
 
         double darkLum = random.nextDouble() * 20;
         double lighLum = 100 - random.nextDouble() * 20;
