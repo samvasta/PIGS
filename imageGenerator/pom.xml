@@ -18,6 +18,7 @@
         <module>generator-pack-1</module>
         <module>debug-generator</module>
         <module>procgen-ideas</module>
+        <module>microservice-generator</module>
     </modules>
 
 </project>

@@ -12,6 +12,7 @@
         <module name="procgen-ideas" />
         <module name="batch-generator" />
         <module name="generatorpack1" />
+        <module name="microservice-generator" />
         <module name="procgenideas" />
         <module name="debug-generator" />
         <module name="generator-pack-1" />
