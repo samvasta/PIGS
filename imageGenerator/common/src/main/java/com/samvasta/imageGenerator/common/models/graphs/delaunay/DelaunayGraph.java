@@ -1,4 +1,6 @@
-package com.samvasta.imagegenerator.generatorpack1.triangulation.halfedge;
+package com.samvasta.imageGenerator.common.models.graphs.delaunay;
+
+import com.samvasta.imageGenerator.common.models.graphs.undirected.UndirectedGraph;
 
 import java.awt.geom.Point2D;
 import java.util.*;
@@ -9,9 +11,9 @@ import java.awt.Polygon;
  */
 public class DelaunayGraph
 {
-    private Vertex[] initialVerticies;
+    private Vertex[] initialVertices;
     private Polygon graphBounds;
-    private Set<Vertex> verticies;
+    private Set<Vertex> vertices;
     public Set<Face> faces;
 
     public DelaunayGraph(Point2D.Double initP1, Point2D.Double initP2, Point2D.Double initP3){
@@ -19,7 +21,7 @@ public class DelaunayGraph
     }
 
     public void reset(Point2D.Double initP1, Point2D.Double initP2, Point2D.Double initP3){
-        verticies = new HashSet<>();
+        vertices = new HashSet<>();
         faces = new HashSet<>();
 
         Vertex v1 = new Vertex();
@@ -51,11 +53,11 @@ public class DelaunayGraph
         e2.setFace(face);
         e3.setFace(face);
 
-        verticies.add(v1);
-        verticies.add(v2);
-        verticies.add(v3);
+        vertices.add(v1);
+        vertices.add(v2);
+        vertices.add(v3);
         faces.add(face);
-        initialVerticies = new Vertex[]{v1, v2, v3};
+        initialVertices = new Vertex[]{v1, v2, v3};
         graphBounds = new Polygon();
         graphBounds.addPoint((int)Math.round(initP1.x), (int)Math.round(initP1.y));
         graphBounds.addPoint((int)Math.round(initP2.x), (int)Math.round(initP2.y));
@@ -65,11 +67,11 @@ public class DelaunayGraph
     public boolean isVertex(Point2D.Double point){
         Vertex vertex = new Vertex();
         vertex.setPos(point);
-        return verticies.contains(vertex);
+        return vertices.contains(vertex);
     }
 
     private boolean isInitialVertex(Vertex vertex){
-        return vertex.equals(initialVerticies[0]) || vertex.equals(initialVerticies[1]) || vertex.equals(initialVerticies[2]);
+        return vertex.equals(initialVertices[0]) || vertex.equals(initialVertices[1]) || vertex.equals(initialVertices[2]);
     }
 
     public Set<Edge> getEdges(){
@@ -96,9 +98,9 @@ public class DelaunayGraph
         }
         System.out.println("Removed " + facesToRemove.size() + " faces");
         faces.removeAll(facesToRemove);
-        verticies.remove(initialVerticies[0]);
-        verticies.remove(initialVerticies[1]);
-        verticies.remove(initialVerticies[2]);
+        vertices.remove(initialVertices[0]);
+        vertices.remove(initialVertices[1]);
+        vertices.remove(initialVertices[2]);
     }
 
     public void addPoint(Point2D.Double point){
@@ -195,7 +197,7 @@ public class DelaunayGraph
         f3.setEdge(eC);
         faces.add(f3);
 
-        verticies.add(vertex);
+        vertices.add(vertex);
         faces.remove(containerFace);
 
         swapTest(eA);
@@ -285,13 +287,32 @@ public class DelaunayGraph
         return null;
     }
 
+    public UndirectedGraph<Point2D.Double> toUndirectedGraph() {
+        Point2D.Double[] vertexPoints = new Point2D.Double[this.vertices.size()];
+        int vertexIdx = 0;
+        for(Vertex v : vertices) {
+            vertexPoints[vertexIdx] = v.getPos();
+            ++vertexIdx;
+        }
+
+        UndirectedGraph<Point2D.Double> graph = new UndirectedGraph(vertexPoints);
+
+        for(Edge e : getEdges()) {
+            Vertex start = e.getVert();
+            Vertex end = e.getNext().getVert();
+            graph.addEdge(start.getPos(), end.getPos());
+        }
+
+        return graph;
+    }
+
     /**
      * Check this out:
      * <a href="http://www.comp.nus.edu.sg/~tantc/ioi_training/CG/l10cs4235.pdf">FORMULA</a>
      * @see <a href="https://stackoverflow.com/a/2937973">det(4x4 matrix) formula</a>
      */
     private boolean inCircle(Vertex c1, Vertex c2, Vertex c3, Vertex check){
-        if(check.equals(initialVerticies[0]) || check.equals(initialVerticies[1]) || check.equals(initialVerticies[2])){
+        if(check.equals(initialVertices[0]) || check.equals(initialVertices[1]) || check.equals(initialVertices[2])){
             return false;
         }
         Point2D.Double a = c1.getPos();
@@ -327,11 +348,11 @@ public class DelaunayGraph
         double value;
         value =
                 m03 * m12 * m21 * m30-m02 * m13 * m21 * m30-m03 * m11 * m22 * m30+m01 * m13 * m22 * m30+
-                        m02 * m11 * m23 * m30-m01 * m12 * m23 * m30-m03 * m12 * m20 * m31+m02 * m13 * m20 * m31+
-                        m03 * m10 * m22 * m31-m00 * m13 * m22 * m31-m02 * m10 * m23 * m31+m00 * m12 * m23 * m31+
-                        m03 * m11 * m20 * m32-m01 * m13 * m20 * m32-m03 * m10 * m21 * m32+m00 * m13 * m21 * m32+
-                        m01 * m10 * m23 * m32-m00 * m11 * m23 * m32-m02 * m11 * m20 * m33+m01 * m12 * m20 * m33+
-                        m02 * m10 * m21 * m33-m00 * m12 * m21 * m33-m01 * m10 * m22 * m33+m00 * m11 * m22 * m33;
+                m02 * m11 * m23 * m30-m01 * m12 * m23 * m30-m03 * m12 * m20 * m31+m02 * m13 * m20 * m31+
+                m03 * m10 * m22 * m31-m00 * m13 * m22 * m31-m02 * m10 * m23 * m31+m00 * m12 * m23 * m31+
+                m03 * m11 * m20 * m32-m01 * m13 * m20 * m32-m03 * m10 * m21 * m32+m00 * m13 * m21 * m32+
+                m01 * m10 * m23 * m32-m00 * m11 * m23 * m32-m02 * m11 * m20 * m33+m01 * m12 * m20 * m33+
+                m02 * m10 * m21 * m33-m00 * m12 * m21 * m33-m01 * m10 * m22 * m33+m00 * m11 * m22 * m33;
         return value < 0;
     }
 

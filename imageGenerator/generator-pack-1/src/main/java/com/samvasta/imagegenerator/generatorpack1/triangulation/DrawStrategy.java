@@ -5,9 +5,9 @@ import com.samvasta.imageGenerator.common.graphics.colors.ColorPalette;
 import com.samvasta.imageGenerator.common.graphics.colors.ColorUtil;
 import com.samvasta.imageGenerator.common.graphics.colors.PaletteFactory;
 import com.samvasta.imageGenerator.common.helpers.MathHelper;
-import com.samvasta.imagegenerator.generatorpack1.triangulation.halfedge.DelaunayGraph;
-import com.samvasta.imagegenerator.generatorpack1.triangulation.halfedge.Edge;
-import com.samvasta.imagegenerator.generatorpack1.triangulation.halfedge.Face;
+import com.samvasta.imageGenerator.common.models.graphs.delaunay.DelaunayGraph;
+import com.samvasta.imageGenerator.common.models.graphs.delaunay.Edge;
+import com.samvasta.imageGenerator.common.models.graphs.delaunay.Face;
 import org.apache.commons.math3.random.MersenneTwister;
 
 import java.awt.*;

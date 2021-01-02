@@ -9,6 +9,7 @@ import com.samvasta.imagegenerator.generatorpack1.flowfield.FlowFieldGenerator;
 import com.samvasta.imagegenerator.generatorpack1.flowfield.WavyCircleFunction;
 import com.samvasta.imagegenerator.generatorpack1.landscape.LandscapeGenerator;
 import com.samvasta.imagegenerator.generatorpack1.samplegenerator.SimpleGenerator;
+import com.samvasta.imagegenerator.generatorpack1.spacefiller.SpaceFillerGenerator;
 import com.samvasta.imagegenerator.generatorpack1.tangles.TangleGenerator;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.TessellationGenerator;
 import com.samvasta.imagegenerator.generatorpack1.triangulation.TriangulationGenerator;
@@ -22,7 +23,7 @@ public class DebugGenerator
 {
 
     public static void main(String...args){
-        IGenerator generator = new AmoebaGenerator();
+        IGenerator generator = new SpaceFillerGenerator();
 
         GeneratorWindow window = new GeneratorWindow(generator, new Dimension(2560, 1440));
 

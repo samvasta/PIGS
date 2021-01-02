@@ -1,4 +1,4 @@
-package com.samvasta.imagegenerator.generatorpack1.triangulation.halfedge;
+package com.samvasta.imageGenerator.common.models.graphs.delaunay;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

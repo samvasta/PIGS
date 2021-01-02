@@ -5,7 +5,7 @@ import com.samvasta.imageGenerator.common.graphics.vertexplacers.VertexPlacerFac
 import com.samvasta.imageGenerator.common.interfaces.IGenerator;
 import com.samvasta.imageGenerator.common.interfaces.ISnapshotListener;
 import com.samvasta.imageGenerator.common.models.IniSchemaOption;
-import com.samvasta.imagegenerator.generatorpack1.triangulation.halfedge.DelaunayGraph;
+import com.samvasta.imageGenerator.common.models.graphs.delaunay.DelaunayGraph;
 import org.apache.commons.math3.random.MersenneTwister;
 import org.apache.log4j.Logger;
 

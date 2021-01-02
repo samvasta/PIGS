@@ -1,4 +1,4 @@
-package com.samvasta.imagegenerator.generatorpack1.triangulation.halfedge;
+package com.samvasta.imageGenerator.common.models.graphs.delaunay;
 
 /**
  * Created by Sam on 7/6/2017.

@@ -10,6 +10,7 @@ import com.samvasta.imagegenerator.generatorpack1.tangles.TangleGenerator;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.TessellationGenerator;
 import com.samvasta.imagegenerator.generatorpack1.triangulation.TriangulationGenerator;
 import com.samvasta.imagegenerator.generatorpack1.wovengrid.WovenGridGenerator;
+import org.apache.commons.math3.random.RandomGenerator;
 
 public class GeneratorFactory {
 
@@ -24,6 +25,8 @@ public class GeneratorFactory {
     private static final String TRIANGULATION = "triangulation";
     private static final String WOVEN_GRID = "wovengrid";
 
+    public static final String RANDOM_GENERATOR_NAME = "random";
+
     public static final String[] GENERATOR_STRING_OPTIONS = {
 //            ALL_COLORS,       // too expensive on CPU
             AMOEBAS,
@@ -37,7 +40,7 @@ public class GeneratorFactory {
             WOVEN_GRID,
     };
 
-    public static IGenerator getGenerator(String name) {
+    public static IGenerator getGenerator(String name, RandomGenerator random) {
         switch(name.toLowerCase()) {
 //            case ALL_COLORS: return new AllColorsGenerator();
             case AMOEBAS: return new AmoebaGenerator();
@@ -49,6 +52,10 @@ public class GeneratorFactory {
             case TESSELLATION: return new TessellationGenerator();
             case TRIANGULATION: return new TriangulationGenerator();
             case WOVEN_GRID: return new WovenGridGenerator();
+
+            case RANDOM_GENERATOR_NAME: {
+                return getGenerator(GENERATOR_STRING_OPTIONS[random.nextInt(GENERATOR_STRING_OPTIONS.length)], random);
+            }
 
             //yay antipatterns!
             default: return null;

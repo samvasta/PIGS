@@ -1,7 +1,6 @@
 package com.samvasta.imagegenerator.microservice;
 
 import com.google.gson.Gson;
-import com.samvasta.imageGenerator.common.helpers.IniHelper;
 import com.samvasta.imageGenerator.common.interfaces.IGenerator;
 import com.samvasta.imageGenerator.common.models.IniSchemaOption;
 import org.apache.commons.math3.random.MersenneTwister;
@@ -24,9 +23,12 @@ public class Server {
     public static final Logger logger = Logger.getLogger(Server.class);
 
     public static final Gson gson = new Gson();
+
+    public static final String ERROR_500 = "Internal Server Error";
     public static final String INVALID_GENERATOR_NAME_RESPONSE = "{\"validNames\":" + gson.toJson(GeneratorFactory.GENERATOR_STRING_OPTIONS) + "}";
     public static final String INVALID_DIMENSION_FORMAT_RESPONSE = gson.toJson("Invalid dimension. Expected string like \"123x456\"");
     public static final String MISSING_DIMENSIONS_RESPONSE = "Missing dimensions in query. Expected something like \"/generate/<generator-name>/500x500\"";
+    public static final String NO_OPTIONS_FOR_RANDOM = "Can only provide options for a specific generator.";
 
     public static void main(String[] args) {
         int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080"));
@@ -50,7 +52,11 @@ public class Server {
                 "/options/:generatorname",
                 (Request req, Response res) -> {
                     String generatorName = req.params(":generatorname");
-                    IGenerator generator = GeneratorFactory.getGenerator(generatorName);
+                    if(generatorName.equals(GeneratorFactory.RANDOM_GENERATOR_NAME)){
+                        res.status(400);
+                        return NO_OPTIONS_FOR_RANDOM;
+                    }
+                    IGenerator generator = GeneratorFactory.getGenerator(generatorName, random);
                     if (generator == null) {
                         res.status(409);
                         res.type("application/json");
@@ -70,7 +76,7 @@ public class Server {
                 "/generate/:generatorname",
                 (Request req, Response res) -> {
                     String generatorName = req.params(":generatorname");
-                    IGenerator generator = GeneratorFactory.getGenerator(generatorName);
+                    IGenerator generator = GeneratorFactory.getGenerator(generatorName, random);
                     if (generator == null) {
                         res.status(409);
                         res.type("application/json");
@@ -88,7 +94,7 @@ public class Server {
                 "/generate/:generatorname/:dimension",
                 (Request req, Response res) -> {
                     String generatorName = req.params(":generatorname");
-                    IGenerator generator = GeneratorFactory.getGenerator(generatorName);
+                    IGenerator generator = GeneratorFactory.getGenerator(generatorName, random);
                     if (generator == null) {
                         res.status(409);
                         res.type("application/json");
@@ -104,39 +110,17 @@ public class Server {
                     }
 
                     //Build options
-                    Map<String, Object> settings = new HashMap<>();
-                    List<IniSchemaOption<?>> options = generator.getIniSettings();
-
-                    Map<String, String> queryParams = new HashMap<>();
-                    for(String key : req.queryParams()) {
-                        queryParams.put(key.toLowerCase(), req.queryParams(key));
-                    }
-
-                    for(IniSchemaOption<?> option : options){
-                        String safeOptionName = GeneratorOptionDetails.getUrlSafeOptionName(option);
-                        if(queryParams.containsKey(safeOptionName)) {
-                            String paramValue = queryParams.get(safeOptionName);
-                            settings.put(option.getOptionName(), toObject(option.getValueType(), paramValue));
-                        }
-                        else {
-                            settings.put(option.getOptionName(), option.getDefaultValue());
-                        }
-                    }
+                    Map<String, Object> settings = buildSettings(generator, req);
 
                     //Generate image
                     byte[] imgBytes;
                     try {
-                        BufferedImage img = createImage(generator, imageSize, settings, random);
-                        try(ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
-                            ImageIO.write(img, "png", stream );
-
-                            stream.flush();
-                            imgBytes = stream.toByteArray();
-                        }
+                        imgBytes = createImage(generator, imageSize, settings, random);
                         res.type("image/png");
                     } catch (Exception e) {
+                        logger.error(e.getMessage(), e);
                         res.status(500);
-                        return "Internal Server Error";
+                        return ERROR_500;
                     }
 
                     return imgBytes;
@@ -145,10 +129,32 @@ public class Server {
         // [END cloudrun_system_package_handler]
     }
 
+    public static Map<String, Object> buildSettings(IGenerator generator, Request req) {
+        Map<String, Object> settings = new HashMap<>();
+        List<IniSchemaOption<?>> options = generator.getIniSettings();
+
+        Map<String, String> queryParams = new HashMap<>();
+        for(String key : req.queryParams()) {
+            queryParams.put(key.toLowerCase(), req.queryParams(key));
+        }
+
+        for(IniSchemaOption<?> option : options){
+            String safeOptionName = GeneratorOptionDetails.getUrlSafeOptionName(option);
+            if(queryParams.containsKey(safeOptionName)) {
+                String paramValue = queryParams.get(safeOptionName);
+                settings.put(option.getOptionName(), toObject(option.getValueType(), paramValue));
+            }
+            else {
+                settings.put(option.getOptionName(), option.getDefaultValue());
+            }
+        }
+        return settings;
+    }
+
     // [START cloudrun_system_package_exec]
     // [START run_system_package_exec]
     // Generate a diagram based on a graphviz DOT diagram description.
-    public static BufferedImage createImage(IGenerator generator, Dimension imageSize, Map<String, Object> settings, MersenneTwister random) {
+    public static byte[] createImage(IGenerator generator, Dimension imageSize, Map<String, Object> settings, MersenneTwister random) throws Exception {
         Graphics2D g = null;
         try{
             BufferedImage mainImage = new BufferedImage(imageSize.width, imageSize.height, BufferedImage.TYPE_INT_ARGB);
@@ -157,11 +163,12 @@ public class Server {
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             generator.generateImage(settings, g, imageSize, random);
 
-            return mainImage;
-        }
-        catch(Exception e){
-            logger.error(e.getMessage(), e);
-            throw e;
+            try(ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
+                ImageIO.write(mainImage, "png", stream );
+
+                stream.flush();
+                return stream.toByteArray();
+            }
         }
         finally{
             if(g != null){
