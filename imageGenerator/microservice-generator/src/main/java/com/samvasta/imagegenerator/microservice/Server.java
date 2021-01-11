@@ -1,9 +1,12 @@
 package com.samvasta.imagegenerator.microservice;
 
+import com.google.api.gax.paging.Page;
+import com.google.cloud.storage.*;
 import com.google.gson.Gson;
 import com.samvasta.imageGenerator.common.interfaces.IGenerator;
 import com.samvasta.imageGenerator.common.models.IniSchemaOption;
 import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.log4j.Logger;
 import spark.Request;
 import spark.Response;
@@ -13,6 +16,8 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -24,11 +29,23 @@ public class Server {
 
     public static final Gson gson = new Gson();
 
+    public static final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss-SSS");
+
+
     public static final String ERROR_500 = "Internal Server Error";
     public static final String INVALID_GENERATOR_NAME_RESPONSE = "{\"validNames\":" + gson.toJson(GeneratorFactory.GENERATOR_STRING_OPTIONS) + "}";
     public static final String INVALID_DIMENSION_FORMAT_RESPONSE = gson.toJson("Invalid dimension. Expected string like \"123x456\"");
     public static final String MISSING_DIMENSIONS_RESPONSE = "Missing dimensions in query. Expected something like \"/generate/<generator-name>/500x500\"";
     public static final String NO_OPTIONS_FOR_RANDOM = "Can only provide options for a specific generator.";
+
+    public static final Dimension[] GENERATE_ALL_DIMENSIONS = new Dimension[] {
+      new Dimension(1920, 1080),
+      new Dimension(1080, 1920),
+      new Dimension(1024, 1024)
+    };
+
+    public static final Storage STORAGE = StorageOptions.getDefaultInstance().getService();
+    public static final String GCS_BUCKET = System.getenv("GCS_BUCKET");
 
     public static void main(String[] args) {
         int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080"));
@@ -88,8 +105,6 @@ public class Server {
                 }
         );
 
-        // [START cloudrun_system_package_handler]
-        // [START run_system_package_handler]
         Spark.get(
                 "/generate/:generatorname/:dimension",
                 (Request req, Response res) -> {
@@ -116,6 +131,7 @@ public class Server {
                     byte[] imgBytes;
                     try {
                         imgBytes = createImage(generator, imageSize, settings, random);
+                        saveToCloud(imgBytes, generatorName, imageSize, random.nextLong());
                         res.type("image/png");
                     } catch (Exception e) {
                         logger.error(e.getMessage(), e);
@@ -123,10 +139,45 @@ public class Server {
                         return ERROR_500;
                     }
 
+
                     return imgBytes;
                 });
-        // [END run_system_package_handler]
-        // [END cloudrun_system_package_handler]
+
+
+        Spark.get(
+                "/generate-all",
+                (Request req, Response res) -> {
+
+                    for(Dimension imageSize : GENERATE_ALL_DIMENSIONS) {
+                        for(String generatorName : GeneratorFactory.GENERATOR_STRING_OPTIONS) {
+
+                            IGenerator generator = GeneratorFactory.getGenerator(generatorName, random);
+                            if (generator == null) {
+                                res.status(409);
+                                res.type("application/json");
+                                return INVALID_GENERATOR_NAME_RESPONSE;
+                            }
+
+
+                            //Build options
+                            Map<String, Object> settings = buildSettings(generator, req);
+
+                            //Generate image
+                            try {
+                                final byte[] imgBytes = createImage(generator, imageSize, settings, random);
+                                saveToCloud(imgBytes, generatorName, imageSize, random.nextLong());
+                            } catch (Exception e) {
+                                logger.error(e.getMessage(), e);
+                                res.status(500);
+                                return ERROR_500;
+                            }
+
+                        }
+                    }
+
+                    res.status(204);
+                    return null;
+                });
     }
 
     public static Map<String, Object> buildSettings(IGenerator generator, Request req) {
@@ -198,6 +249,37 @@ public class Server {
             //yay antipatterns!
             return null;
         }
+    }
+
+    private static final void saveToCloud(byte[] imgBytes, String generatorName, Dimension size, long seed) {
+
+        String rootFolderName = generatorName.replace(' ', '_').toLowerCase(Locale.ROOT);
+        String aspectRatioFolderName = getAspectRatioName(size);
+        String timestamp = dateFormatter.format(new Date());
+        String name = String.format("%s/%s/%s_%dx%d_%s", rootFolderName, aspectRatioFolderName, timestamp, size.width, size.height, Long.toString(seed, 16));
+
+        final BlobId blobId = BlobId.of(GCS_BUCKET, name);
+        final BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+
+        try{
+            STORAGE.create(blobInfo, imgBytes, Storage.BlobTargetOption.predefinedAcl(Storage.PredefinedAcl.PUBLIC_READ));
+        } catch (Exception e) {
+            //oh well
+            e.printStackTrace();
+        }
+    }
+
+    private static final double SQUARENESS_THRESHOLD = 0.1;
+    private static final String getAspectRatioName(Dimension dim) {
+        double ratio = dim.getWidth() / dim.getHeight();
+
+        if(Math.abs(1 - ratio) <= SQUARENESS_THRESHOLD) {
+            return "square";
+        }
+        if(ratio > 1) {
+            return "landscape";
+        }
+        return "portrait";
     }
 
     //Shameless rip

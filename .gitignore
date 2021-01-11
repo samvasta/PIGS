@@ -29,3 +29,5 @@ imageGenerator/settings.ini
 imageGenerator/*/target/*
 
 imageGenerator/.idea/*
+
+env
