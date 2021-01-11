@@ -23,22 +23,21 @@ public class SpaceFiller {
 
         List<BadCircle> processingList = new ArrayList<>();
 
+        // seed initial points
+        int numFails = 0;
+        do {
+            Point2D.Double center = new Point2D.Double(bounds.getX() + random.nextDouble() * bounds.getWidth(), bounds.getY() + random.nextDouble() * bounds.getHeight());
+            BadCircle candidate = new BadCircle(currentSize, center, random.nextDouble() * 0.3 + 0.6, 150, random);
+            if (isValidLocation(candidate, bounds, placed, random, noise)) {
+                placed.add(candidate);
+                processingList.add(candidate);
+                numFails = 0;
+            } else {
+                ++numFails;
+            }
+        } while (processingList.isEmpty() || (numFails < 50 && processingList.size() < 1000));
+
         while (currentSize >= minSize) {
-
-            // seed initial points
-            int numFails = 0;
-            do {
-                Point2D.Double center = new Point2D.Double(bounds.getX() + random.nextDouble() * bounds.getWidth(), bounds.getY() + random.nextDouble() * bounds.getHeight());
-                BadCircle candidate = new BadCircle(currentSize, center, random.nextDouble() * 0.3 + 0.6, 150, random);
-                if (isValidLocation(candidate, bounds, placed, random, noise)) {
-                    placed.add(candidate);
-                    processingList.add(candidate);
-                    numFails = 0;
-                } else {
-                    ++numFails;
-                }
-            } while (numFails < 50 && processingList.size() < 10);
-
             // Also seed with a few previously placed circles
             for (int i = 0; i < Math.max(4, placed.size() / 2); i++) {
                 processingList.add(placed.get(random.nextInt(placed.size())));
