@@ -144,7 +144,7 @@ public class Server {
                 });
 
 
-        Spark.get(
+        Spark.post(
                 "/generate-all",
                 (Request req, Response res) -> {
 
@@ -176,7 +176,7 @@ public class Server {
                     }
 
                     res.status(204);
-                    return null;
+                    return "";
                 });
     }
 

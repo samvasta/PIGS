@@ -6,11 +6,11 @@ procedurally generated images.
 ## The IGenerator interface
 
 ## Run Modes
-PIGS has two different run modes:
+PIGS has a few different run modes:
 
 1. Batch generation (`PIGS-batch`)
 2. One-at-a-time generation (`PIGS-debug`)
-
+3. Microservice
 
 ### PIGS-batch
 `PIGS-batch` will automatically generate a number of images in a
@@ -35,3 +35,7 @@ generators from unknown sources.
 `PIGS-debug` was created to make creating and debugging new
 generators easier. This run mode opens a simple `JFrame` window
 which generates and displays one image at a time.
+
+### Microservice
+
+The microservice is a small RESTful API which can generate images from HTTP requests.
