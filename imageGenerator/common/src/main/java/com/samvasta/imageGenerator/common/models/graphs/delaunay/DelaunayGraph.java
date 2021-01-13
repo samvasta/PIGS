@@ -295,7 +295,7 @@ public class DelaunayGraph
             ++vertexIdx;
         }
 
-        UndirectedGraph<Point2D.Double> graph = new UndirectedGraph(vertexPoints);
+        UndirectedGraph<Point2D.Double> graph = new UndirectedGraph<>(vertexPoints);
 
         for(Edge e : getEdges()) {
             Vertex start = e.getVert();

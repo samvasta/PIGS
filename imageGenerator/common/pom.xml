@@ -21,14 +21,6 @@
                     <target>8</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>com.google.cloud.tools</groupId>
-                <artifactId>jib-maven-plugin</artifactId>
-                <configuration>
-                    <!-- we don't want jib to execute on this module -->
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
             <!-- we want this library to be built reproducibly -->
             <plugin>
                 <groupId>io.github.zlika</groupId>

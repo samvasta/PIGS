@@ -1,6 +1,5 @@
 package com.samvasta.imagegenerator.microservice;
 
-import com.google.api.gax.paging.Page;
 import com.google.cloud.storage.*;
 import com.google.gson.Gson;
 import com.samvasta.imageGenerator.common.interfaces.IGenerator;
@@ -17,7 +16,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -29,7 +27,7 @@ public class Server {
 
     public static final Gson gson = new Gson();
 
-    public static final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss-SSS");
+    public static final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd, HH:mm:ss.SSS");
 
 
     public static final String ERROR_500 = "Internal Server Error";
@@ -125,7 +123,7 @@ public class Server {
                     }
 
                     //Build options
-                    Map<String, Object> settings = buildSettings(generator, req);
+                    Map<String, Object> settings = buildSettings(generator, req, random);
 
                     //Generate image
                     byte[] imgBytes;
@@ -160,7 +158,7 @@ public class Server {
 
 
                             //Build options
-                            Map<String, Object> settings = buildSettings(generator, req);
+                            Map<String, Object> settings = buildSettings(generator, req, random);
 
                             //Generate image
                             try {
@@ -180,7 +178,7 @@ public class Server {
                 });
     }
 
-    public static Map<String, Object> buildSettings(IGenerator generator, Request req) {
+    public static Map<String, Object> buildSettings(IGenerator generator, Request req, MersenneTwister random) {
         Map<String, Object> settings = new HashMap<>();
         List<IniSchemaOption<?>> options = generator.getIniSettings();
 
@@ -196,15 +194,13 @@ public class Server {
                 settings.put(option.getOptionName(), toObject(option.getValueType(), paramValue));
             }
             else {
-                settings.put(option.getOptionName(), option.getDefaultValue());
+                Object[] defaultValues = option.getDefaultValues();
+                settings.put(option.getOptionName(), defaultValues[random.nextInt(defaultValues.length)]);
             }
         }
         return settings;
     }
 
-    // [START cloudrun_system_package_exec]
-    // [START run_system_package_exec]
-    // Generate a diagram based on a graphviz DOT diagram description.
     public static byte[] createImage(IGenerator generator, Dimension imageSize, Map<String, Object> settings, MersenneTwister random) throws Exception {
         Graphics2D g = null;
         try{
@@ -227,8 +223,6 @@ public class Server {
             }
         }
     }
-    // [END run_system_package_exec]
-    // [END cloudrun_system_package_exec]
 
     private static final Pattern dimensionPattern = Pattern.compile("(\\d+)[xX](\\d+)");
     private static final Dimension parseDimension(String dimensionStr) {
@@ -256,15 +250,23 @@ public class Server {
         String rootFolderName = generatorName.replace(' ', '_').toLowerCase(Locale.ROOT);
         String aspectRatioFolderName = getAspectRatioName(size);
         String timestamp = dateFormatter.format(new Date());
-        String name = String.format("%s/%s/%s_%dx%d_%s", rootFolderName, aspectRatioFolderName, timestamp, size.width, size.height, Long.toString(seed, 16));
+        String name = String.format("%s/%s/%s.png", rootFolderName, aspectRatioFolderName, Long.toString(seed, 16));
+
+        Map<String, String> metadata = new HashMap<String, String>(){
+            {
+                put("timestamp", timestamp);
+                put("width", Integer.toString(size.width));
+                put("height", Integer.toString(size.height));
+            }
+        };
 
         final BlobId blobId = BlobId.of(GCS_BUCKET, name);
-        final BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+        final BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setMetadata(metadata).build();
 
         try{
             STORAGE.create(blobInfo, imgBytes, Storage.BlobTargetOption.predefinedAcl(Storage.PredefinedAcl.PUBLIC_READ));
         } catch (Exception e) {
-            //oh well
+            //oh well - not a critical error so hiding the exception is ok
             e.printStackTrace();
         }
     }

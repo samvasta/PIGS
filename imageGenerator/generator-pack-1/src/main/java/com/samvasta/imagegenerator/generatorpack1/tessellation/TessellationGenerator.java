@@ -28,7 +28,7 @@ public class TessellationGenerator implements IGenerator
 
     private static final String OPTION_SOLID_COLORS_ONLY = "Solid Colors Only";
     private static final List<IniSchemaOption<?>> OPTIONS = new ArrayList<IniSchemaOption<?>>(){{
-        add(new IniSchemaOption<>(OPTION_SOLID_COLORS_ONLY, false, Boolean.class));
+        add(new IniSchemaOption<>(OPTION_SOLID_COLORS_ONLY, new Boolean[]{true, false}, Boolean.class));
     }};
 
     //Polygons shouldn't really be smaller than 5 pixels anyways

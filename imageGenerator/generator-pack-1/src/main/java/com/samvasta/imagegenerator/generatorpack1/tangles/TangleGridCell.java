@@ -34,7 +34,7 @@ public class TangleGridCell {
     }
 
     public List<TubeSide> getConnectedPointsList(double sideLength, double angle, Point2D origin, double tubeWidthPercent){
-        List<TubeSide> connectedPoints = new ArrayList(coordinate.getNumShapeSides());
+        List<TubeSide> connectedPoints = new ArrayList<>(coordinate.getNumShapeSides());
 
         Point2D[] corners = coordinate.getCellShapePoints(sideLength, angle, origin);
 

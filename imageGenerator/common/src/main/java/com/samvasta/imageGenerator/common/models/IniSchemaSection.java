@@ -35,8 +35,9 @@ public class IniSchemaSection
         return options;
     }
 
-    public <T> IniSchemaOption addOption(String optionName, T defaultValue){
-        IniSchemaOption option = new IniSchemaOption<T>(optionName, defaultValue, (Class<T>)defaultValue.getClass());
+    @SuppressWarnings("unchecked")
+    public <T> IniSchemaOption<T> addOption(String optionName, T defaultValue){
+        IniSchemaOption<T> option = new IniSchemaOption<T>(optionName, defaultValue, (Class<T>)defaultValue.getClass());
         options.add(option);
         return option;
     }
