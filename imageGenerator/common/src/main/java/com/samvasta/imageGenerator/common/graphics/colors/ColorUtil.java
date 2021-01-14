@@ -13,6 +13,7 @@ import java.awt.*;
 
 public class ColorUtil
 {
+    public static final double GOLDEN_RATIO = 1.61803398874989484820458683436563811772030917980576286213544862270526046281890;
     private static final Object getCloseColorLock = new Object();
 
     public static float getHsvValue(Color c){
