@@ -35,7 +35,7 @@ import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
 
-public class SimpleGenerator implements IGenerator {
+public class SampleGenerator implements IGenerator {
     private Set<ISnapshotListener> snapshotListeners = new HashSet<>();
 
     public boolean isOnByDefault() {

@@ -1,5 +1,7 @@
 package com.samvasta.imageGenerator.common.helpers;
 
+import com.samvasta.imageGenerator.common.models.PolarVector;
+
 import java.awt.*;
 import java.awt.geom.Point2D;
 
@@ -145,5 +147,22 @@ public class GeomHelper {
         }
 
         return new Point2D.Double(xSum / weightSum, ySum / weightSum);
+    }
+
+    public static double getArea(Polygon polygon)
+    {
+        double area = 0;
+        for(int i = 0; i < polygon.npoints-1; i++){
+            area += ((polygon.xpoints[i] * polygon.ypoints[i+1]) - (polygon.xpoints[i+1]*polygon.ypoints[i]));
+        }
+        return area / 2d;
+    }
+
+    public static double getBisectorAngle(Point2D p1, Point2D middle, Point2D p2) {
+
+        PolarVector a = PolarVector.fromCartesian(new Point2D.Double(p1.getX() - middle.getX(), p1.getY() - middle.getY()));
+        PolarVector b = PolarVector.fromCartesian(new Point2D.Double(p2.getX() - middle.getX(), p2.getY() - middle.getY()));
+
+        return (a.angle + b.angle) / 2.0;
     }
 }
