@@ -8,6 +8,7 @@ import com.samvasta.imagegenerator.generatorpack1.fog.FogGenerator;
 import com.samvasta.imagegenerator.generatorpack1.legacylandscape.LegacyLandscapeGenerator;
 import com.samvasta.imagegenerator.generatorpack1.minspanningtree.MinSpanningTreeGenerator;
 import com.samvasta.imagegenerator.generatorpack1.radialpolygons.RadialPolygonsGenerator;
+import com.samvasta.imagegenerator.generatorpack1.triangles.TrianglesGenerator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +17,7 @@ public class DebugGenerator
 {
 
     public static void main(String...args){
-        IGenerator generator = new FogGenerator();
+        IGenerator generator = new TrianglesGenerator();
 
         GeneratorWindow window = new GeneratorWindow(generator, new Dimension(2560, 1440));
 

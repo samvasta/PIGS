@@ -13,6 +13,7 @@ import com.samvasta.imagegenerator.generatorpack1.minspanningtree.MinSpanningTre
 import com.samvasta.imagegenerator.generatorpack1.radialpolygons.RadialPolygonsGenerator;
 import com.samvasta.imagegenerator.generatorpack1.tangles.TangleGenerator;
 import com.samvasta.imagegenerator.generatorpack1.tessellation.TessellationGenerator;
+import com.samvasta.imagegenerator.generatorpack1.triangles.TrianglesGenerator;
 import com.samvasta.imagegenerator.generatorpack1.triangulation.TriangulationGenerator;
 import com.samvasta.imagegenerator.generatorpack1.wovengrid.WovenGridGenerator;
 import org.apache.commons.math3.random.RandomGenerator;
@@ -32,6 +33,7 @@ public class GeneratorFactory {
     private static final String RADIAL_POLYGONS = "radialpolygons";
     private static final String TANGLES = "tangles";
     private static final String TESSELLATION = "tessellation";
+    private static final String TRIANGLES = "triangles";
     private static final String TRIANGULATION = "triangulation";
     private static final String WOVEN_GRID = "wovengrid";
 
@@ -51,6 +53,7 @@ public class GeneratorFactory {
             RADIAL_POLYGONS,
             TANGLES,
             TESSELLATION,
+            TRIANGLES,
             TRIANGULATION,
             WOVEN_GRID,
     };
@@ -70,6 +73,7 @@ public class GeneratorFactory {
             case RADIAL_POLYGONS: return new RadialPolygonsGenerator();
             case TANGLES: return new TangleGenerator();
             case TESSELLATION: return new TessellationGenerator();
+            case TRIANGLES: return new TrianglesGenerator();
             case TRIANGULATION: return new TriangulationGenerator();
             case WOVEN_GRID: return new WovenGridGenerator();
 
