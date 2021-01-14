@@ -16,6 +16,10 @@ public class ColorUtil
     public static final double GOLDEN_RATIO = 1.61803398874989484820458683436563811772030917980576286213544862270526046281890;
     private static final Object getCloseColorLock = new Object();
 
+    public static Color getHSB(float h, float s, float b){
+        return new Color(Color.HSBtoRGB(h, s, b));
+    }
+
     public static float getHsvValue(Color c){
         float[] hsv = new float[3];
         hsv = Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), hsv);
@@ -61,6 +65,23 @@ public class ColorUtil
         int colorInt = alpha << 24 | random.nextInt(0xffffff);
         return new Color(colorInt, true);
     }
+
+    /**
+     * !!Warning: Legacy function!!
+     * Shifts the hue of `source` and returns a getClose variation
+     * @param source
+     * @param diff
+     * @return
+     */
+    public static Color getNextInSequence(Color source, double diff){
+        float[] parts = new float[3];
+        parts = Color.RGBtoHSB(source.getRed(), source.getGreen(), source.getBlue(), parts);
+        parts[0] += GOLDEN_RATIO;
+        while(parts[0] > 1)
+            parts[0]--;
+        return getClose(new Color(Color.HSBtoRGB(parts[0], parts[1], parts[2])), diff/4f);
+    }
+
 
     /**
      * Copies the RGB components of the color and uses the alpha parameter for the new alpha channel
