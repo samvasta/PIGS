@@ -46,12 +46,22 @@ public class LinearLchPaletteBuilder implements IColorPaletteBuilder
         return this;
     }
 
+    /**
+     *
+     * @param startLum in range [0,100]
+     * @return
+     */
     public LinearLchPaletteBuilder startLum(double startLum)
     {
         this.startLum = startLum;
         return this;
     }
 
+    /**
+     *
+     * @param startChroma in range [0,200]
+     * @return
+     */
     public LinearLchPaletteBuilder startChroma(double startChroma)
     {
         this.startChroma = startChroma;
