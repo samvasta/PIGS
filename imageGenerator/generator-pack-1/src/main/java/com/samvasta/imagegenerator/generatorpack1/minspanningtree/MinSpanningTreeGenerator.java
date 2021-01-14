@@ -8,12 +8,8 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
-import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.List;
-
-import javax.imageio.ImageIO;
 
 public class MinSpanningTreeGenerator extends SimpleGenerator
 {
@@ -42,20 +38,20 @@ public class MinSpanningTreeGenerator extends SimpleGenerator
     @Override
     public void generateImage(Map<String, Object> settings, Graphics2D g, Dimension imageSize, MersenneTwister random) {
         double variation = random.nextDouble();
-        if(TEXTURE == null){
-            try {
-                ClassLoader cl = this.getClass().getClassLoader();
-                TEXTURE = ImageIO.read(cl.getResourceAsStream("vignetteTex.png")).getScaledInstance(imageSize.width, imageSize.height, Image.SCALE_SMOOTH);
-//				System.out.println("Read correctly!");
-            } catch (Exception e) {
-                try {
-                    TEXTURE = ImageIO.read(new File("vignetteTex.png")).getScaledInstance(imageSize.width, imageSize.height, Image.SCALE_SMOOTH);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-                e.printStackTrace();
-            }
-        }
+//        if(TEXTURE == null){
+//            try {
+//                ClassLoader cl = this.getClass().getClassLoader();
+//                TEXTURE = ImageIO.read(cl.getResourceAsStream("vignetteTex.png")).getScaledInstance(imageSize.width, imageSize.height, Image.SCALE_SMOOTH);
+////				System.out.println("Read correctly!");
+//            } catch (Exception e) {
+//                try {
+//                    TEXTURE = ImageIO.read(new File("vignetteTex.png")).getScaledInstance(imageSize.width, imageSize.height, Image.SCALE_SMOOTH);
+//                } catch (IOException e1) {
+//                    e1.printStackTrace();
+//                }
+//                e.printStackTrace();
+//            }
+//        }
 
         int maxSize = (int)imageSize.getWidth()/15;
         int minSize = (int)imageSize.getWidth()/80;
@@ -80,8 +76,9 @@ public class MinSpanningTreeGenerator extends SimpleGenerator
         g.setColor(bg);
         g.fillRect(0, 0, (int)imageSize.getWidth(), (int)imageSize.getHeight());
 
-        if(TEXTURE != null)
-            g.drawImage(TEXTURE, 0, 0, null);
+//        if(TEXTURE != null){
+//            g.drawImage(TEXTURE, 0, 0, null);
+//        }
 
         Color lines = ColorUtil.getNextInSequence(bg, v);
         lines = ColorUtil.shift(lines, 0, -0.4f, 0.5f);
