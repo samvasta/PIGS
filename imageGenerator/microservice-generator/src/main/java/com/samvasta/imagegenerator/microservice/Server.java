@@ -126,19 +126,16 @@ public class Server {
                     Map<String, Object> settings = buildSettings(generator, req, random);
 
                     //Generate image
-                    byte[] imgBytes;
                     try {
-                        imgBytes = createImage(generator, imageSize, settings, random);
-                        saveToCloud(imgBytes, generatorName, imageSize, random.nextLong());
-                        res.type("image/png");
+                        byte[] imgBytes = createImage(generator, imageSize, settings, random);
+                        String url = saveToCloud(imgBytes, generatorName, imageSize, random.nextLong());
+                        res.type("application/json");
+                        return url;
                     } catch (Exception e) {
                         logger.error(e.getMessage(), e);
                         res.status(500);
                         return ERROR_500;
                     }
-
-
-                    return imgBytes;
                 });
 
 
@@ -146,6 +143,7 @@ public class Server {
                 "/generate-all",
                 (Request req, Response res) -> {
 
+                    List<String> urls = new ArrayList<>();
                     for(Dimension imageSize : GENERATE_ALL_DIMENSIONS) {
                         for(String generatorName : GeneratorFactory.GENERATOR_STRING_OPTIONS) {
 
@@ -163,7 +161,8 @@ public class Server {
                             //Generate image
                             try {
                                 final byte[] imgBytes = createImage(generator, imageSize, settings, random);
-                                saveToCloud(imgBytes, generatorName, imageSize, random.nextLong());
+                                String url = saveToCloud(imgBytes, generatorName, imageSize, random.nextLong());
+                                urls.add(url);
                             } catch (Exception e) {
                                 logger.error(e.getMessage(), e);
                                 res.status(500);
@@ -174,7 +173,8 @@ public class Server {
                     }
 
                     res.status(204);
-                    return "";
+                    res.type("application/json");
+                    return gson.toJson(urls);
                 });
     }
 
@@ -245,7 +245,7 @@ public class Server {
         }
     }
 
-    private static final void saveToCloud(byte[] imgBytes, String generatorName, Dimension size, long seed) {
+    private static final String saveToCloud(byte[] imgBytes, String generatorName, Dimension size, long seed) {
 
         String rootFolderName = generatorName.replace(' ', '_').toLowerCase(Locale.ROOT);
         String aspectRatioFolderName = getAspectRatioName(size);
@@ -265,9 +265,11 @@ public class Server {
 
         try{
             STORAGE.create(blobInfo, imgBytes, Storage.BlobTargetOption.predefinedAcl(Storage.PredefinedAcl.PUBLIC_READ));
+            return String.format("https://storage.cloud.google.com/%s/%s", GCS_BUCKET, name);
         } catch (Exception e) {
             //oh well - not a critical error so hiding the exception is ok
             e.printStackTrace();
+            return null;
         }
     }
 
