@@ -130,7 +130,7 @@ public class Server {
                         byte[] imgBytes = createImage(generator, imageSize, settings, random);
                         String url = saveToCloud(imgBytes, generatorName, imageSize, random.nextLong());
                         res.type("application/json");
-                        return url;
+                        return String.format("{\"url\":\"%s\"}", url);
                     } catch (Exception e) {
                         logger.error(e.getMessage(), e);
                         res.status(500);
@@ -263,9 +263,9 @@ public class Server {
         final BlobId blobId = BlobId.of(GCS_BUCKET, name);
         final BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setMetadata(metadata).build();
 
-        try{
+        try {
             STORAGE.create(blobInfo, imgBytes, Storage.BlobTargetOption.predefinedAcl(Storage.PredefinedAcl.PUBLIC_READ));
-            return String.format("https://storage.cloud.google.com/%s/%s", GCS_BUCKET, name);
+            return String.format("https://storage.googleapis.com/%s/%s", GCS_BUCKET, name);
         } catch (Exception e) {
             //oh well - not a critical error so hiding the exception is ok
             e.printStackTrace();
